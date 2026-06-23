@@ -27,7 +27,7 @@ import { toast } from "sonner";
 import type { Topic, TopicQuiz } from "@/lib/topics";
 import {
   TopicImagePlaceholder,
-  type TopicImageView,
+  type ImageViewKind,
 } from "@/components/topic-images";
 
 // 21 sections — every topic renders all of them in the same order.
