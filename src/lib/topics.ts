@@ -473,7 +473,7 @@ export const TOPICS: Topic[] = [
     category: "Wicketkeeping",
     difficulty: "Advanced",
     definition:
-      "The specialist art of catching, stumping, and supporting the bowler from behind the stumps. The keeper is the only fielder allowed gloves and pads and is involved in roughly a quarter of all dismissals.",
+      "Wicketkeeping is the specialist discipline of catching, stumping, and supporting the bowler from a crouched position directly behind the stumps — the only role in which a fielder is permitted to wear gloves and external leg pads. The keeper is involved in roughly a quarter of all dismissals across formats (catches behind, stumpings, run-outs from relays) and acts as the team's primary intelligence source on swing direction, bounce variation, and the bowler's seam position. Technically, the role demands a low resting squat sustained ball after ball, an upward 'rise' synchronised with the ball's bounce, glove-work that absorbs pace through giving hands, and footwork lateral enough to take edges at first slip's reach. A modern keeper also functions as a captain-on-the-field communicator, calling reviews, organising the slip cordon, and — particularly in white-ball formats — contributing as a top-order batter, which has made the wicketkeeper-batter the most demanding all-round role in the game.",
     history:
       "From Bert Oldfield's stand-up brilliance in the 1920s to Alan Knott's acrobatics, Adam Gilchrist's batting revolution, and MS Dhoni's lightning stumping speed (0.08 s effort), wicketkeeping has evolved from utility role to match-defining specialism.",
     grip:
