@@ -22,9 +22,11 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AiCoachRouteImport } from './routes/ai-coach'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TopicsIndexRouteImport } from './routes/topics.index'
 import { Route as QuizIndexRouteImport } from './routes/quiz.index'
 import { Route as LaboratoryIndexRouteImport } from './routes/laboratory.index'
 import { Route as ExploreIndexRouteImport } from './routes/explore.index'
+import { Route as TopicsSlugRouteImport } from './routes/topics.$slug'
 import { Route as QuizQuizIdRouteImport } from './routes/quiz.$quizId'
 import { Route as LaboratorySimRouteImport } from './routes/laboratory.$sim'
 import { Route as ExploreModuleRouteImport } from './routes/explore.$module'
@@ -96,6 +98,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TopicsIndexRoute = TopicsIndexRouteImport.update({
+  id: '/topics/',
+  path: '/topics/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const QuizIndexRoute = QuizIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -110,6 +117,11 @@ const ExploreIndexRoute = ExploreIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => ExploreRoute,
+} as any)
+const TopicsSlugRoute = TopicsSlugRouteImport.update({
+  id: '/topics/$slug',
+  path: '/topics/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const QuizQuizIdRoute = QuizQuizIdRouteImport.update({
   id: '/$quizId',
@@ -154,9 +166,11 @@ export interface FileRoutesByFullPath {
   '/explore/$module': typeof ExploreModuleRouteWithChildren
   '/laboratory/$sim': typeof LaboratorySimRoute
   '/quiz/$quizId': typeof QuizQuizIdRoute
+  '/topics/$slug': typeof TopicsSlugRoute
   '/explore/': typeof ExploreIndexRoute
   '/laboratory/': typeof LaboratoryIndexRoute
   '/quiz/': typeof QuizIndexRoute
+  '/topics/': typeof TopicsIndexRoute
   '/explore/$module/$lesson': typeof ExploreModuleLessonRoute
   '/explore/$module/': typeof ExploreModuleIndexRoute
 }
@@ -173,9 +187,11 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/laboratory/$sim': typeof LaboratorySimRoute
   '/quiz/$quizId': typeof QuizQuizIdRoute
+  '/topics/$slug': typeof TopicsSlugRoute
   '/explore': typeof ExploreIndexRoute
   '/laboratory': typeof LaboratoryIndexRoute
   '/quiz': typeof QuizIndexRoute
+  '/topics': typeof TopicsIndexRoute
   '/explore/$module/$lesson': typeof ExploreModuleLessonRoute
   '/explore/$module': typeof ExploreModuleIndexRoute
 }
@@ -197,9 +213,11 @@ export interface FileRoutesById {
   '/explore/$module': typeof ExploreModuleRouteWithChildren
   '/laboratory/$sim': typeof LaboratorySimRoute
   '/quiz/$quizId': typeof QuizQuizIdRoute
+  '/topics/$slug': typeof TopicsSlugRoute
   '/explore/': typeof ExploreIndexRoute
   '/laboratory/': typeof LaboratoryIndexRoute
   '/quiz/': typeof QuizIndexRoute
+  '/topics/': typeof TopicsIndexRoute
   '/explore/$module/$lesson': typeof ExploreModuleLessonRoute
   '/explore/$module/': typeof ExploreModuleIndexRoute
 }
@@ -222,9 +240,11 @@ export interface FileRouteTypes {
     | '/explore/$module'
     | '/laboratory/$sim'
     | '/quiz/$quizId'
+    | '/topics/$slug'
     | '/explore/'
     | '/laboratory/'
     | '/quiz/'
+    | '/topics/'
     | '/explore/$module/$lesson'
     | '/explore/$module/'
   fileRoutesByTo: FileRoutesByTo
@@ -241,9 +261,11 @@ export interface FileRouteTypes {
     | '/terms'
     | '/laboratory/$sim'
     | '/quiz/$quizId'
+    | '/topics/$slug'
     | '/explore'
     | '/laboratory'
     | '/quiz'
+    | '/topics'
     | '/explore/$module/$lesson'
     | '/explore/$module'
   id:
@@ -264,9 +286,11 @@ export interface FileRouteTypes {
     | '/explore/$module'
     | '/laboratory/$sim'
     | '/quiz/$quizId'
+    | '/topics/$slug'
     | '/explore/'
     | '/laboratory/'
     | '/quiz/'
+    | '/topics/'
     | '/explore/$module/$lesson'
     | '/explore/$module/'
   fileRoutesById: FileRoutesById
@@ -285,6 +309,8 @@ export interface RootRouteChildren {
   ProgressRoute: typeof ProgressRoute
   QuizRoute: typeof QuizRouteWithChildren
   TermsRoute: typeof TermsRoute
+  TopicsSlugRoute: typeof TopicsSlugRoute
+  TopicsIndexRoute: typeof TopicsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -380,6 +406,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/topics/': {
+      id: '/topics/'
+      path: '/topics'
+      fullPath: '/topics/'
+      preLoaderRoute: typeof TopicsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/quiz/': {
       id: '/quiz/'
       path: '/'
@@ -400,6 +433,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/explore/'
       preLoaderRoute: typeof ExploreIndexRouteImport
       parentRoute: typeof ExploreRoute
+    }
+    '/topics/$slug': {
+      id: '/topics/$slug'
+      path: '/topics/$slug'
+      fullPath: '/topics/$slug'
+      preLoaderRoute: typeof TopicsSlugRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/quiz/$quizId': {
       id: '/quiz/$quizId'
@@ -506,6 +546,8 @@ const rootRouteChildren: RootRouteChildren = {
   ProgressRoute: ProgressRoute,
   QuizRoute: QuizRouteWithChildren,
   TermsRoute: TermsRoute,
+  TopicsSlugRoute: TopicsSlugRoute,
+  TopicsIndexRoute: TopicsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
