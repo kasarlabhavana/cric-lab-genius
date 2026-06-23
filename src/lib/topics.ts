@@ -335,7 +335,7 @@ export const TOPICS: Topic[] = [
     category: "Swing Bowling",
     difficulty: "Advanced",
     definition:
-      "Late swing in the opposite direction to conventional swing — with a worn ball at high pace, the ball moves toward the shiny side rather than away from it.",
+      "Reverse swing is the aerodynamic phenomenon in which an old cricket ball, bowled at high pace (typically above ~135 km/h), curves in the air toward its shiny side rather than away from it as in conventional swing. The reversal occurs because, on a sufficiently worn and asymmetric ball, the boundary layer of air over the rough side trips into turbulence early enough that it separates later than the laminar flow over the shiny side, producing a pressure differential opposite to the conventional case. First documented in Pakistan in the 1970s and refined by Sarfraz Nawaz, Imran Khan, and Waqar Younis, reverse swing transformed Test bowling on flat subcontinental surfaces by giving fast bowlers a wicket-taking weapon deep into an innings, when the ball is 40+ overs old and the pitch is dead. The skill is as much about ball management — disciplined polishing of one side, deliberate roughening of the other within the laws — as it is about the wrist position and seam stability needed to deliver it under control.",
     history:
       "First exploited consistently by Sarfraz Nawaz in the 1970s, taught to Imran Khan, then weaponised by Wasim Akram and Waqar Younis in the late 1980s and 1990s. Often controversial because of ball-management debates around scuffing the rough side.",
     grip:
