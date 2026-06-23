@@ -266,7 +266,7 @@ export const TOPICS: Topic[] = [
     category: "Pace Bowling",
     difficulty: "Intermediate",
     definition:
-      "A full-pitched delivery that lands at or very near the batter's toes, leaving almost no time to bring the bat down. The premier death-over weapon.",
+      "The yorker is a full-pitched delivery that lands within roughly 30 centimetres of the popping crease — ideally on or just under the batter's toes — leaving almost no time for the bat to come down beneath the ball before it strikes the base of the stumps or the pads. Because the bounce occurs so close to the batter's standing position, the geometry forces a digging-out response rather than a true swing of the bat, and any small deviation off the seam or in the air becomes effectively unplayable. The yorker is the canonical death-overs weapon in white-ball cricket, where it caps the boundary potential of even the most powerful hitters, and a fast in-swinging or reverse-swinging yorker remains the most reliable wicket-taking option in the final ten overs. Executing it consistently requires a braced front leg at landing, an exceptionally late wrist position, and a willingness to risk the full-toss — the difference between a wicket and six runs is often a matter of 15 centimetres of length.",
     history:
       "Named for Yorkshire bowlers of the 19th century who pioneered the length. Modernised by Wasim Akram and Waqar Younis with reverse-swinging yorkers in the 1990s, and refined into a death-over staple by Lasith Malinga.",
     grip:
