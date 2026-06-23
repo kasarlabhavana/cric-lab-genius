@@ -180,6 +180,20 @@ export const MODULES: Module[] = [
   },
 ];
 
+// Merge in the comprehensive extra-lessons taxonomy (spin variations,
+// fast-bowling variations, modern T20 shots, fielding positions,
+// wicketkeeping, equipment, DRS tech, fitness, etc.)
+import { EXTRA_LESSONS_BY_MODULE } from "@/lib/modules-extra";
+for (const m of MODULES) {
+  const extras = EXTRA_LESSONS_BY_MODULE[m.slug];
+  if (extras && extras.length) {
+    const existing = new Set(m.lessons.map(l => l.slug));
+    for (const l of extras) {
+      if (!existing.has(l.slug)) m.lessons.push(l);
+    }
+  }
+}
+
 export const MODULE_BY_SLUG: Record<string, Module> = Object.fromEntries(MODULES.map(m => [m.slug, m]));
 
 import { topicQuizzes } from "@/lib/topic-extras";
