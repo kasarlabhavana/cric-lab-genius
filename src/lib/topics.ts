@@ -818,7 +818,7 @@ export const TOPICS: Topic[] = [
     category: "Equipment",
     difficulty: "Beginner",
     definition:
-      "Three wooden stumps (each 71.1 cm tall) topped by two bails, set 22.86 cm wide at each end of the pitch. A batter is 'bowled' when the ball dislodges a bail; 'wicket' also refers to the dismissal itself.",
+      "The wicket at each end of the pitch comprises three vertical wooden stumps — off, middle, and leg — each 71.1 cm tall and driven into the ground so that together they present a target 22.86 cm wide, with two cylindrical bails resting in shallow V-shaped grooves across their tops. A batter is dismissed 'bowled' when a delivery dislodges at least one bail, 'stumped' or 'run out' when the wicketkeeper or fielder dislodges the bails with the ball while the batter is out of the crease, and 'LBW' when the ball would have hit the stumps but for the pad. The bails are deliberately delicate — dislodging requires as little as ~0.08 N of force — and modern LED 'Zing' bails, standard in T20 cricket since 2012, flash on the instant of dislodgement to give the third umpire frame-perfect evidence for tight run-out and stumping decisions. The geometry of the wicket — its width, height, and the precise plane it occupies — defines almost every dismissal mode in cricket and underpins the entire ball-tracking framework used by the Decision Review System.",
     history:
       "Originally two stumps with one bail (18th century). A third stump was added in 1775 after 'Lumpy' Stevens repeatedly bowled the ball between the original two. LED 'Zing' bails arrived in 2012 and are now standard in T20 cricket.",
     grip:
