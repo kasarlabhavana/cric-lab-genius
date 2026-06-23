@@ -269,6 +269,27 @@ const PLAYER_META: Record<string, { role: string; era: string; signature?: strin
   "Flintoff": { role: "Seam all-rounder (England)", era: "1998–2009" },
   "Bravo": { role: "Right-arm medium all-rounder (West Indies)", era: "2004–2018" },
   "Pandya": { role: "Seam all-rounder (India)", era: "2016–present" },
+
+  // Women's game — each entry highlights what makes the player unique.
+  "Mithali Raj": { role: "Top-order batter (India, former captain)", era: "1999–2022", signature: "Most runs in women's ODI history (7,805)" },
+  "Jhulan Goswami": { role: "Right-arm fast (India)", era: "2002–2022", signature: "Leading wicket-taker in women's ODIs (255)" },
+  "Smriti Mandhana": { role: "Opening batter (India)", era: "2013–present", signature: "Fastest century in the Women's Premier League" },
+  "Harmanpreet Kaur": { role: "Top-order batter (India, captain)", era: "2009–present", signature: "171* vs Australia, 2017 World Cup semi-final" },
+  "Deepti Sharma": { role: "Off-spin all-rounder (India)", era: "2014–present", signature: "All-round match-winner — bat and ball in the same game" },
+  "Poonam Yadav": { role: "Leg-spinner (India)", era: "2013–present", signature: "Loop-and-dip leg-spin in T20Is" },
+  "Meg Lanning": { role: "Top-order batter (Australia, former captain)", era: "2010–2023", signature: "7 ICC titles as captain" },
+  "Ellyse Perry": { role: "Seam-bowling all-rounder (Australia)", era: "2007–present", signature: "Only player to score a Test 200 and take an 8-wicket haul" },
+  "Megan Schutt": { role: "Right-arm seamer (Australia)", era: "2013–present", signature: "Two-way new-ball swing specialist" },
+  "Alyssa Healy": { role: "Wicket-keeper batter (Australia, captain)", era: "2010–present", signature: "170 in a Women's World Cup final" },
+  "Suzie Bates": { role: "Top-order batter (New Zealand, former captain)", era: "2006–present", signature: "Most international runs in women's cricket" },
+  "Sophie Devine": { role: "Top-order batter (New Zealand, captain)", era: "2006–present", signature: "Six consecutive WBBL fifties — a world record" },
+  "Sophie Ecclestone": { role: "Left-arm orthodox spinner (England)", era: "2016–present", signature: "World No. 1 ODI bowler ranking" },
+  "Nat Sciver-Brunt": { role: "Top-order batter / seam all-rounder (England)", era: "2013–present", signature: "Inventor of the 'Natmeg' between-the-legs shot" },
+  "Heather Knight": { role: "Top-order batter (England, captain)", era: "2010–present", signature: "Captained England to 2017 World Cup title" },
+  "Hayley Matthews": { role: "Opening batter / off-spinner (West Indies, captain)", era: "2014–present", signature: "Youngest woman to score a T20 World Cup final century" },
+  "Stafanie Taylor": { role: "Top-order all-rounder (West Indies)", era: "2008–present", signature: "First player (women or men) to 5,000 ODI runs + 100 wickets" },
+  "Chamari Athapaththu": { role: "Top-order batter (Sri Lanka, captain)", era: "2009–present", signature: "Multiple ODI hundreds carrying her team" },
+  "Laura Wolvaardt": { role: "Top-order batter (South Africa, captain)", era: "2016–present", signature: "Trademark cover drive, fastest woman to 2,000 ODI runs" },
 };
 
 // Order matters — longer/more-specific names first so a multi-token match

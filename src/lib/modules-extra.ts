@@ -262,7 +262,7 @@ export const BOWLING_EXTRA: Lesson[] = [
     [
       "Definition: A short-pitched delivery that rises to chest or head height (Marshall, Lillee, Bumrah, Archer, Mitchell Johnson).",
       "Release & Geometry: Pitched 7–9 m from the batter, released at +3–4° above horizontal so it clears the chest after one bounce.",
-      "Tactical Use: Two per over allowed by Law 41.6; used to set up the full ball and dismantle hook/pull batters.",
+      "Tactical Use: Two bouncers per over are allowed in men's Test cricket (under Law 41.6 of the Laws of Cricket); used to set up the full ball and unsettle hook/pull batters.",
       "Common Mistakes: Bouncing too short — anything that goes through above head height is a wide; calibrate length on the day-one pitch.",
       "Injury Risks: Concussion remains the most-tracked injury; helmet standards (BS 7928:2013) are mandatory in international cricket post-2014.",
     ]),
@@ -386,7 +386,7 @@ export const BATTING_EXTRA: Lesson[] = [
     [
       "Definition: A shot where the batter reverses stance after the bowler's release, effectively becoming a left-hander (or vice versa) for that ball (Kevin Pietersen, David Warner, Glenn Maxwell).",
       "Mechanics: Hands rotate on the handle, feet switch — both happen between release and bounce (~0.4s).",
-      "Legality: Legal under Law 41.5 provided the stance change happens after delivery — but field placements remain set for the original stance.",
+      "Legality: Legal (under Law 41.5 of the Laws of Cricket) provided the stance change happens after the bowler has released the ball — but the field placements remain set for the original stance.",
       "Tactical Use: Breaks a packed off-side field by hitting what was leg-side into the open off-side.",
       "Common Mistakes: Switching too early gives the bowler time to abort; commit only after release.",
     ]),
@@ -637,7 +637,7 @@ export const FITNESS_EXTRA: Lesson[] = [
 export const UMPIRING_EXTRA: Lesson[] = [
   L("umpire-signals", "Umpire Signals", 4, "The visual vocabulary.",
     [
-      "Definition: The standardised signals (four, six, bye, leg-bye, wide, no-ball, out, dead ball, third-umpire referral) defined in MCC Law 2.13.",
+      "Definition: The standardised signals — four, six, bye, leg-bye, wide, no-ball, out, dead ball and third-umpire referral — used to communicate decisions to players and scorers (defined in Law 2.13 of the Laws of Cricket).",
       "Mechanics: Each signal is performed clearly to the scorers, then acknowledged with a wave from the scoring box.",
     ]),
   L("hawkeye-detail", "Hawk-Eye Ball Tracking", 5, "6–10 cameras at 340 fps.",
