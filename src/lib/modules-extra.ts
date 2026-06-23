@@ -637,7 +637,7 @@ export const FITNESS_EXTRA: Lesson[] = [
 export const UMPIRING_EXTRA: Lesson[] = [
   L("umpire-signals", "Umpire Signals", 4, "The visual vocabulary.",
     [
-      "Definition: The standardised signals (four, six, bye, leg-bye, wide, no-ball, out, dead ball, third-umpire referral) defined in MCC Law 2.13.",
+      "Definition: The standardised signals — four, six, bye, leg-bye, wide, no-ball, out, dead ball and third-umpire referral — used to communicate decisions to players and scorers (defined in Law 2.13 of the Laws of Cricket).",
       "Mechanics: Each signal is performed clearly to the scorers, then acknowledged with a wave from the scoring box.",
     ]),
   L("hawkeye-detail", "Hawk-Eye Ball Tracking", 5, "6–10 cameras at 340 fps.",
