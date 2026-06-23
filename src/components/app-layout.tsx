@@ -144,20 +144,22 @@ export function AppFooter() {
             <li><Link to="/explore" className="hover:text-foreground">Explore Topics</Link></li>
             <li><Link to="/laboratory" className="hover:text-foreground">Laboratory</Link></li>
             <li><Link to="/quiz" className="hover:text-foreground">Quiz Zone</Link></li>
-          </ul>
-        </div>
-        <div>
-          <h4 className="font-display font-semibold mb-2 text-sm">You</h4>
-          <ul className="space-y-1.5 text-muted-foreground">
-            <li><Link to="/progress" className="hover:text-foreground">My Progress</Link></li>
-            <li><Link to="/profile" className="hover:text-foreground">Profile</Link></li>
             <li><Link to="/ai-coach" className="hover:text-foreground">AI Coach</Link></li>
           </ul>
         </div>
         <div>
-          <h4 className="font-display font-semibold mb-2 text-sm">Community</h4>
+          <h4 className="font-display font-semibold mb-2 text-sm">Company</h4>
           <ul className="space-y-1.5 text-muted-foreground">
-            <li><Link to="/community" className="hover:text-foreground">Leaderboard & Feed</Link></li>
+            <li><Link to="/about" className="hover:text-foreground">About</Link></li>
+            <li><Link to="/contact" className="hover:text-foreground">Contact</Link></li>
+            <li><Link to="/community" className="hover:text-foreground">Community</Link></li>
+          </ul>
+        </div>
+        <div>
+          <h4 className="font-display font-semibold mb-2 text-sm">Legal</h4>
+          <ul className="space-y-1.5 text-muted-foreground">
+            <li><Link to="/privacy" className="hover:text-foreground">Privacy</Link></li>
+            <li><Link to="/terms" className="hover:text-foreground">Terms</Link></li>
           </ul>
         </div>
       </div>
