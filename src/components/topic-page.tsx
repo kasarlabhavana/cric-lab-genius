@@ -37,26 +37,26 @@ const SECTIONS: ReadonlyArray<{
   n: number;
   label: string;
   Icon: typeof BookOpen;
-  view?: TopicImageView;
+  view?: ImageViewKind;
   field: keyof Topic | "commonMistakes" | "drills" | "quiz" | "references";
 }> = [
   { id: "definition", n: 1, label: "Definition", Icon: BookOpen, field: "definition" },
   { id: "history", n: 2, label: "History", Icon: History, field: "history" },
-  { id: "grip", n: 3, label: "Grip", Icon: Hand, view: "fingerCloseup", field: "grip" },
-  { id: "finger-placement", n: 4, label: "Finger Placement", Icon: Hand, view: "fingerCloseup", field: "fingerPlacement" },
-  { id: "wrist-movement", n: 5, label: "Wrist Movement", Icon: RotateCcw, view: "wristCloseup", field: "wristMovement" },
-  { id: "arm-path", n: 6, label: "Arm Path", Icon: Workflow, view: "sideView", field: "armPath" },
-  { id: "shoulder-rotation", n: 7, label: "Shoulder Rotation", Icon: RotateCcw, view: "sideView", field: "shoulderRotation" },
-  { id: "hip-rotation", n: 8, label: "Hip Rotation", Icon: RotateCcw, view: "frontView", field: "hipRotation" },
-  { id: "foot-placement", n: 9, label: "Foot Placement", Icon: MapPin, view: "topView", field: "footPlacement" },
-  { id: "release-point", n: 10, label: "Release Point", Icon: Target, view: "sideView", field: "releasePoint" },
-  { id: "seam-orientation", n: 11, label: "Seam Orientation", Icon: Compass, view: "seamPosition", field: "seamOrientation" },
-  { id: "spin-axis", n: 12, label: "Spin Axis", Icon: Move3d, view: "seamPosition", field: "spinAxis" },
+  { id: "grip", n: 3, label: "Grip", Icon: Hand, view: "finger-closeup", field: "grip" },
+  { id: "finger-placement", n: 4, label: "Finger Placement", Icon: Hand, view: "finger-closeup", field: "fingerPlacement" },
+  { id: "wrist-movement", n: 5, label: "Wrist Movement", Icon: RotateCcw, view: "wrist-closeup", field: "wristMovement" },
+  { id: "arm-path", n: 6, label: "Arm Path", Icon: Workflow, view: "side-view", field: "armPath" },
+  { id: "shoulder-rotation", n: 7, label: "Shoulder Rotation", Icon: RotateCcw, view: "side-view", field: "shoulderRotation" },
+  { id: "hip-rotation", n: 8, label: "Hip Rotation", Icon: RotateCcw, view: "front-view", field: "hipRotation" },
+  { id: "foot-placement", n: 9, label: "Foot Placement", Icon: MapPin, view: "top-view", field: "footPlacement" },
+  { id: "release-point", n: 10, label: "Release Point", Icon: Target, view: "side-view", field: "releasePoint" },
+  { id: "seam-orientation", n: 11, label: "Seam Orientation", Icon: Compass, view: "seam-position", field: "seamOrientation" },
+  { id: "spin-axis", n: 12, label: "Spin Axis", Icon: Move3d, view: "seam-position", field: "spinAxis" },
   { id: "physics", n: 13, label: "Physics", Icon: Zap, view: "physics", field: "physics" },
   { id: "aerodynamics", n: 14, label: "Aerodynamics", Icon: Wind, view: "aerodynamics", field: "aerodynamics" },
   { id: "trajectory", n: 15, label: "Trajectory", Icon: Ruler, view: "trajectory", field: "trajectory" },
   { id: "batting-counter", n: 16, label: "Batting Counter Strategy", Icon: Eye, field: "battingCounterStrategy" },
-  { id: "field-placement", n: 17, label: "Field Placement", Icon: Layers, view: "fieldPlacement", field: "fieldPlacement" },
+  { id: "field-placement", n: 17, label: "Field Placement", Icon: Layers, view: "field-placement", field: "field-placement" },
   { id: "common-mistakes", n: 18, label: "Common Mistakes", Icon: Lightbulb, field: "commonMistakes" },
   { id: "drills", n: 19, label: "Drills", Icon: ListChecks, field: "drills" },
   { id: "quiz", n: 20, label: "Quiz", Icon: CircleHelp, field: "quiz" },
@@ -105,7 +105,7 @@ function ListSection({ items }: { items: string[] }) {
   );
 }
 
-function ImageBlock({ view, topic }: { view: TopicImageView; topic: string }) {
+function ImageBlock({ view, topic }: { view: ImageViewKind; topic: string }) {
   return (
     <div className="mt-4">
       <TopicImagePlaceholder view={view} topic={topic} />
