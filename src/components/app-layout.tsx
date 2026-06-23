@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useUser, deriveLevel } from "@/lib/user-state";
 import { useTheme } from "@/lib/theme";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import logoUrl from "@/assets/logo.png";
 
 const NAV = [
   { to: "/", label: "Home", icon: Home },
@@ -172,19 +173,9 @@ export function AppFooter() {
 }
 
 function Logo() {
-  // Cricket bat + ball logo
   return (
-    <span className="inline-flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
-      <svg viewBox="0 0 32 32" className="size-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        {/* Bat */}
-        <path d="M21 5 L27 11 L13 25 L9 25 L7 23 L7 19 Z" fill="currentColor" stroke="none" opacity="0.95" />
-        <path d="M19 7 L25 13" stroke="var(--brand-orange)" strokeWidth="1.5" opacity="0.6" />
-        {/* Handle binding */}
-        <path d="M22 4 L28 10" stroke="currentColor" strokeWidth="3" />
-        {/* Ball */}
-        <circle cx="9" cy="23" r="3.5" fill="var(--brand-orange)" stroke="none" />
-        <path d="M6 22 Q9 24 12 22" stroke="white" strokeWidth="0.7" fill="none" opacity="0.9" />
-      </svg>
+    <span className="inline-flex size-10 items-center justify-center">
+      <img src={logoUrl} alt="CricScience logo" className="size-10 object-contain" />
     </span>
   );
 }
