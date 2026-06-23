@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { MODULE_BY_SLUG } from "@/lib/modules";
 import { useUser } from "@/lib/user-state";
 import { Diagram } from "@/components/cric-ui";
-import { TopicImagePlaceholder, TOPIC_IMAGE_VIEWS, IMAGE_VIEW_LABELS } from "@/components/topic-images";
+
 
 export const Route = createFileRoute("/explore/$module/$lesson")({
   loader: ({ params }) => {
