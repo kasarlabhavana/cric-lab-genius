@@ -88,7 +88,7 @@ function Home() {
         <div className="mx-auto max-w-6xl px-6 py-16">
           <div className="text-center max-w-2xl mx-auto">
             <span className="inline-block rounded-full bg-[color:var(--brand-orange)]/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">Science</span>
-            <h2 className="mt-3 font-display text-3xl md:text-4xl font-bold text-foreground">Eight sciences of cricket</h2>
+            <h2 className="mt-3 font-display text-3xl md:text-4xl font-bold text-foreground">Ten sciences of cricket</h2>
             <p className="mt-2 text-muted-foreground">Tap any tile to dive into lessons, diagrams and quizzes.</p>
           </div>
 
