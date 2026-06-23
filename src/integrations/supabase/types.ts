@@ -317,22 +317,37 @@ export type Database = {
           created_at: string
           feedback: string | null
           id: string
+          media_name: string | null
+          media_type: string
+          metrics: Json
+          overall_score: number | null
+          title: string | null
           user_id: string
-          video_url: string
+          video_url: string | null
         }
         Insert: {
           created_at?: string
           feedback?: string | null
           id?: string
+          media_name?: string | null
+          media_type?: string
+          metrics?: Json
+          overall_score?: number | null
+          title?: string | null
           user_id: string
-          video_url: string
+          video_url?: string | null
         }
         Update: {
           created_at?: string
           feedback?: string | null
           id?: string
+          media_name?: string | null
+          media_type?: string
+          metrics?: Json
+          overall_score?: number | null
+          title?: string | null
           user_id?: string
-          video_url?: string
+          video_url?: string | null
         }
         Relationships: []
       }
