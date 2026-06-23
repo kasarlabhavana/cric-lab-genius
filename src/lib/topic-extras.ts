@@ -76,6 +76,13 @@ const EXTRAS: Record<string, TopicExtras> = {
       Fan:
         "Watch the seam as the ball leaves the hand: if it's tilted toward the slips, that's a leg break, and you should expect late drift toward the batter's pads followed by turn away from the bat after pitching. The really good ones — Warne, Kumble, Yasir Shah, Rashid — combine drift and dip so the batter is committed to a length the ball never actually reaches. The 'fizz' you sometimes hear in stump-mics is the seam slicing air at 2,000+ RPM.",
     },
+    famousPlayers: [
+      { name: "Shane Warne", team: "Australia", note: "The most influential leg-spinner ever. 708 Test wickets. His 1993 'Ball of the Century' to Mike Gatting — drifting in toward leg, ripping past the outside edge to hit off — defined the modern leg-break." },
+      { name: "Anil Kumble", team: "India", note: "619 Test wickets with a flatter, faster trajectory than the classical wrist-spinner. Used top-spin and bounce more than huge turn — took all 10 in an innings vs Pakistan, 1999." },
+      { name: "Yasir Shah", team: "Pakistan", note: "Fastest to 200 Test wickets (33 matches). Big, looping leg-breaks paired with a sharp googly that beat both edges in Test conditions worldwide." },
+      { name: "Rashid Khan", team: "Afghanistan", note: "T20's premier leg-spinner — quick through the air at 90+ km/h, minimal loop, devastating googly. Has redefined what a wrist-spinner can do in death overs." },
+      { name: "Shubhanshu Bhandari & Shreyas Gopal era", team: "Modern domestic", note: "Show how the discipline now spans formats: white-ball leggies bowl flatter and quicker, red-ball leggies still float and rip." },
+    ],
   },
   "off-break": {
     relatedSims: [SIM.spin, SIM.pitch, SIM.field],
