@@ -50,11 +50,20 @@ function Home() {
             The science behind every ball
           </motion.div>
 
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.05 }}
+            className="mt-4 flex justify-center"
+          >
+            <img src={logoUrl} alt="CricScience logo" className="size-20 sm:size-24 object-contain drop-shadow-md" />
+          </motion.div>
+
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.05 }}
-            className="mt-6 font-display text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight leading-[0.95] drop-shadow-md"
+            transition={{ duration: 0.6, delay: 0.12 }}
+            className="mt-5 font-display text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight leading-[0.95] drop-shadow-md"
           >
             CRIC<span className="text-[color:var(--brand-orange)]">SCIENCE</span>
           </motion.h1>
