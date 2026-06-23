@@ -749,7 +749,7 @@ export const TOPICS: Topic[] = [
     category: "Equipment",
     difficulty: "Beginner",
     definition:
-      "A flat-faced striking implement of willow with a cane handle, no longer than 96.5 cm and no wider than 10.8 cm. Modern bats weigh 1.1–1.4 kg with deep, pressed sweet spots.",
+      "The cricket bat is a flat-faced striking implement, traditionally crafted from a single cleft of English or Kashmiri willow with a spliced cane handle bound in twine and rubber, governed by Law 5: no longer than 96.5 cm, no wider than 10.8 cm, and (since 2017) limited in edge thickness to 40 mm and overall depth to 67 mm. Modern bats weigh between 1.1 and 1.4 kg with a deep, pressed sweet spot located roughly 15 cm above the toe where the coefficient of restitution against a cricket ball peaks at around 0.55, producing the characteristic 'ping' on contact. Bat design is a finely tuned balance between mass, pickup (perceived weight while swinging), edge thickness, sweet-spot height, and grain structure — typically 8–12 straight, tight grains for a Grade-1 willow — and the same nominal weight can feel very different in the hands depending on where the wood is distributed. Every new bat requires a 'knock-in' process of several hours of mallet impact to compress the willow fibres before facing a hard ball, after which careful oiling, storage, and ball selection extend its competitive life across a season.",
     history:
       "Hockey-stick shaped until 1771 when 'Shock' White's monster bat forced the MCC to fix the maximum width at 4.25 inches. Modern lightweight, high-edge bats from MRF, GM, and SS revolutionised six-hitting in the 2000s.",
     grip:
