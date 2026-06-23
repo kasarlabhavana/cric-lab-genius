@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import {
   ArrowLeft,
+  ArrowRight,
+  Beaker,
   BookOpen,
   CheckCircle2,
   ChevronRight,
@@ -18,6 +20,7 @@ import {
   Move3d,
   RotateCcw,
   Ruler,
+  Sparkles,
   Target,
   Wind,
   Workflow,
@@ -29,6 +32,8 @@ import {
   TopicImagePlaceholder,
   type ImageViewKind,
 } from "@/components/topic-images";
+import { AUDIENCES, type Audience, getTopicExtras } from "@/lib/topic-extras";
+import { LABORATORY_SIMS } from "@/lib/modules";
 
 // 21 sections — every topic renders all of them in the same order.
 // Each section is bound to a placeholder image view where it makes sense.
