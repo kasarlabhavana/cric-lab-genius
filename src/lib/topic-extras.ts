@@ -242,6 +242,14 @@ const EXTRAS: Record<string, TopicExtras> = {
       Fan:
         "Diving stops in the deep, direct-hit run-outs, and one-handed boundary catches are not luck — they are the product of thousands of repetitions and a clear plan for each ball. Notice the small things: a fielder walking in with the bowler, a backup arriving at the stumps before the throw, a slip cordon adjusting half a step between overs. These are the markers of an elite fielding unit.",
     },
+    famousPlayers: [
+      { name: "Jonty Rhodes", team: "South Africa", note: "Redefined modern fielding. His airborne run-out of Inzamam-ul-Haq at point in the 1992 World Cup is the most-replayed fielding moment in cricket history." },
+      { name: "Ravindra Jadeja", team: "India", note: "Best all-format outfielder of his generation. Cover-point arm clocked at 130 km/h, with dozens of direct-hit run-outs. Saves an estimated 15–20 runs per ODI." },
+      { name: "Glenn Maxwell", team: "Australia", note: "Elite point and inner-circle fielder with one of the strongest, flattest throws in world cricket and acrobatic boundary saves." },
+      { name: "AB de Villiers", team: "South Africa", note: "Slip, point and 30-yard ring — could field anywhere. Famous one-handed grab of Mark Boucher's edge vs Pakistan, 2010." },
+      { name: "Paul Collingwood", team: "England", note: "Best slip fielder of the 2000s. His diving one-handed catch to dismiss Matthew Hayden at Trent Bridge, 2005, is a textbook slip catch under pressure." },
+      { name: "Suryakumar Yadav", team: "India", note: "Modern T20 boundary specialist — relay catches and juggled saves that have become routine highlights for India in T20Is." },
+    ],
   },
   "wicketkeeping": {
     relatedSims: [SIM.reaction, SIM.field, SIM.spin],
