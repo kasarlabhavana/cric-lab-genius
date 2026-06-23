@@ -142,6 +142,13 @@ const EXTRAS: Record<string, TopicExtras> = {
       Fan:
         "When an off-spinner suddenly turns the ball away from a right-hander, that's the doosra. The easiest tell is the seam: a stock off-break has the seam tilted toward fine leg, a doosra has it tilted toward third man. Murali, Saqlain and Saeed Ajmal built entire match-winning careers around mastering the disguise — and several have had to remodel their actions to keep the delivery legal.",
     },
+    famousPlayers: [
+      { name: "Saqlain Mushtaq", team: "Pakistan", note: "Pioneered the delivery in the late 1990s. Coined the term doosra ('the other one') and used it to baffle a generation of batters." },
+      { name: "Muttiah Muralitharan", team: "Sri Lanka", note: "Combined the stock off-break and the doosra into perhaps the most unplayable off-spin attack ever. His congenitally bent arm and rotating wrist were independently cleared by the ICC's biomechanics panel." },
+      { name: "Saeed Ajmal", team: "Pakistan", note: "World No. 1 spinner in 2011–13. His doosra was so effective that his action was reported and remodelled in 2014 — a cautionary tale on legality and longevity." },
+      { name: "Sunil Narine", team: "West Indies", note: "T20's most feared mystery spinner. Bowls a knuckle-ball doosra variant with near-zero release tell." },
+      { name: "Ravichandran Ashwin", team: "India", note: "Has bowled a back-of-the-hand doosra variant sporadically in white-ball cricket while keeping his Test action conservatively orthodox." },
+    ],
   },
   "yorker": {
     relatedSims: [SIM.swing, SIM.reaction, SIM.field],
