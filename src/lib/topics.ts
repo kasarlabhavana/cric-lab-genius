@@ -611,7 +611,7 @@ export const TOPICS: Topic[] = [
     category: "Ground & Pitch",
     difficulty: "Beginner",
     definition:
-      "The 22-yard (20.12 m) strip of prepared soil and grass on which the ball is bowled. The pitch's hardness, moisture, grass cover, and cracks determine bounce, turn, and swing across a match.",
+      "The pitch is the rectangular 22-yard (20.12 m) strip of prepared soil and grass at the centre of the ground on which every delivery is bowled and most dismissals occur. Its behaviour — bounce, pace, lateral movement off the seam, and turn for the spinners — is determined by a combination of soil clay content (typically 40–60% for first-class pitches), moisture, grass cover, rolling regime, and weather exposure across the days of a match. A green-tinged pitch with retained moisture will offer seam movement and carry for fast bowlers; a dry, cracked, low-bound surface will progressively favour spinners, often dramatically from day three onwards in Test cricket. Curators measure pitch hardness with instruments such as the Clegg hammer, and the cumulative effect of foot traffic, sun exposure, and wear creates the day-by-day evolution that makes Test cricket a four-innings strategic puzzle.",
     history:
       "Originally rough open fields, pitches became hand-rolled in the 19th century, covered against rain from 1981 in Tests, and now include drop-in surfaces grown off-site. Each cricketing nation cultivates distinctive surfaces — Indian dust-bowls, English seamers, Australian bouncers.",
     grip:
