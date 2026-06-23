@@ -39,7 +39,7 @@ function Home() {
       {/* HERO — cricket ground meets laboratory */}
       <section className="relative overflow-hidden border-b border-border">
         <GroundLabBackdrop />
-        <div className="relative mx-auto max-w-6xl px-6 py-20 md:py-28 text-center text-white">
+        <div className="relative mx-auto max-w-6xl px-6 pt-10 pb-14 md:pt-14 md:pb-20 text-center text-white">
 
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
