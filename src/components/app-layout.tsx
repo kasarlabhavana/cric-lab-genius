@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useUser, deriveLevel } from "@/lib/user-state";
 import { useTheme } from "@/lib/theme";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import logoUrl from "@/assets/logo.png";
 
 const NAV = [
   { to: "/", label: "Home", icon: Home },
