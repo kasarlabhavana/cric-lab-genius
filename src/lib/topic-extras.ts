@@ -27,11 +27,18 @@ export type ShortLesson = {
   body: string;
 };
 
+export type FamousPlayer = {
+  name: string;
+  team?: string;
+  note: string;
+};
+
 export type TopicExtras = {
   relatedSims: string[]; // laboratory sim slugs
   keyTakeaways: string[];
   lessons: ShortLesson[];
   audience: Record<Audience, string>;
+  famousPlayers?: FamousPlayer[];
 };
 
 const SIM = {
