@@ -9,38 +9,290 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as QuizRouteImport } from './routes/quiz'
+import { Route as ProgressRouteImport } from './routes/progress'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as LaboratoryRouteImport } from './routes/laboratory'
+import { Route as ExploreRouteImport } from './routes/explore'
+import { Route as CommunityRouteImport } from './routes/community'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AiCoachRouteImport } from './routes/ai-coach'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as QuizIndexRouteImport } from './routes/quiz.index'
+import { Route as LaboratoryIndexRouteImport } from './routes/laboratory.index'
+import { Route as ExploreIndexRouteImport } from './routes/explore.index'
+import { Route as QuizQuizIdRouteImport } from './routes/quiz.$quizId'
+import { Route as LaboratorySimRouteImport } from './routes/laboratory.$sim'
+import { Route as ExploreModuleRouteImport } from './routes/explore.$module'
+import { Route as ExploreModuleIndexRouteImport } from './routes/explore.$module.index'
+import { Route as ExploreModuleLessonRouteImport } from './routes/explore.$module.$lesson'
 
+const QuizRoute = QuizRouteImport.update({
+  id: '/quiz',
+  path: '/quiz',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgressRoute = ProgressRouteImport.update({
+  id: '/progress',
+  path: '/progress',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LaboratoryRoute = LaboratoryRouteImport.update({
+  id: '/laboratory',
+  path: '/laboratory',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExploreRoute = ExploreRouteImport.update({
+  id: '/explore',
+  path: '/explore',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommunityRoute = CommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiCoachRoute = AiCoachRouteImport.update({
+  id: '/ai-coach',
+  path: '/ai-coach',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const QuizIndexRoute = QuizIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => QuizRoute,
+} as any)
+const LaboratoryIndexRoute = LaboratoryIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LaboratoryRoute,
+} as any)
+const ExploreIndexRoute = ExploreIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ExploreRoute,
+} as any)
+const QuizQuizIdRoute = QuizQuizIdRouteImport.update({
+  id: '/$quizId',
+  path: '/$quizId',
+  getParentRoute: () => QuizRoute,
+} as any)
+const LaboratorySimRoute = LaboratorySimRouteImport.update({
+  id: '/$sim',
+  path: '/$sim',
+  getParentRoute: () => LaboratoryRoute,
+} as any)
+const ExploreModuleRoute = ExploreModuleRouteImport.update({
+  id: '/$module',
+  path: '/$module',
+  getParentRoute: () => ExploreRoute,
+} as any)
+const ExploreModuleIndexRoute = ExploreModuleIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ExploreModuleRoute,
+} as any)
+const ExploreModuleLessonRoute = ExploreModuleLessonRouteImport.update({
+  id: '/$lesson',
+  path: '/$lesson',
+  getParentRoute: () => ExploreModuleRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ai-coach': typeof AiCoachRoute
+  '/auth': typeof AuthRoute
+  '/community': typeof CommunityRoute
+  '/explore': typeof ExploreRouteWithChildren
+  '/laboratory': typeof LaboratoryRouteWithChildren
+  '/profile': typeof ProfileRoute
+  '/progress': typeof ProgressRoute
+  '/quiz': typeof QuizRouteWithChildren
+  '/explore/$module': typeof ExploreModuleRouteWithChildren
+  '/laboratory/$sim': typeof LaboratorySimRoute
+  '/quiz/$quizId': typeof QuizQuizIdRoute
+  '/explore/': typeof ExploreIndexRoute
+  '/laboratory/': typeof LaboratoryIndexRoute
+  '/quiz/': typeof QuizIndexRoute
+  '/explore/$module/$lesson': typeof ExploreModuleLessonRoute
+  '/explore/$module/': typeof ExploreModuleIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ai-coach': typeof AiCoachRoute
+  '/auth': typeof AuthRoute
+  '/community': typeof CommunityRoute
+  '/profile': typeof ProfileRoute
+  '/progress': typeof ProgressRoute
+  '/laboratory/$sim': typeof LaboratorySimRoute
+  '/quiz/$quizId': typeof QuizQuizIdRoute
+  '/explore': typeof ExploreIndexRoute
+  '/laboratory': typeof LaboratoryIndexRoute
+  '/quiz': typeof QuizIndexRoute
+  '/explore/$module/$lesson': typeof ExploreModuleLessonRoute
+  '/explore/$module': typeof ExploreModuleIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ai-coach': typeof AiCoachRoute
+  '/auth': typeof AuthRoute
+  '/community': typeof CommunityRoute
+  '/explore': typeof ExploreRouteWithChildren
+  '/laboratory': typeof LaboratoryRouteWithChildren
+  '/profile': typeof ProfileRoute
+  '/progress': typeof ProgressRoute
+  '/quiz': typeof QuizRouteWithChildren
+  '/explore/$module': typeof ExploreModuleRouteWithChildren
+  '/laboratory/$sim': typeof LaboratorySimRoute
+  '/quiz/$quizId': typeof QuizQuizIdRoute
+  '/explore/': typeof ExploreIndexRoute
+  '/laboratory/': typeof LaboratoryIndexRoute
+  '/quiz/': typeof QuizIndexRoute
+  '/explore/$module/$lesson': typeof ExploreModuleLessonRoute
+  '/explore/$module/': typeof ExploreModuleIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/ai-coach'
+    | '/auth'
+    | '/community'
+    | '/explore'
+    | '/laboratory'
+    | '/profile'
+    | '/progress'
+    | '/quiz'
+    | '/explore/$module'
+    | '/laboratory/$sim'
+    | '/quiz/$quizId'
+    | '/explore/'
+    | '/laboratory/'
+    | '/quiz/'
+    | '/explore/$module/$lesson'
+    | '/explore/$module/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/ai-coach'
+    | '/auth'
+    | '/community'
+    | '/profile'
+    | '/progress'
+    | '/laboratory/$sim'
+    | '/quiz/$quizId'
+    | '/explore'
+    | '/laboratory'
+    | '/quiz'
+    | '/explore/$module/$lesson'
+    | '/explore/$module'
+  id:
+    | '__root__'
+    | '/'
+    | '/ai-coach'
+    | '/auth'
+    | '/community'
+    | '/explore'
+    | '/laboratory'
+    | '/profile'
+    | '/progress'
+    | '/quiz'
+    | '/explore/$module'
+    | '/laboratory/$sim'
+    | '/quiz/$quizId'
+    | '/explore/'
+    | '/laboratory/'
+    | '/quiz/'
+    | '/explore/$module/$lesson'
+    | '/explore/$module/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AiCoachRoute: typeof AiCoachRoute
+  AuthRoute: typeof AuthRoute
+  CommunityRoute: typeof CommunityRoute
+  ExploreRoute: typeof ExploreRouteWithChildren
+  LaboratoryRoute: typeof LaboratoryRouteWithChildren
+  ProfileRoute: typeof ProfileRoute
+  ProgressRoute: typeof ProgressRoute
+  QuizRoute: typeof QuizRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/quiz': {
+      id: '/quiz'
+      path: '/quiz'
+      fullPath: '/quiz'
+      preLoaderRoute: typeof QuizRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/progress': {
+      id: '/progress'
+      path: '/progress'
+      fullPath: '/progress'
+      preLoaderRoute: typeof ProgressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/laboratory': {
+      id: '/laboratory'
+      path: '/laboratory'
+      fullPath: '/laboratory'
+      preLoaderRoute: typeof LaboratoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/explore': {
+      id: '/explore'
+      path: '/explore'
+      fullPath: '/explore'
+      preLoaderRoute: typeof ExploreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/community': {
+      id: '/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof CommunityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai-coach': {
+      id: '/ai-coach'
+      path: '/ai-coach'
+      fullPath: '/ai-coach'
+      preLoaderRoute: typeof AiCoachRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +300,129 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/quiz/': {
+      id: '/quiz/'
+      path: '/'
+      fullPath: '/quiz/'
+      preLoaderRoute: typeof QuizIndexRouteImport
+      parentRoute: typeof QuizRoute
+    }
+    '/laboratory/': {
+      id: '/laboratory/'
+      path: '/'
+      fullPath: '/laboratory/'
+      preLoaderRoute: typeof LaboratoryIndexRouteImport
+      parentRoute: typeof LaboratoryRoute
+    }
+    '/explore/': {
+      id: '/explore/'
+      path: '/'
+      fullPath: '/explore/'
+      preLoaderRoute: typeof ExploreIndexRouteImport
+      parentRoute: typeof ExploreRoute
+    }
+    '/quiz/$quizId': {
+      id: '/quiz/$quizId'
+      path: '/$quizId'
+      fullPath: '/quiz/$quizId'
+      preLoaderRoute: typeof QuizQuizIdRouteImport
+      parentRoute: typeof QuizRoute
+    }
+    '/laboratory/$sim': {
+      id: '/laboratory/$sim'
+      path: '/$sim'
+      fullPath: '/laboratory/$sim'
+      preLoaderRoute: typeof LaboratorySimRouteImport
+      parentRoute: typeof LaboratoryRoute
+    }
+    '/explore/$module': {
+      id: '/explore/$module'
+      path: '/$module'
+      fullPath: '/explore/$module'
+      preLoaderRoute: typeof ExploreModuleRouteImport
+      parentRoute: typeof ExploreRoute
+    }
+    '/explore/$module/': {
+      id: '/explore/$module/'
+      path: '/'
+      fullPath: '/explore/$module/'
+      preLoaderRoute: typeof ExploreModuleIndexRouteImport
+      parentRoute: typeof ExploreModuleRoute
+    }
+    '/explore/$module/$lesson': {
+      id: '/explore/$module/$lesson'
+      path: '/$lesson'
+      fullPath: '/explore/$module/$lesson'
+      preLoaderRoute: typeof ExploreModuleLessonRouteImport
+      parentRoute: typeof ExploreModuleRoute
+    }
   }
 }
 
+interface ExploreModuleRouteChildren {
+  ExploreModuleLessonRoute: typeof ExploreModuleLessonRoute
+  ExploreModuleIndexRoute: typeof ExploreModuleIndexRoute
+}
+
+const ExploreModuleRouteChildren: ExploreModuleRouteChildren = {
+  ExploreModuleLessonRoute: ExploreModuleLessonRoute,
+  ExploreModuleIndexRoute: ExploreModuleIndexRoute,
+}
+
+const ExploreModuleRouteWithChildren = ExploreModuleRoute._addFileChildren(
+  ExploreModuleRouteChildren,
+)
+
+interface ExploreRouteChildren {
+  ExploreModuleRoute: typeof ExploreModuleRouteWithChildren
+  ExploreIndexRoute: typeof ExploreIndexRoute
+}
+
+const ExploreRouteChildren: ExploreRouteChildren = {
+  ExploreModuleRoute: ExploreModuleRouteWithChildren,
+  ExploreIndexRoute: ExploreIndexRoute,
+}
+
+const ExploreRouteWithChildren =
+  ExploreRoute._addFileChildren(ExploreRouteChildren)
+
+interface LaboratoryRouteChildren {
+  LaboratorySimRoute: typeof LaboratorySimRoute
+  LaboratoryIndexRoute: typeof LaboratoryIndexRoute
+}
+
+const LaboratoryRouteChildren: LaboratoryRouteChildren = {
+  LaboratorySimRoute: LaboratorySimRoute,
+  LaboratoryIndexRoute: LaboratoryIndexRoute,
+}
+
+const LaboratoryRouteWithChildren = LaboratoryRoute._addFileChildren(
+  LaboratoryRouteChildren,
+)
+
+interface QuizRouteChildren {
+  QuizQuizIdRoute: typeof QuizQuizIdRoute
+  QuizIndexRoute: typeof QuizIndexRoute
+}
+
+const QuizRouteChildren: QuizRouteChildren = {
+  QuizQuizIdRoute: QuizQuizIdRoute,
+  QuizIndexRoute: QuizIndexRoute,
+}
+
+const QuizRouteWithChildren = QuizRoute._addFileChildren(QuizRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AiCoachRoute: AiCoachRoute,
+  AuthRoute: AuthRoute,
+  CommunityRoute: CommunityRoute,
+  ExploreRoute: ExploreRouteWithChildren,
+  LaboratoryRoute: LaboratoryRouteWithChildren,
+  ProfileRoute: ProfileRoute,
+  ProgressRoute: ProgressRoute,
+  QuizRoute: QuizRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
