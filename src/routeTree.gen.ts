@@ -22,6 +22,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AiCoachRouteImport } from './routes/ai-coach'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TopicsIndexRouteImport } from './routes/topics.index'
 import { Route as QuizIndexRouteImport } from './routes/quiz.index'
 import { Route as LaboratoryIndexRouteImport } from './routes/laboratory.index'
 import { Route as ExploreIndexRouteImport } from './routes/explore.index'
@@ -96,6 +97,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TopicsIndexRoute = TopicsIndexRouteImport.update({
+  id: '/topics/',
+  path: '/topics/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const QuizIndexRoute = QuizIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -157,6 +163,7 @@ export interface FileRoutesByFullPath {
   '/explore/': typeof ExploreIndexRoute
   '/laboratory/': typeof LaboratoryIndexRoute
   '/quiz/': typeof QuizIndexRoute
+  '/topics/': typeof TopicsIndexRoute
   '/explore/$module/$lesson': typeof ExploreModuleLessonRoute
   '/explore/$module/': typeof ExploreModuleIndexRoute
 }
@@ -176,6 +183,7 @@ export interface FileRoutesByTo {
   '/explore': typeof ExploreIndexRoute
   '/laboratory': typeof LaboratoryIndexRoute
   '/quiz': typeof QuizIndexRoute
+  '/topics': typeof TopicsIndexRoute
   '/explore/$module/$lesson': typeof ExploreModuleLessonRoute
   '/explore/$module': typeof ExploreModuleIndexRoute
 }
@@ -200,6 +208,7 @@ export interface FileRoutesById {
   '/explore/': typeof ExploreIndexRoute
   '/laboratory/': typeof LaboratoryIndexRoute
   '/quiz/': typeof QuizIndexRoute
+  '/topics/': typeof TopicsIndexRoute
   '/explore/$module/$lesson': typeof ExploreModuleLessonRoute
   '/explore/$module/': typeof ExploreModuleIndexRoute
 }
@@ -225,6 +234,7 @@ export interface FileRouteTypes {
     | '/explore/'
     | '/laboratory/'
     | '/quiz/'
+    | '/topics/'
     | '/explore/$module/$lesson'
     | '/explore/$module/'
   fileRoutesByTo: FileRoutesByTo
@@ -244,6 +254,7 @@ export interface FileRouteTypes {
     | '/explore'
     | '/laboratory'
     | '/quiz'
+    | '/topics'
     | '/explore/$module/$lesson'
     | '/explore/$module'
   id:
@@ -267,6 +278,7 @@ export interface FileRouteTypes {
     | '/explore/'
     | '/laboratory/'
     | '/quiz/'
+    | '/topics/'
     | '/explore/$module/$lesson'
     | '/explore/$module/'
   fileRoutesById: FileRoutesById
@@ -285,6 +297,7 @@ export interface RootRouteChildren {
   ProgressRoute: typeof ProgressRoute
   QuizRoute: typeof QuizRouteWithChildren
   TermsRoute: typeof TermsRoute
+  TopicsIndexRoute: typeof TopicsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -378,6 +391,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/topics/': {
+      id: '/topics/'
+      path: '/topics'
+      fullPath: '/topics/'
+      preLoaderRoute: typeof TopicsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/quiz/': {
@@ -506,6 +526,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProgressRoute: ProgressRoute,
   QuizRoute: QuizRouteWithChildren,
   TermsRoute: TermsRoute,
+  TopicsIndexRoute: TopicsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
