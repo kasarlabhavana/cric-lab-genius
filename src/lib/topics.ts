@@ -398,6 +398,489 @@ export const TOPICS: Topic[] = [
       { label: "Imran Khan — 'All Round View'", source: "Chatto & Windus, 1988" },
     ],
   },
+  {
+    slug: "fielding",
+    title: "Fielding",
+    category: "Fielding",
+    difficulty: "Beginner",
+    definition:
+      "The art of stopping the ball, preventing runs, and taking catches or effecting run-outs. Fielding turns half-chances into wickets and saves 20–40 runs an innings for an elite side.",
+    history:
+      "Once an afterthought, fielding was revolutionised by Jonty Rhodes' run-out of Inzamam in the 1992 World Cup and by Australia's specialist fielding coaches in the 2000s. Modern T20 cricket made elite fielding non-negotiable.",
+    grip:
+      "Catching grip: fingers spread, thumbs together for high catches above the eyeline ('reverse cup'), little fingers together for catches below the chest ('cup'). Soft, giving hands absorb impact.",
+    fingerPlacement:
+      "Fingers point upward for high balls, downward for low ones. Never point fingertips directly at the ball — broken-finger position.",
+    wristMovement:
+      "Wrists stay relaxed on the catch and snap firm on the throw. A flick of the wrist adds 10–15 km/h to a flat throw on the run.",
+    armPath:
+      "Throwing arm follows a long, whip-like arc from low scoop to high release for boundary throws. Short, dart-like arm for close-in pickups and underarm flicks.",
+    shoulderRotation:
+      "Strong shoulder rotation drives accurate flat throws from the deep. Conditioning the rotator cuff is the most common injury-prevention focus for fielders.",
+    hipRotation:
+      "Hips rotate fully through the throw, transferring power from the planted back foot through to the release. A side-on stance maximises hip drive.",
+    footPlacement:
+      "Get behind the line of the ball, low and balanced. For throws: plant back foot side-on, step into the throw with the front foot pointing at the target.",
+    releasePoint:
+      "Release at the top of the arm arc for flat, fast throws; release earlier for a higher, looping return to the keeper.",
+    seamOrientation:
+      "Throw with a tumbling seam for speed; a stable seam-up throw skids on hard outfields for run-out attempts at the stumps.",
+    spinAxis:
+      "Minimal — backspin from a flat throw helps the ball carry and bounce true into the keeper's gloves.",
+    physics:
+      "A flat throw from 60 m at 90 km/h takes ~2.4 s — the margin between run-out and not-out. Reaction time at short leg is ~0.3 s, less than a Formula 1 driver's.",
+    aerodynamics:
+      "A spinning, scuffed ball can swerve in flight on long throws. Keepers account for this when reading the direction of a relay throw.",
+    trajectory:
+      "Flat trajectory for run-outs (apex < 3 m), high looping trajectory for relay throws from the boundary to allow the keeper to gather.",
+    battingCounterStrategy:
+      "Batters target weak fielders, run hard on the misfield, and respect strong arms by refusing the second run. Calling ('yes/no/wait') must be loud and unambiguous.",
+    fieldPlacement:
+      "Standard positions: slip, gully, point, cover, mid-off, mid-on, midwicket, square leg, fine leg, third man. Captains shift fields ball by ball based on bowler plan and batter strengths.",
+    commonMistakes: [
+      "Watching the ball into the hands too late — leads to dropped catches.",
+      "Throwing flat-footed — loses 30% of arm speed.",
+      "Charging in without getting low — the ball goes under the hands.",
+      "Soft pickup with one hand when two would secure it.",
+    ],
+    drills: [
+      "High-catch drill: 20 catches under a steepling lob, alternating reverse-cup and cup grips.",
+      "Flat-throw drill: 15 throws from 40 m hitting a single stump.",
+      "Slip-cradle drill: rapid-fire reaction catches from a slip cradle for hand-eye sharpness.",
+    ],
+    quiz: [
+      {
+        q: "Which catching grip is used for a high catch above the eyeline?",
+        options: ["Cup (little fingers together)", "Reverse cup (thumbs together)", "One-handed", "Behind the back"],
+        answer: 1,
+        explain: "Thumbs together with fingers pointing up forms the reverse cup for high catches.",
+      },
+      {
+        q: "Roughly how long does a flat 90 km/h throw take from 60 m?",
+        options: ["~1.0 s", "~2.4 s", "~4.0 s", "~6.0 s"],
+        answer: 1,
+        explain: "About 2.4 seconds — usually the difference between a run-out and a not-out.",
+      },
+    ],
+    references: [
+      { label: "Rhodes, J. — 'Catch the Spirit'", source: "Penguin SA, 1999" },
+      { label: "Bartlett, R. — 'Sports Biomechanics: Reducing Injury Risk'", source: "Routledge, 2007" },
+    ],
+  },
+  {
+    slug: "wicketkeeping",
+    title: "Wicketkeeping",
+    category: "Wicketkeeping",
+    difficulty: "Advanced",
+    definition:
+      "The specialist art of catching, stumping, and supporting the bowler from behind the stumps. The keeper is the only fielder allowed gloves and pads and is involved in roughly a quarter of all dismissals.",
+    history:
+      "From Bert Oldfield's stand-up brilliance in the 1920s to Alan Knott's acrobatics, Adam Gilchrist's batting revolution, and MS Dhoni's lightning stumping speed (0.08 s effort), wicketkeeping has evolved from utility role to match-defining specialism.",
+    grip:
+      "Gloves with a webbed pocket between thumb and index finger. Hands held in a relaxed cup, fingers pointing down for catches below the waist, up for catches above.",
+    fingerPlacement:
+      "Fingers behind the ball at the point of catching; thumbs tucked safely behind the glove leather to avoid hyperextension on quick edges.",
+    wristMovement:
+      "Soft wrists 'give' with the ball on impact — like catching an egg. For stumpings, wrists snap the bails off in one motion without overbalancing.",
+    armPath:
+      "Hands rise from the squat in a smooth low-to-high arc, tracking the ball from pitch to gloves. Arms stay close to the body to avoid 'snatching'.",
+    shoulderRotation:
+      "Shoulders stay square to the ball. Minimal rotation — keepers move with their feet, not their shoulders, to keep eyes level.",
+    hipRotation:
+      "Hips open laterally for diving catches. Strong hip mobility allows the side-shuffle that keepers use to move along the crease.",
+    footPlacement:
+      "Squat with feet shoulder-width, weight on balls of the feet. Up to the stumps for spinners (a metre back); 12–25 m back for fast bowlers depending on pace and bounce.",
+    releasePoint:
+      "For stumpings/run-outs, the gloves break the bails immediately after gathering — no transfer to one hand. Elite keepers do this in 0.08–0.12 s.",
+    seamOrientation:
+      "Read the seam in flight to anticipate which way the ball will deviate — crucial when standing up to spin.",
+    spinAxis:
+      "Reading spin axis off the bowler's hand tells the keeper which way to expect the ball to bounce — leg-break drifts to leg, off-break to off.",
+    physics:
+      "A 145 km/h delivery reaches the keeper roughly 0.55 s after release. The keeper has ~0.2 s of reaction time after a thick edge — comparable to the batter's own reaction window.",
+    aerodynamics:
+      "Standing back, the keeper reads swing late in the flight — drop step adjustments compensate for late movement off the seam.",
+    trajectory:
+      "Stand-back position is set so the ball arrives at glove height after one comfortable bounce — typically waist height. Standing up, the gloves take the ball just after pitch.",
+    battingCounterStrategy:
+      "Batters watch the keeper's position as a clue to bowler plans. Leaving the crease against spin invites stumpings; a keeper standing up to a medium-pacer is a tell for cutters.",
+    fieldPlacement:
+      "Keeper anchors the slip cordon and signals fielding changes. Often the de facto on-field tactician with the best view of swing, seam, and bounce.",
+    commonMistakes: [
+      "Snatching at the ball with stiff wrists — pushes catches out of the gloves.",
+      "Rising too early from the squat — head moves and the eyeline tilts.",
+      "Standing too close to the stumps for fast bowlers — no reaction time on edges.",
+      "Slow glove-work on stumpings — a tenth of a second decides not-out vs out.",
+    ],
+    drills: [
+      "Tennis-ball squat-catch drill: 50 catches from a thrower 8 m away to groove soft hands.",
+      "Bail-flick drill: simulate stumpings with a coach rolling balls past the stumps.",
+      "Reaction-board drill: react to flashing lights to train edge-anticipation reflexes.",
+    ],
+    quiz: [
+      {
+        q: "Roughly how long does an elite keeper take to break the bails on a stumping?",
+        options: ["~0.02 s", "~0.10 s", "~0.50 s", "~1.00 s"],
+        answer: 1,
+        explain: "Top keepers like Dhoni complete the stumping motion in around 0.08–0.12 seconds.",
+      },
+      {
+        q: "How far back does a keeper usually stand to a fast bowler?",
+        options: ["At the stumps", "1–2 metres", "12–25 metres", "Beyond the 30-yard circle"],
+        answer: 2,
+        explain: "12–25 m depending on pace and bounce, so the ball arrives at a comfortable glove height.",
+      },
+    ],
+    references: [
+      { label: "Knott, A. — 'Stumper's View'", source: "Stanley Paul, 1972" },
+      { label: "Dhoni, M.S. — Player Profile, ICC", source: "ICC, 2020" },
+    ],
+  },
+  {
+    slug: "cricket-ground",
+    title: "The Cricket Ground",
+    category: "Ground & Pitch",
+    difficulty: "Beginner",
+    definition:
+      "An oval or circular playing area, typically 137–150 m across, with a central rectangular pitch. The boundary is marked by a rope and ringed by a 30-yard inner circle that governs fielding restrictions in limited-overs cricket.",
+    history:
+      "The MCC codified ground dimensions in 1788. Lord's (est. 1814) became the spiritual home. Drop-in pitches, floodlights (1977 World Series), and 30-yard circles (1980) progressively reshaped how grounds are used.",
+    grip:
+      "Outfield 'grip' refers to grass cover and moisture — long grass slows the ball; bare, dry outfields are lightning-fast and reward boundary hitting.",
+    fingerPlacement:
+      "Pitch markings: bowling crease (the back line), popping crease (front line, 1.22 m forward), return creases (side lines 1.32 m apart) — these define legal delivery and stumping zones.",
+    wristMovement:
+      "Ground staff 'wrist-roll' the pitch with heavy rollers between innings to harden the surface and seal moisture.",
+    armPath:
+      "Sightscreens at each end provide a clean visual background; their alignment with the bowler's arm path must allow the batter to pick up the ball clearly.",
+    shoulderRotation:
+      "Drop-in pitches are rotated in and out of the square on tracked frames — the 'shoulder' of the pitch (the edge area) wears fastest under foot traffic.",
+    hipRotation:
+      "Boundary curvature ('hip' of the field) varies by venue — square boundaries at Adelaide are short, straight boundaries at the MCG are long, which dictates bowling lines.",
+    footPlacement:
+      "Bowler run-up markers, the danger area (the strip down the centre of the pitch a bowler must avoid in follow-through), and fielding circle markings all govern foot placement.",
+    releasePoint:
+      "Altitude affects how far the ball carries — high-altitude grounds like Johannesburg's Wanderers (1,750 m) shorten boundaries by ~5% in carry terms.",
+    seamOrientation:
+      "Pitch orientation north-south reduces sun-in-the-eyes for batters in afternoon Tests — a factor in venue scheduling.",
+    spinAxis:
+      "Square rotation: most grounds maintain 8–12 pitches on the square so each strip can recover. The rotation cycle determines which pitch hosts which match.",
+    physics:
+      "Pitch hardness (measured with a Clegg hammer) determines bounce; outfield grass length determines ball deceleration. A fast outfield can add 25–40 boundary runs an innings.",
+    aerodynamics:
+      "Coastal grounds (Galle, Wellington) trap moist sea air, aiding swing. Dry inland grounds favour reverse swing as the ball roughens faster on abrasive outfields.",
+    trajectory:
+      "Boundary distances (square 60–75 m, straight 65–85 m typical) shape captaincy — short square boundary forces defensive sweepers and influences bowling plans.",
+    battingCounterStrategy:
+      "Batters target short boundaries with pre-meditated angles; bowlers protect short boundaries with field sets and bowl into the longer side.",
+    fieldPlacement:
+      "30-yard inner circle defines Powerplay restrictions (max 2 fielders outside in Powerplay 1 in ODIs). Field markings make these limits visible to umpires.",
+    commonMistakes: [
+      "Ignoring boundary asymmetry when setting fields.",
+      "Watering the pitch too late before the toss — leaves moisture under the surface.",
+      "Cutting outfield grass too short — ball skids and scuffs faster.",
+      "Misaligned sightscreens — forces play to stop until repositioned.",
+    ],
+    drills: [
+      "Ground-walk: captains and bowlers walk the boundary before the toss to plan field lengths.",
+      "Pitch-report routine: tap, observe colour, look for cracks and grass cover.",
+      "Outfield speed test: roll a ball 30 m and time it to gauge boundary pace.",
+    ],
+    quiz: [
+      {
+        q: "How far forward of the bowling crease is the popping crease?",
+        options: ["0.61 m", "1.22 m", "2.44 m", "3.66 m"],
+        answer: 1,
+        explain: "The popping crease is 1.22 m (4 feet) in front of the bowling crease.",
+      },
+      {
+        q: "What does the 30-yard circle govern?",
+        options: ["LBW reviews", "Powerplay fielding restrictions", "Pitch length", "Ball changes"],
+        answer: 1,
+        explain: "It defines fielding restrictions during Powerplays in limited-overs cricket.",
+      },
+    ],
+    references: [
+      { label: "MCC — Laws of Cricket (2017 Code, 3rd ed. 2022)", source: "Marylebone Cricket Club" },
+      { label: "ICC — Standard Playing Conditions", source: "ICC, latest edition" },
+    ],
+  },
+  {
+    slug: "the-pitch",
+    title: "The Pitch",
+    category: "Ground & Pitch",
+    difficulty: "Beginner",
+    definition:
+      "The 22-yard (20.12 m) strip of prepared soil and grass on which the ball is bowled. The pitch's hardness, moisture, grass cover, and cracks determine bounce, turn, and swing across a match.",
+    history:
+      "Originally rough open fields, pitches became hand-rolled in the 19th century, covered against rain from 1981 in Tests, and now include drop-in surfaces grown off-site. Each cricketing nation cultivates distinctive surfaces — Indian dust-bowls, English seamers, Australian bouncers.",
+    grip:
+      "Soil clay content (typically 40–60%) determines how the surface 'grips' the ball — high clay grips spinners; low clay skids.",
+    fingerPlacement:
+      "Cracks, footmarks (rough), and the central seamer's spot are 'finger-friendly' zones where spinners and seamers target their lengths.",
+    wristMovement:
+      "Heavy rolling presses moisture down and binds the top layer — a fundamental piece of pitch preparation between innings.",
+    armPath:
+      "Pitch length is 20.12 m (22 yards) stump-to-stump; the strip is 3.05 m (10 ft) wide. These dimensions have been fixed since 1744.",
+    shoulderRotation:
+      "Wear patterns develop at the 'shoulders' of the pitch where bowlers land — this rough area becomes a spinner's target by day 3 of a Test.",
+    hipRotation:
+      "Cross-seam wear from cutters and the bowler's follow-through hip drive scrubs the surface, accelerating deterioration in the danger area.",
+    footPlacement:
+      "Danger area: a 1.5 m strip running down the middle of the pitch, 5 ft each side of the popping crease, where bowlers must not run in their follow-through.",
+    releasePoint:
+      "Bounce profile depends on pitch hardness — a pitch reading 80+ on the Clegg hammer offers true bounce; <60 means low, dead bounce.",
+    seamOrientation:
+      "A grass-covered seamer offers seam movement off the surface; a bare, dry pitch grips for spinners. Two-paced surfaces mix unpredictably.",
+    spinAxis:
+      "As cracks open, spinners' axes work for them — leg-break grips and turns sharply out of widening cracks; off-break uses the cracks for variable bounce.",
+    physics:
+      "Coefficient of restitution (COR) of pitch ≈ 0.4–0.6. The ball loses ~40–60% of vertical velocity on impact. Higher COR = more bounce.",
+    aerodynamics:
+      "Pitch moisture humidifies the air just above the surface, affecting late swing and dip. Damp pitches often correlate with extra swing in early morning sessions.",
+    trajectory:
+      "Stock length of 4–6 m from the batter on most pitches; bouncier surfaces shift the ideal length back, slower surfaces invite fuller lengths.",
+    battingCounterStrategy:
+      "Read the pitch in the first 5 overs — true bounce permits horizontal-bat shots; uneven bounce demands vertical-bat orthodoxy. Sweep on low, slow pitches; pull on bouncy ones.",
+    fieldPlacement:
+      "Captains set bat-pad fielders on turning pitches and short legs on bouncy pitches based on the surface report.",
+    commonMistakes: [
+      "Misreading a green pitch — green ≠ seam, sometimes it's just unmown.",
+      "Watering too much before toss — pitch sweats under covers and goes slow.",
+      "Heavy rolling a dry pitch — can crack it open before the match.",
+      "Ignoring footmark rough — a goldmine for spinners by day 4.",
+    ],
+    drills: [
+      "Pitch-report routine: tap with a key for hardness, scan for green tinge, run a finger over to test binding.",
+      "Bounce mapping: bowl 6 balls on the same length and chart the bounce variance.",
+      "Crack-spotting: photograph the pitch each morning to track crack growth.",
+    ],
+    quiz: [
+      {
+        q: "How long is a cricket pitch from stump to stump?",
+        options: ["18.30 m", "20.12 m", "22.86 m", "25.00 m"],
+        answer: 1,
+        explain: "22 yards = 20.12 m, fixed by the laws of cricket.",
+      },
+      {
+        q: "What tool measures pitch hardness?",
+        options: ["Stump gauge", "Clegg hammer", "Swing meter", "Bounce calliper"],
+        answer: 1,
+        explain: "The Clegg impact hammer measures surface hardness for groundsmen.",
+      },
+    ],
+    references: [
+      { label: "James, D. — 'The Cricket Pitch and Its Effects on Cricket'", source: "STRI Research, 2008" },
+      { label: "MCC — Laws of Cricket, Law 6 (The Pitch)", source: "MCC, 2022" },
+    ],
+  },
+  {
+    slug: "cricket-ball",
+    title: "The Cricket Ball",
+    category: "Equipment",
+    difficulty: "Beginner",
+    definition:
+      "A hard, cork-cored leather ball weighing 155.9–163 g with a circumference of 22.4–22.9 cm and a raised, hand-stitched six-row seam. Red for Tests, white for limited-overs, pink for day-night Tests.",
+    history:
+      "Made by Dukes since 1760, Kookaburra since 1890, and SG since 1950 — three distinct constructions. Pink Dukes balls were introduced in 2009 to support day-night Test cricket under floodlights.",
+    grip:
+      "Grippy lacquer wears off after ~15 overs of the new ball. The raised seam remains the primary purchase point for bowlers throughout the innings.",
+    fingerPlacement:
+      "Standard grip: index and middle fingers either side of the seam, thumb resting on the seam beneath the ball. Variations rotate the ball within this base grip.",
+    wristMovement:
+      "Wrist position behind the ball keeps the seam stable in flight — the difference between conventional swing and a wobble-seam delivery.",
+    armPath:
+      "Manufacturer matters: Dukes' pronounced seam swings for 60+ overs; Kookaburra's machine-pressed seam flattens after ~25 overs; SG sits in between with the strongest hand-stitching.",
+    shoulderRotation:
+      "High-speed cameras show the ball rotates ~10–15 times per second in flight at fast-bowling pace — backspin from a seam-up release.",
+    hipRotation:
+      "Manufacturing process: cork-and-rubber core wrapped in tightly wound wool, encased in two hemispherical leather pieces, stitched together with a quilted seam ('hip line') in six rows.",
+    footPlacement:
+      "Match officials inspect the ball every few overs and replace it if it goes out of shape using a gauge ring.",
+    releasePoint:
+      "Pink and white balls behave differently: pink retains hardness longer; white discolours and is replaced after 34 overs in a 50-over innings.",
+    seamOrientation:
+      "Six rows of stitches form a raised proud seam ~1 mm tall. Conventional swing requires the seam angled at ~20° to the flight direction.",
+    spinAxis:
+      "For spinners, the ball is gripped across the seam to flex revolution speed; for seamers, along the seam to maintain a stable axis.",
+    physics:
+      "New ball: hard, polished, swings conventionally with seam asymmetry. Worn ball: one side roughened, reverse-swings above 135 km/h. Ball physics drives 80% of all swing theory.",
+    aerodynamics:
+      "The raised seam acts as a turbulator — tripping the boundary layer on one side and creating asymmetric pressure that swings the ball laterally.",
+    trajectory:
+      "Ball degrades non-linearly: lacquer wear (0–10 overs), seam shine (10–30 overs), broader scuffing (30–60 overs), reverse-swing window (40–80 overs).",
+    battingCounterStrategy:
+      "Pick the brand: Dukes seam pronounces in England, Kookaburra skids on Australian pitches. Watch the shine to pre-empt swing direction.",
+    fieldPlacement:
+      "Captains use the new ball's hardness for slip-heavy attacking fields, and the old ball's reverse-swing for run-saving rope fields.",
+    commonMistakes: [
+      "Throwing the ball into the pitch on the return — scuffs both sides and kills reverse swing.",
+      "Forgetting to polish the shiny side between balls.",
+      "Letting the ball get wet — dead ball, no swing.",
+      "Using saliva — banned post-COVID; sweat only is now the legal polish.",
+    ],
+    drills: [
+      "Ball-care drill: between overs, one player polishes one side throughout an innings.",
+      "Seam-up release drill: bowl 12 balls and chart how many land on the seam.",
+      "Old-ball spell: bowl 6 overs with a 40-over-old ball to feel reverse swing.",
+    ],
+    quiz: [
+      {
+        q: "What is the legal weight range for a men's cricket ball?",
+        options: ["120–135 g", "140–150 g", "155.9–163 g", "170–185 g"],
+        answer: 2,
+        explain: "5.5–5.75 oz, equivalent to 155.9–163 g, per MCC Law 4.",
+      },
+      {
+        q: "Which ball is famous for retaining its pronounced seam the longest?",
+        options: ["Kookaburra", "SG", "Dukes", "Readers"],
+        answer: 2,
+        explain: "Dukes' hand-stitched seam stays proud for 60+ overs and aids prolonged swing.",
+      },
+    ],
+    references: [
+      { label: "MCC — Laws of Cricket, Law 4 (The Ball)", source: "MCC, 2022" },
+      { label: "Mehta, R.D. — 'Cricket Ball Aerodynamics: Myth versus Science'", source: "Engineering of Sport, 2000" },
+    ],
+  },
+  {
+    slug: "cricket-bat",
+    title: "The Cricket Bat",
+    category: "Equipment",
+    difficulty: "Beginner",
+    definition:
+      "A flat-faced striking implement of willow with a cane handle, no longer than 96.5 cm and no wider than 10.8 cm. Modern bats weigh 1.1–1.4 kg with deep, pressed sweet spots.",
+    history:
+      "Hockey-stick shaped until 1771 when 'Shock' White's monster bat forced the MCC to fix the maximum width at 4.25 inches. Modern lightweight, high-edge bats from MRF, GM, and SS revolutionised six-hitting in the 2000s.",
+    grip:
+      "Rubber grips wrapped over a cane handle. Top hand grip controls direction; bottom hand grip controls power. The V of both hands aligns down the splice.",
+    fingerPlacement:
+      "Top-hand fingers wrap firmly around the handle; bottom-hand fingers loosely cradle the bat, allowing the wrists to roll on shots.",
+    wristMovement:
+      "Wristy players (subcontinental style) flick through the on-side; orthodox players (English style) play straight with locked wrists. Both depend on a free top hand.",
+    armPath:
+      "Backlift varies from straight-up (orthodox) to angled toward second slip (modern aggressive). Downswing must come back into the line of the ball at impact.",
+    shoulderRotation:
+      "Front shoulder leads into the shot — 'point your front shoulder at the ball'. Back shoulder rotates through on horizontal-bat shots.",
+    hipRotation:
+      "Hips uncoil through the shot. A planted base lets the hips drive without losing balance — crucial for power hitting.",
+    footPlacement:
+      "Front-foot shots: front foot to the pitch of the ball, weight transferred forward. Back-foot shots: back foot deep in the crease, parallel to the bowling crease.",
+    releasePoint:
+      "Bat speed at impact (35–115 km/h depending on shot) combined with ball speed determines exit velocity — a six off a 145 km/h delivery leaves the bat at ~160 km/h.",
+    seamOrientation:
+      "Grade-1 willow has 8–12 straight, tight grains running vertically along the blade — the grain orientation determines compression strength and 'ping'.",
+    spinAxis:
+      "Bats are 'knocked in' with a mallet to compress willow fibres and harden the hitting surface — typically 6+ hours of knocking before first use.",
+    physics:
+      "Sweet spot (centre of percussion) is ~15 cm above the toe. Hitting outside the sweet spot transfers <80% of energy and stings the hands. Coefficient of restitution: ~0.55.",
+    aerodynamics:
+      "Modern thick edges (40–45 mm) move the sweet spot higher; thin-edged 'classic' bats favour driving but punish mistimed pulls.",
+    trajectory:
+      "A six on the full requires ~140 km/h exit speed at a 30–35° launch angle for ~80 m of carry.",
+    battingCounterStrategy:
+      "Match bat profile to playing style: heavy bow + thick edges for hitting-heavy T20; lighter pickup + balanced profile for Test cricket.",
+    fieldPlacement:
+      "Bowlers attack the toe and outside edge — the 'edges' of the bat profile — to exploit areas outside the sweet spot.",
+    commonMistakes: [
+      "Skipping knock-in — leads to cracks within an innings.",
+      "Over-oiling the bat — softens the willow and reduces ping.",
+      "Picking a bat too heavy for natural pickup — slow swing, late shots.",
+      "Storing the bat in damp conditions — accelerates rot.",
+    ],
+    drills: [
+      "Knock-in drill: 50 mallet hits per night across the blade for 2 weeks before use.",
+      "Sweet-spot drill: 30 throw-downs aimed at the same spot to feel middle.",
+      "Pickup drill: shadow-bat for 5 minutes daily to groove backlift mechanics.",
+    ],
+    quiz: [
+      {
+        q: "What is the maximum legal width of a cricket bat?",
+        options: ["8.5 cm", "9.5 cm", "10.8 cm", "12.0 cm"],
+        answer: 2,
+        explain: "10.8 cm (4.25 inches), fixed since 1771 and unchanged since.",
+      },
+      {
+        q: "Where is the sweet spot typically located on a modern bat?",
+        options: ["At the toe", "~15 cm above the toe", "At the splice", "On the edge"],
+        answer: 1,
+        explain: "The centre of percussion sits ~15 cm above the toe for maximum energy transfer.",
+      },
+    ],
+    references: [
+      { label: "MCC — Laws of Cricket, Law 5 (The Bat)", source: "MCC, 2022" },
+      { label: "Symes, C. — 'The Willow Trade'", source: "Sports History Review, 2006" },
+    ],
+  },
+  {
+    slug: "wickets-and-stumps",
+    title: "Wickets & Stumps",
+    category: "Equipment",
+    difficulty: "Beginner",
+    definition:
+      "Three wooden stumps (each 71.1 cm tall) topped by two bails, set 22.86 cm wide at each end of the pitch. A batter is 'bowled' when the ball dislodges a bail; 'wicket' also refers to the dismissal itself.",
+    history:
+      "Originally two stumps with one bail (18th century). A third stump was added in 1775 after 'Lumpy' Stevens repeatedly bowled the ball between the original two. LED 'Zing' bails arrived in 2012 and are now standard in T20 cricket.",
+    grip:
+      "Stumps are gripped into the pitch with a tapered base, driven in by a mallet to a depth of ~10 cm.",
+    fingerPlacement:
+      "Bails sit in V-shaped grooves on top of the outer stumps and rest lightly across all three — any contact dislodges them.",
+    wristMovement:
+      "On a stumping, the keeper's wrist flicks the bails sideways. On a run-out, a thrown ball must dislodge at least one bail for the dismissal to register.",
+    armPath:
+      "Stumps must be visible on TV for ball-tracking — broadcast specifications now dictate stump colour and bail design.",
+    shoulderRotation:
+      "Stump cam: a miniature camera inside the middle stump provides the bowler's-eye broadcast view, popularised by Channel 9 in the 1990s.",
+    hipRotation:
+      "Total wicket width (outside of leg stump to outside of off stump): 22.86 cm — slightly less than a cricket ball's diameter is critical for the LBW 'wickets-hit' geometry.",
+    footPlacement:
+      "Stumps driven flush so the bails sit 71.1 cm above the ground — within reach of stumping keepers and visible on TV from all camera angles.",
+    releasePoint:
+      "For a 'bowled' dismissal, the ball can deflect off pad or bat first — but the bail must be dislodged for the wicket to count.",
+    seamOrientation:
+      "Stumps face the bowler with the bail grooves perpendicular to the pitch — this aligns the geometry for LBW projection.",
+    spinAxis:
+      "LED bails flash red on dislodgement using accelerometers, helping third umpires adjudicate close run-outs and stumpings.",
+    physics:
+      "A bail requires only ~0.08 N to dislodge — about the weight of a 10 g object. Even a glancing contact registers.",
+    aerodynamics:
+      "Wind can occasionally dislodge bails; umpires may remove them in extreme weather (a fielder must then uproot a stump for a dismissal).",
+    trajectory:
+      "Ball-tracking models the post-pitch trajectory toward the stumps for LBW decisions. The 'wickets hitting' zone is a virtual rectangle 22.86 cm wide x 71.1 cm tall.",
+    battingCounterStrategy:
+      "Cover the stumps with the bat on defence; play across the line only when the line is clearly outside leg stump (no LBW possible).",
+    fieldPlacement:
+      "The keeper plus a backing-up fielder cover the stumps for run-outs. Mid-on and mid-off back up throws at the bowler's end.",
+    commonMistakes: [
+      "Stumps driven unevenly — bails wobble loose and fall on a breeze.",
+      "Bails seated incorrectly in grooves — false dislodgements.",
+      "Forgetting LED bails need charging before night matches.",
+      "Replacing only one bail after dislodgement — both must sit correctly.",
+    ],
+    drills: [
+      "Stump-target drill: bowl at a single middle stump for 24 balls and score hits.",
+      "Run-out drill: side-on throws from 20 m at a single stump, 10 attempts.",
+      "Defence drill: shadow-bat covering stumps from off to leg with a vertical bat.",
+    ],
+    quiz: [
+      {
+        q: "What is the total width of the wicket from outside stump to outside stump?",
+        options: ["15.24 cm", "22.86 cm", "30.48 cm", "45.72 cm"],
+        answer: 1,
+        explain: "Three stumps spaced to give 22.86 cm (9 inches) total width.",
+      },
+      {
+        q: "When were LED 'Zing' bails first used in international cricket?",
+        options: ["1999", "2005", "2012", "2018"],
+        answer: 2,
+        explain: "Introduced in the Big Bash League in 2012, then adopted globally for T20 cricket.",
+      },
+    ],
+    references: [
+      { label: "MCC — Laws of Cricket, Law 8 (The Wickets)", source: "MCC, 2022" },
+      { label: "Zing International — Bail Technology White Paper", source: "Zing, 2014" },
+    ],
+  },
 ];
 
 export const TOPIC_BY_SLUG: Record<string, Topic> = Object.fromEntries(
