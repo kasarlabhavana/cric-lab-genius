@@ -27,11 +27,18 @@ export type ShortLesson = {
   body: string;
 };
 
+export type FamousPlayer = {
+  name: string;
+  team?: string;
+  note: string;
+};
+
 export type TopicExtras = {
   relatedSims: string[]; // laboratory sim slugs
   keyTakeaways: string[];
   lessons: ShortLesson[];
   audience: Record<Audience, string>;
+  famousPlayers?: FamousPlayer[];
 };
 
 const SIM = {
@@ -69,6 +76,13 @@ const EXTRAS: Record<string, TopicExtras> = {
       Fan:
         "Watch the seam as the ball leaves the hand: if it's tilted toward the slips, that's a leg break, and you should expect late drift toward the batter's pads followed by turn away from the bat after pitching. The really good ones — Warne, Kumble, Yasir Shah, Rashid — combine drift and dip so the batter is committed to a length the ball never actually reaches. The 'fizz' you sometimes hear in stump-mics is the seam slicing air at 2,000+ RPM.",
     },
+    famousPlayers: [
+      { name: "Shane Warne", team: "Australia", note: "The most influential leg-spinner ever. 708 Test wickets. His 1993 'Ball of the Century' to Mike Gatting — drifting in toward leg, ripping past the outside edge to hit off — defined the modern leg-break." },
+      { name: "Anil Kumble", team: "India", note: "619 Test wickets with a flatter, faster trajectory than the classical wrist-spinner. Used top-spin and bounce more than huge turn — took all 10 in an innings vs Pakistan, 1999." },
+      { name: "Yasir Shah", team: "Pakistan", note: "Fastest to 200 Test wickets (33 matches). Big, looping leg-breaks paired with a sharp googly that beat both edges in Test conditions worldwide." },
+      { name: "Rashid Khan", team: "Afghanistan", note: "T20's premier leg-spinner — quick through the air at 90+ km/h, minimal loop, devastating googly. Has redefined what a wrist-spinner can do in death overs." },
+      { name: "Shubhanshu Bhandari & Shreyas Gopal era", team: "Modern domestic", note: "Show how the discipline now spans formats: white-ball leggies bowl flatter and quicker, red-ball leggies still float and rip." },
+    ],
   },
   "off-break": {
     relatedSims: [SIM.spin, SIM.pitch, SIM.field],
@@ -95,6 +109,13 @@ const EXTRAS: Record<string, TopicExtras> = {
       Fan:
         "The off-spinner's biggest weapon is not always turn — it's the dip and bounce that come from heavy over-spin. Watch where the batter's bat ends up: if they are playing for a length 30 cm shorter than where the ball actually pitches, the bowler has used flight, not just spin. Ravichandran Ashwin, Nathan Lyon and Muralitharan have all been masters of this 'invisible' dip.",
     },
+    famousPlayers: [
+      { name: "Muttiah Muralitharan", team: "Sri Lanka", note: "All-time leading Test wicket-taker (800). Hyper-flexible wrist let him rip the off-break with leg-spin-level revs — and produced the doosra without a visible change of action." },
+      { name: "Ravichandran Ashwin", team: "India", note: "500+ Test wickets. Master of subtle release variations — uses the carrom-ball, slider and overspun off-break to attack both edges. Top wicket-taker vs LH batters in his era." },
+      { name: "Nathan Lyon", team: "Australia", note: "500+ Test wickets bowling 'classical' off-spin — tall release, big over-spin, dip and bounce on hard Australian decks." },
+      { name: "Jim Laker", team: "England", note: "19 for 90 against Australia at Old Trafford, 1956 — still the greatest off-spin bowling performance in a Test match." },
+      { name: "Saqlain Mushtaq", team: "Pakistan", note: "Inventor of the modern doosra and one of the most influential off-spin coaches of the 21st century." },
+    ],
   },
   "doosra": {
     relatedSims: [SIM.spin, SIM.pitch, SIM.field],
@@ -121,6 +142,13 @@ const EXTRAS: Record<string, TopicExtras> = {
       Fan:
         "When an off-spinner suddenly turns the ball away from a right-hander, that's the doosra. The easiest tell is the seam: a stock off-break has the seam tilted toward fine leg, a doosra has it tilted toward third man. Murali, Saqlain and Saeed Ajmal built entire match-winning careers around mastering the disguise — and several have had to remodel their actions to keep the delivery legal.",
     },
+    famousPlayers: [
+      { name: "Saqlain Mushtaq", team: "Pakistan", note: "Pioneered the delivery in the late 1990s. Coined the term doosra ('the other one') and used it to baffle a generation of batters." },
+      { name: "Muttiah Muralitharan", team: "Sri Lanka", note: "Combined the stock off-break and the doosra into perhaps the most unplayable off-spin attack ever. His congenitally bent arm and rotating wrist were independently cleared by the ICC's biomechanics panel." },
+      { name: "Saeed Ajmal", team: "Pakistan", note: "World No. 1 spinner in 2011–13. His doosra was so effective that his action was reported and remodelled in 2014 — a cautionary tale on legality and longevity." },
+      { name: "Sunil Narine", team: "West Indies", note: "T20's most feared mystery spinner. Bowls a knuckle-ball doosra variant with near-zero release tell." },
+      { name: "Ravichandran Ashwin", team: "India", note: "Has bowled a back-of-the-hand doosra variant sporadically in white-ball cricket while keeping his Test action conservatively orthodox." },
+    ],
   },
   "yorker": {
     relatedSims: [SIM.swing, SIM.reaction, SIM.field],
@@ -147,6 +175,13 @@ const EXTRAS: Record<string, TopicExtras> = {
       Fan:
         "Watch the bowler's front foot at landing during the death overs. A locked, braced front leg is the platform that lets the wrist whip through and bury the ball at the batter's toes; a soft front knee is why even great fast bowlers occasionally serve up a full-toss for six. Jasprit Bumrah and Lasith Malinga's yorkers are essentially perfected versions of the same braced-leg release.",
     },
+    famousPlayers: [
+      { name: "Lasith Malinga", team: "Sri Lanka", note: "The yorker GOAT. His slingy round-arm action and unique low release made his toe-crushers virtually un-pick-able. 4-wicket haul off consecutive balls in 2007 ODI World Cup vs South Africa." },
+      { name: "Jasprit Bumrah", team: "India", note: "Hyper-extended elbow and braced front leg produce yorkers at 145+ km/h with surgical accuracy. The most consistent death bowler of his generation across formats." },
+      { name: "Waqar Younis", team: "Pakistan", note: "Master of the reverse-swinging yorker. 'Waqar Express' often went straight through pads and stumps from over 35 onwards." },
+      { name: "Mitchell Starc", team: "Australia", note: "Left-arm in-swinging yorkers at 150 km/h. Player of the tournament at the 2015 and 2019 ODI World Cups largely on the back of new-ball and death-overs yorkers." },
+      { name: "T. Natarajan", team: "India", note: "Left-arm IPL specialist whose unerring death-yorker accuracy made him a T20I and Test debutant within months of his breakout 2020 season." },
+    ],
   },
   "reverse-swing": {
     relatedSims: [SIM.swing, SIM.pitch, SIM.field],
@@ -173,6 +208,13 @@ const EXTRAS: Record<string, TopicExtras> = {
       Fan:
         "If the ball suddenly starts curving the opposite way around the 35th over, that's reverse swing. Watch where the shiny side is at the top of the bowler's run-up — the ball will curve toward it. Wasim Akram, Waqar Younis and more recently Mohammed Shami have built spells around reverse-swung yorkers that are some of the most spectacular bowling in the game.",
     },
+    famousPlayers: [
+      { name: "Sarfraz Nawaz", team: "Pakistan", note: "The originator. Credited with discovering reverse swing in the 1970s and passing the knowledge to Imran Khan." },
+      { name: "Wasim Akram", team: "Pakistan", note: "Left-arm 'Sultan of Swing'. Generated late, vicious reverse at 145 km/h — including the back-to-back balls that dismissed Lewis and Chapple in the 1992 World Cup final." },
+      { name: "Waqar Younis", team: "Pakistan", note: "Right-arm partner of Wasim. Specialised in 'toe-crushing' reverse-swing yorkers. 373 Test wickets at strike rate 43.4 — fastest of any genuine fast bowler." },
+      { name: "Andrew Flintoff", team: "England", note: "Used reverse swing brilliantly in the 2005 Ashes — his over to Ricky Ponting at Edgbaston is often cited as the moment the series turned." },
+      { name: "Mohammed Shami", team: "India", note: "Modern-day reverse-swing exponent. Locks the seam and bowls a heavy ball that reverses both ways from over 30 onward." },
+    ],
   },
   "fielding": {
     relatedSims: [SIM.field, SIM.reaction],
@@ -200,6 +242,14 @@ const EXTRAS: Record<string, TopicExtras> = {
       Fan:
         "Diving stops in the deep, direct-hit run-outs, and one-handed boundary catches are not luck — they are the product of thousands of repetitions and a clear plan for each ball. Notice the small things: a fielder walking in with the bowler, a backup arriving at the stumps before the throw, a slip cordon adjusting half a step between overs. These are the markers of an elite fielding unit.",
     },
+    famousPlayers: [
+      { name: "Jonty Rhodes", team: "South Africa", note: "Redefined modern fielding. His airborne run-out of Inzamam-ul-Haq at point in the 1992 World Cup is the most-replayed fielding moment in cricket history." },
+      { name: "Ravindra Jadeja", team: "India", note: "Best all-format outfielder of his generation. Cover-point arm clocked at 130 km/h, with dozens of direct-hit run-outs. Saves an estimated 15–20 runs per ODI." },
+      { name: "Glenn Maxwell", team: "Australia", note: "Elite point and inner-circle fielder with one of the strongest, flattest throws in world cricket and acrobatic boundary saves." },
+      { name: "AB de Villiers", team: "South Africa", note: "Slip, point and 30-yard ring — could field anywhere. Famous one-handed grab of Mark Boucher's edge vs Pakistan, 2010." },
+      { name: "Paul Collingwood", team: "England", note: "Best slip fielder of the 2000s. His diving one-handed catch to dismiss Matthew Hayden at Trent Bridge, 2005, is a textbook slip catch under pressure." },
+      { name: "Suryakumar Yadav", team: "India", note: "Modern T20 boundary specialist — relay catches and juggled saves that have become routine highlights for India in T20Is." },
+    ],
   },
   "wicketkeeping": {
     relatedSims: [SIM.reaction, SIM.field, SIM.spin],
@@ -227,6 +277,15 @@ const EXTRAS: Record<string, TopicExtras> = {
       Fan:
         "Watch the keeper's feet, not just their hands. A keeper standing a metre further back than usual is signalling that they expect extra bounce or a cutter; a keeper walking around behind the stumps between balls is usually communicating field changes with the captain. MS Dhoni, Adam Gilchrist and Quinton de Kock built reputations on movement and economy as much as on their gloves.",
     },
+    famousPlayers: [
+      { name: "MS Dhoni", team: "India", note: "Fastest stumper ever recorded — bail-flicks in 0.08 s. 195 ODI stumpings, more than any keeper in history. Pioneered the no-look glove flick to the stumps." },
+      { name: "Adam Gilchrist", team: "Australia", note: "Revolutionised the wicketkeeper-batter role. 416 Test dismissals as keeper plus a Test batting average of 47, including a 57-ball century vs England, 2006." },
+      { name: "Kumar Sangakkara", team: "Sri Lanka", note: "Elegant standing-up keeper to Murali — handled the doosra and conventional off-break with the cleanest glovework of his era. 12,000+ Test runs as well." },
+      { name: "Alan Knott", team: "England", note: "The keeping technician of the 1970s. Reverse-cup high catches, micro-adjusted footwork, and the inventor of the modern low squat." },
+      { name: "Bert Oldfield", team: "Australia", note: "Stand-up specialist of the 1920s — 52 stumpings in 54 Tests, a ratio never matched in the modern era." },
+      { name: "Rishabh Pant", team: "India", note: "Modern keeper-batter — match-defining counter-attacking innings in Australia 2020-21 and England 2022, plus huge sustained workload behind the stumps." },
+      { name: "Quinton de Kock", team: "South Africa", note: "Standout white-ball keeper-batter. Lightning glove transfer for run-outs, plus three centuries vs India in 2017–18 ODIs." },
+    ],
   },
   "cricket-ground": {
     relatedSims: [SIM.pitch, SIM.field],

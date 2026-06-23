@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { MODULE_BY_SLUG } from "@/lib/modules";
 import { useUser } from "@/lib/user-state";
 import { Diagram } from "@/components/cric-ui";
-import { TopicImagePlaceholder, TOPIC_IMAGE_VIEWS, IMAGE_VIEW_LABELS } from "@/components/topic-images";
+
 
 export const Route = createFileRoute("/explore/$module/$lesson")({
   loader: ({ params }) => {
@@ -77,25 +77,6 @@ function LessonPage() {
         </div>
       )}
 
-      {/* Image system — 10 placeholder views per topic, 16:9 SVG */}
-      <section className="mt-12">
-        <div className="flex items-end justify-between gap-3 mb-4">
-          <div>
-            <span className="inline-block rounded-full bg-[color:var(--brand-orange)]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">Image system</span>
-            <h2 className="mt-2 font-display text-xl font-bold text-foreground">Topic views</h2>
-            <p className="text-sm text-muted-foreground">Ten placeholder SVGs (16:9) — front, side, top, finger & wrist closeups, seam, trajectory, physics, aerodynamics, field.</p>
-          </div>
-          <div className="hidden sm:flex items-center gap-1 text-xs text-muted-foreground"><span className="inline-block size-1.5 rounded-full bg-[color:var(--brand-orange)]" /> placeholders</div>
-        </div>
-        <div className="grid gap-4 sm:grid-cols-2">
-          {TOPIC_IMAGE_VIEWS.map(v => (
-            <figure key={v}>
-              <TopicImagePlaceholder view={v} topic={lesson.title} />
-              <figcaption className="mt-2 text-xs text-muted-foreground">{IMAGE_VIEW_LABELS[v]}</figcaption>
-            </figure>
-          ))}
-        </div>
-      </section>
 
       <div className="mt-10 rounded-2xl border border-border bg-surface p-5">
         {done && !justFinished ? (

@@ -22,65 +22,48 @@ import {
   Ruler,
   Sparkles,
   Target,
+  Trophy,
   Wind,
   Workflow,
   Zap,
 } from "lucide-react";
 import { toast } from "sonner";
 import type { Topic, TopicQuiz } from "@/lib/topics";
-import {
-  TopicImagePlaceholder,
-  type ImageViewKind,
-} from "@/components/topic-images";
 import { AUDIENCES, type Audience, getTopicExtras } from "@/lib/topic-extras";
 import { LABORATORY_SIMS } from "@/lib/modules";
-import {
-  TopicHotspotDiagram,
-  TOPIC_DIAGRAMS,
-} from "@/components/topic-hotspot-diagram";
 
 // 21 sections — every topic renders all of them in the same order.
-// Each section is bound to a placeholder image view where it makes sense.
 const SECTIONS: ReadonlyArray<{
   id: string;
   n: number;
   label: string;
   Icon: typeof BookOpen;
-  view?: ImageViewKind;
   field: keyof Topic | "commonMistakes" | "drills" | "quiz" | "references";
 }> = [
   { id: "definition", n: 1, label: "Definition", Icon: BookOpen, field: "definition" },
   { id: "history", n: 2, label: "History", Icon: History, field: "history" },
-  { id: "grip", n: 3, label: "Grip", Icon: Hand, view: "finger-closeup", field: "grip" },
-  { id: "finger-placement", n: 4, label: "Finger Placement", Icon: Hand, view: "finger-closeup", field: "fingerPlacement" },
-  { id: "wrist-movement", n: 5, label: "Wrist Movement", Icon: RotateCcw, view: "wrist-closeup", field: "wristMovement" },
-  { id: "arm-path", n: 6, label: "Arm Path", Icon: Workflow, view: "side-view", field: "armPath" },
-  { id: "shoulder-rotation", n: 7, label: "Shoulder Rotation", Icon: RotateCcw, view: "side-view", field: "shoulderRotation" },
-  { id: "hip-rotation", n: 8, label: "Hip Rotation", Icon: RotateCcw, view: "front-view", field: "hipRotation" },
-  { id: "foot-placement", n: 9, label: "Foot Placement", Icon: MapPin, view: "top-view", field: "footPlacement" },
-  { id: "release-point", n: 10, label: "Release Point", Icon: Target, view: "side-view", field: "releasePoint" },
-  { id: "seam-orientation", n: 11, label: "Seam Orientation", Icon: Compass, view: "seam-position", field: "seamOrientation" },
-  { id: "spin-axis", n: 12, label: "Spin Axis", Icon: Move3d, view: "seam-position", field: "spinAxis" },
-  { id: "physics", n: 13, label: "Physics", Icon: Zap, view: "physics", field: "physics" },
-  { id: "aerodynamics", n: 14, label: "Aerodynamics", Icon: Wind, view: "aerodynamics", field: "aerodynamics" },
-  { id: "trajectory", n: 15, label: "Trajectory", Icon: Ruler, view: "trajectory", field: "trajectory" },
+  { id: "grip", n: 3, label: "Grip", Icon: Hand, field: "grip" },
+  { id: "finger-placement", n: 4, label: "Finger Placement", Icon: Hand, field: "fingerPlacement" },
+  { id: "wrist-movement", n: 5, label: "Wrist Movement", Icon: RotateCcw, field: "wristMovement" },
+  { id: "arm-path", n: 6, label: "Arm Path", Icon: Workflow, field: "armPath" },
+  { id: "shoulder-rotation", n: 7, label: "Shoulder Rotation", Icon: RotateCcw, field: "shoulderRotation" },
+  { id: "hip-rotation", n: 8, label: "Hip Rotation", Icon: RotateCcw, field: "hipRotation" },
+  { id: "foot-placement", n: 9, label: "Foot Placement", Icon: MapPin, field: "footPlacement" },
+  { id: "release-point", n: 10, label: "Release Point", Icon: Target, field: "releasePoint" },
+  { id: "seam-orientation", n: 11, label: "Seam Orientation", Icon: Compass, field: "seamOrientation" },
+  { id: "spin-axis", n: 12, label: "Spin Axis", Icon: Move3d, field: "spinAxis" },
+  { id: "physics", n: 13, label: "Physics", Icon: Zap, field: "physics" },
+  { id: "aerodynamics", n: 14, label: "Aerodynamics", Icon: Wind, field: "aerodynamics" },
+  { id: "trajectory", n: 15, label: "Trajectory", Icon: Ruler, field: "trajectory" },
   { id: "batting-counter", n: 16, label: "Batting Counter Strategy", Icon: Eye, field: "battingCounterStrategy" },
-  { id: "field-placement", n: 17, label: "Field Placement", Icon: Layers, view: "field-placement", field: "fieldPlacement" },
+  { id: "field-placement", n: 17, label: "Field Placement", Icon: Layers, field: "fieldPlacement" },
   { id: "common-mistakes", n: 18, label: "Common Mistakes", Icon: Lightbulb, field: "commonMistakes" },
   { id: "drills", n: 19, label: "Drills", Icon: ListChecks, field: "drills" },
   { id: "quiz", n: 20, label: "Quiz", Icon: CircleHelp, field: "quiz" },
   { id: "references", n: 21, label: "References", Icon: GraduationCap, field: "references" },
 ];
 
-function SectionHeader({
-  n,
-  label,
-  Icon,
-}: {
-  n: number;
-  label: string;
-  Icon: typeof BookOpen;
-}) {
+function SectionHeader({ n, label, Icon }: { n: number; label: string; Icon: typeof BookOpen }) {
   return (
     <header className="flex items-center gap-3">
       <span className="inline-flex size-9 items-center justify-center rounded-xl bg-[color:var(--brand-orange)]/10 text-[color:var(--brand-orange)] font-display text-sm font-bold">
@@ -111,14 +94,6 @@ function ListSection({ items }: { items: string[] }) {
         </li>
       ))}
     </ul>
-  );
-}
-
-function ImageBlock({ view, topic }: { view: ImageViewKind; topic: string }) {
-  return (
-    <div className="mt-4">
-      <TopicImagePlaceholder view={view} topic={topic} />
-    </div>
   );
 }
 
@@ -254,9 +229,28 @@ export function TopicPage({ topic }: { topic: Topic }) {
         </section>
       )}
 
-      {/* Interactive hotspot diagram */}
-      {TOPIC_DIAGRAMS[topic.slug] && (
-        <TopicHotspotDiagram kind={TOPIC_DIAGRAMS[topic.slug]} />
+      {/* Famous players */}
+      {extras?.famousPlayers && extras.famousPlayers.length > 0 && (
+        <section className="mt-6 rounded-2xl border border-[color:var(--brand-orange)]/30 bg-[color:var(--brand-orange)]/5 p-4">
+          <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">
+            <Trophy className="size-3.5" /> Famous players & signature moments
+          </div>
+          <ul className="mt-3 space-y-3">
+            {extras.famousPlayers.map((p, i) => (
+              <li key={i} className="rounded-xl border border-border bg-card p-3">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-semibold text-foreground">{p.name}</span>
+                  {p.team && (
+                    <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                      {p.team}
+                    </span>
+                  )}
+                </div>
+                <p className="mt-1.5 text-sm leading-relaxed text-foreground/85">{p.note}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
       )}
 
       {/* Key takeaways */}
@@ -349,7 +343,6 @@ export function TopicPage({ topic }: { topic: Topic }) {
           return (
             <section key={s.id} id={s.id} className="scroll-mt-24">
               <SectionHeader n={s.n} label={s.label} Icon={s.Icon} />
-
               {s.field === "commonMistakes" || s.field === "drills" ? (
                 <ListSection items={value as string[]} />
               ) : s.field === "quiz" ? (
@@ -358,10 +351,6 @@ export function TopicPage({ topic }: { topic: Topic }) {
                 <ReferencesSection refs={value as Topic["references"]} />
               ) : (
                 <ProseSection text={value as string} />
-              )}
-
-              {s.view && (s.field !== "quiz" && s.field !== "references") && (
-                <ImageBlock view={s.view} topic={topic.title} />
               )}
             </section>
           );
