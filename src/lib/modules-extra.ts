@@ -670,7 +670,8 @@ export const UMPIRING_EXTRA: Lesson[] = [
 export const EXTRA_LESSONS_BY_MODULE: Record<string, Lesson[]> = {
   "bowling-science": BOWLING_EXTRA,
   "batting-science": BATTING_EXTRA,
-  "fielding-science": [...FIELDING_EXTRA, ...WICKETKEEPING_EXTRA],
+  "fielding-science": FIELDING_EXTRA,
+  "wicketkeeping-science": WICKETKEEPING_EXTRA,
   "pitch-science": PITCH_EXTRA,
   "ball-science": BALL_EXTRA,
   "environment-science": ENVIRONMENT_EXTRA,
