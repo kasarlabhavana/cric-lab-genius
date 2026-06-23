@@ -231,19 +231,15 @@ for (const m of MODULES) {
 
 export const MODULE_BY_SLUG: Record<string, Module> = Object.fromEntries(MODULES.map(m => [m.slug, m]));
 
-import { topicQuizzes } from "@/lib/topic-extras";
-
 const MODULE_QUIZZES: Quiz[] = MODULES.map(m => ({
   id: `${m.slug}-starter`,
   moduleSlug: m.slug,
-  title: `${m.title} — Starter Quiz`,
-  xp: 50,
+  title: `${m.title} — Tile Quiz`,
+  xp: 60,
   questions: starterQuestionsFor(m.slug),
 }));
 
-const TOPIC_QUIZZES: Quiz[] = topicQuizzes();
-
-export const QUIZZES: Quiz[] = [...MODULE_QUIZZES, ...TOPIC_QUIZZES];
+export const QUIZZES: Quiz[] = [...MODULE_QUIZZES];
 
 export const QUIZ_BY_ID: Record<string, Quiz> = Object.fromEntries(QUIZZES.map(q => [q.id, q]));
 
@@ -251,47 +247,75 @@ function starterQuestionsFor(slug: string): QuizQuestion[] {
   const bank: Record<string, QuizQuestion[]> = {
     "bowling-science": [
       { q: "What causes conventional swing in a cricket ball?", options: ["A heavier core on one side", "Different airflow over the shiny vs rough side", "Wind direction at the ground", "The bowler's grip strength"], answer: 1, explain: "One side is polished, the other rough — creating an asymmetric boundary layer and a sideways force." },
-      { q: "Roughly how many RPM does an elite finger spinner impart?", options: ["200-500", "1,500-2,500", "5,000-7,000", "10,000+"], answer: 1, explain: "1,500-2,500 RPM is the elite range. Higher revs produce more drift, dip and turn." },
-      { q: "Which phase produces peak ground reaction force?", options: ["Run-up", "Back-foot contact", "Front-foot contact", "Follow-through"], answer: 2, explain: "Front-foot contact returns 8-10× body weight, which gets channeled up the kinetic chain." },
+      { q: "Roughly how many RPM does an elite finger spinner impart?", options: ["200–500", "1,500–2,500", "5,000–7,000", "10,000+"], answer: 1, explain: "1,500–2,500 RPM is the elite range. Higher revs produce more drift, dip and turn." },
+      { q: "Which phase produces peak ground reaction force in a bowling action?", options: ["Run-up", "Back-foot contact", "Front-foot contact", "Follow-through"], answer: 2, explain: "Front-foot contact returns 8–10× body weight, which gets channeled up the kinetic chain." },
+      { q: "Reverse swing typically activates above which approximate ball speed?", options: ["~100 km/h", "~120 km/h", "~135 km/h", "~160 km/h"], answer: 2, explain: "Above ~135 km/h with a worn ball, both sides go turbulent and the rough side separates later — pulling the ball the opposite way." },
+      { q: "Which delivery is gripped between bent index and middle fingers, releasing with almost no spin?", options: ["Knuckle ball", "Doosra", "Carrom ball", "Leg-cutter"], answer: 0, explain: "Zaheer Khan and Bhuvneshwar Kumar popularised the knuckle ball — low spin, low rebound, brutal in the death." },
+      { q: "What is the world record for the fastest legal delivery in international cricket?", options: ["152.0 km/h", "156.4 km/h", "161.3 km/h", "168.2 km/h"], answer: 2, explain: "Shoaib Akhtar bowled 161.3 km/h vs England, 2003 World Cup — still the fastest officially recorded delivery." },
     ],
     "batting-science": [
-      { q: "Approximately how long does a 145 km/h ball take to reach the batter?", options: ["240 ms", "440 ms", "640 ms", "840 ms"], answer: 1, explain: "About 440 ms total — only ~240 ms is available for actual decision and movement." },
-      { q: "Why is a still head so important?", options: ["It looks professional", "It keeps the eyes binocular and the center of mass stable", "It improves bat grip", "It prevents helmet movement"], answer: 1, explain: "A still head means stable eyes and balanced weight transfer." },
-      { q: "Where is the sweet spot on a cricket bat?", options: ["At the very toe", "6-10cm above the toe", "On the splice", "On the handle"], answer: 1, explain: "The sweet spot sits 6-10cm above the toe, where the bat has minimal vibration." },
+      { q: "Approximately how long does a 145 km/h ball take to reach the batter?", options: ["240 ms", "440 ms", "640 ms", "840 ms"], answer: 1, explain: "About 440 ms total — only ~240 ms remains for actual decision and movement after visual processing." },
+      { q: "Why is a still head so important in batting?", options: ["It looks professional", "It keeps the eyes binocular and the centre of mass stable", "It improves bat grip", "It prevents helmet movement"], answer: 1, explain: "A still head means stable eyes and balanced weight transfer — Dravid and Root are textbook examples." },
+      { q: "Where is the sweet spot on a cricket bat?", options: ["At the very toe", "6–10 cm above the toe", "On the splice", "On the handle"], answer: 1, explain: "The sweet spot sits 6–10 cm above the toe, at the node of the bat's natural vibration mode." },
+      { q: "Which batter is most associated with pioneering the modern switch hit?", options: ["Sachin Tendulkar", "Kevin Pietersen", "Ricky Ponting", "Brian Lara"], answer: 1, explain: "Pietersen reversed his stance mid-delivery against Muralitharan in 2008, mainstreaming the switch hit." },
+      { q: "What does 'predictive looking' refer to in elite batting?", options: ["Watching the scoreboard", "Saccading from the bowler's hand to the predicted bounce point before the ball arrives", "Reading the bowler's lips", "Studying field placements between balls"], answer: 1, explain: "Eye-tracking on Tendulkar and Williamson shows earlier eye jumps to the bounce point than club-level batters." },
+      { q: "On a turning subcontinental track, which counter most reliably neutralises spin?", options: ["Hitting from the crease", "Going hard at the pitch of the ball", "Closing the bat face early", "Backing away to leg"], answer: 1, explain: "Getting to the pitch of the ball before it spins is the Tendulkar / Younis Khan template." },
     ],
     "fielding-science": [
-      { q: "Why do outfielders curve their run to the ball?", options: ["To look stylish", "To align the throwing shoulder with the stumps", "To confuse the batter", "It's required by the laws"], answer: 1, explain: "A curved approach lines up the throw without an extra pivot — saving precious time." },
-      { q: "What is the ideal launch angle for a long flat throw to the keeper?", options: ["~12°", "~30°", "~45°", "~60°"], answer: 0, explain: "Around 12° beats higher angles by 0.3s over 65m and arrives at a catchable height." },
+      { q: "Why do outfielders curve their run to the ball?", options: ["To look stylish", "To align the throwing shoulder with the stumps", "To confuse the batter", "It's required by the laws"], answer: 1, explain: "A curved approach lines up the throw without an extra pivot — saving up to 0.4 s." },
+      { q: "What is the ideal launch angle for a long flat throw to the keeper?", options: ["~12°", "~30°", "~45°", "~60°"], answer: 0, explain: "Around 12° beats higher angles by 0.3 s over 65 m and arrives at a catchable height." },
+      { q: "Who holds the record for most Test catches by a non-keeper?", options: ["Mahela Jayawardene", "Rahul Dravid", "Ricky Ponting", "Joe Root"], answer: 1, explain: "Dravid took 210 Test catches, almost all in the slip cordon — the highest by an outfielder." },
+      { q: "Which 1992 World Cup run-out by Jonty Rhodes became the template for the modern direct hit?", options: ["Salim Malik", "Inzamam-ul-Haq", "Aravinda de Silva", "Javed Miandad"], answer: 1, explain: "Rhodes' airborne run-out of Inzamam vs Pakistan rewrote expectations for athletic fielding." },
+      { q: "Why does perceived ball speed rise 10–15% under pressure?", options: ["Wind effects", "Cortisol's effect on visual processing", "Crowd noise", "Floodlight glare"], answer: 1, explain: "Stress hormones compress perceived time, so pre-catch breathing routines are used to flatten the spike." },
+    ],
+    "wicketkeeping-science": [
+      { q: "How long does a keeper have to complete a stumping after the ball reaches the gloves?", options: ["Under 0.4 s", "About 1 s", "About 2 s", "No time limit"], answer: 0, explain: "The full gather-and-break must beat a recovering batter — under 0.4 s in elite keeping." },
+      { q: "Why do keepers stand 15–25 m back to a fast bowler?", options: ["Tradition", "To preserve reaction time to the edge", "To stay out of the umpire's view", "To avoid sledging the batter"], answer: 1, explain: "Distance buys enough time to react to a 145 km/h thin edge." },
+      { q: "Which keeper is famed as the team's 'DRS Review System'?", options: ["Adam Gilchrist", "MS Dhoni", "Alan Knott", "Mark Boucher"], answer: 1, explain: "Dhoni's review success rate was so high that DRS became known as the 'Dhoni Review System'." },
+      { q: "Who holds the record for the most dismissals in Test cricket as a wicketkeeper?", options: ["Adam Gilchrist", "Mark Boucher", "Ian Healy", "MS Dhoni"], answer: 1, explain: "Boucher took 555 Test dismissals (532 catches, 23 stumpings) — the most by any keeper." },
+      { q: "Which is the correct keeping foot movement to a ball drifting down leg?", options: ["Cross-over step with hands first", "Pivot on the back foot and shadow the line, hands trailing", "Dive immediately", "Step back and reach"], answer: 1, explain: "Pivoting on the back foot keeps the body behind the ball; hands stay relaxed and trail." },
     ],
     "pitch-science": [
       { q: "What soil property most predicts true, even bounce?", options: ["Silt content", "Clay content above ~50%", "Sand percentage", "Grass length"], answer: 1, explain: "High clay content compresses tightly and produces predictable pace and bounce." },
-      { q: "Why does a Test pitch typically spin more on days 4-5?", options: ["The ball is older", "Surface dust and cracks give spinners more grip and variable bounce", "Umpires allow more spin", "Bowlers tire and bowl slower"], answer: 1, explain: "The surface breaks down, exposing dry soil that grips the seam." },
+      { q: "Why does a Test pitch typically spin more on days 4–5?", options: ["The ball is older", "Surface dust and cracks give spinners more grip and variable bounce", "Umpires allow more spin", "Bowlers tire and bowl slower"], answer: 1, explain: "The surface breaks down, exposing dry soil that grips the seam." },
+      { q: "Which venue is nicknamed 'the Bullring' for its bounce and pace?", options: ["WACA, Perth", "The Wanderers, Johannesburg", "Centurion", "Eden Park"], answer: 1, explain: "The Wanderers' high-bounce, lateral-seam surface earned it the 'Bullring' nickname." },
+      { q: "What grass length and moisture combo is the classic English seamer?", options: ["1–2 mm, bone dry", "8–12 mm with slight surface moisture", "20+ mm, soaked", "No grass, watered overnight"], answer: 1, explain: "8–12 mm of live grass with slight moisture lets the seam grip on impact — Trent Bridge / Headingley." },
+      { q: "Which country's pitches are typically low-clay, slow turners that grip from day two?", options: ["Australia", "England", "India / Sri Lanka", "South Africa"], answer: 2, explain: "Subcontinental pitches break up early, gripping spin and inviting reverse swing by over 35." },
     ],
     "ball-science": [
       { q: "Why does a pink ball swing for longer than a red ball?", options: ["Larger seam", "Extra polyurethane coating maintains shine longer", "Heavier core", "Cooler temperature at night"], answer: 1, explain: "The PU coat preserves the shiny side, so swing-conducive airflow lasts further into the innings." },
       { q: "Approximately how many stitches form a cricket ball's seam?", options: ["~20", "~50", "~80", "~120"], answer: 2, explain: "About 80 hand stitches across six rows give the seam its prominence." },
-    ],
-    "environment-science": [
-      { q: "What actually changes more with cloud cover than humidity?", options: ["Ball weight", "Pitch and ball temperature, preserving lacquer and seam grip", "Wind speed", "Light meter readings only"], answer: 1, explain: "It is the temperature and moisture preservation under clouds that helps the ball, not humidity itself." },
-      { q: "Why do sixes travel farther in Johannesburg?", options: ["Larger bats are used", "Air density at altitude drops ~15%, reducing drag", "Smaller boundaries by rule", "Lighter ball at altitude"], answer: 1, explain: "Thinner air means less drag — six-hitting distance increases 6-8%." },
-    ],
-    "fitness-science": [
-      { q: "Which energy system fuels a single sprint between wickets?", options: ["Aerobic", "ATP-PCr", "Lactic / glycolytic", "Beta-oxidation"], answer: 1, explain: "ATP-PCr handles all-out efforts under ~10s; full recovery in 60-90s." },
-      { q: "What workload metric best predicts fast-bowling stress fractures?", options: ["Total km run", "Acute:chronic workload ratio above 1.5", "Body weight", "Sleep hours"], answer: 1, explain: "Spikes relative to recent baseline are the strongest predictor." },
-    ],
-    "umpiring-science": [
-      { q: "What is the first question in the LBW decision tree?", options: ["Was the batter playing a shot?", "Did it pitch in line?", "Would it hit the stumps?", "Was there an edge?"], answer: 1, explain: "Pitching in line comes first — a no here ends the appeal unless the impact was outside off." },
-      { q: "How many frames per second do Hawk-Eye cameras capture?", options: ["60", "120", "340", "1,000"], answer: 2, explain: "Around 340 fps, allowing precise triangulation of ball position." },
-    ],
-    "wicketkeeping-science": [
-      { q: "How long does a keeper have to complete a stumping after the ball reaches the gloves?", options: ["Under 0.4 s", "About 1 s", "About 2 s", "No time limit"], answer: 0, explain: "The full gather-and-break must beat a recovering batter — under 0.4 s in elite keeping." },
-      { q: "Why do keepers stand 15–25 m back to a fast bowler?", options: ["Tradition", "To preserve reaction time to the edge", "To stay out of the umpire's view", "To avoid sledging the batter"], answer: 1, explain: "Distance buys the keeper enough time to react to a 145 km/h thin edge." },
-      { q: "Which keeper is famed as the team's 'DRS Review System'?", options: ["Adam Gilchrist", "MS Dhoni", "Alan Knott", "Mark Boucher"], answer: 1, explain: "Dhoni's review success rate was so high that DRS became known as the 'Dhoni Review System'." },
+      { q: "Which ball is hand-stitched and keeps a proud seam for 60+ overs?", options: ["Kookaburra", "Dukes", "White-leather T20", "Tennis ball"], answer: 1, explain: "Dukes are hand-stitched with linen thread — the seam stays raised long enough to swing into the second new ball." },
+      { q: "What is the legal weight range of a men's cricket ball under ICC playing conditions?", options: ["120–135 g", "140–155 g", "155.9–163.0 g", "170–185 g"], answer: 2, explain: "ICC specifies 155.9–163.0 g, circumference 22.4–22.9 cm." },
+      { q: "Which ball is used in most Australian first-class and ODI matches?", options: ["Dukes", "SG", "Kookaburra", "Readers"], answer: 2, explain: "Kookaburra is machine-pressed; its seam flattens by about 25 overs, shaping Australian bowling plans." },
     ],
     "equipment-science": [
       { q: "Where is the sweet spot on a cricket bat?", options: ["At the toe", "6–10 cm above the toe", "Halfway up the blade", "On the splice"], answer: 1, explain: "The sweet spot sits 6–10 cm above the toe — the node of the bat's natural vibration mode." },
       { q: "What standard governs modern international cricket helmets?", options: ["BS 7928:2013", "ISO 9001", "ICC Helmet Code 2007", "There is no standard"], answer: 0, explain: "BS 7928:2013 tightened helmet and grill testing after the 2014 Phil Hughes tragedy." },
       { q: "Why does an English Willow Grade 1 bat ping more than a Grade 4?", options: ["It is heavier", "More straight grains = stiffer, more responsive blade", "It has bigger edges", "Different handle"], answer: 1, explain: "G1 has 6–12 straight grains for maximum response, but is more fragile than lower grades." },
+      { q: "How many hours of knocking-in does a new English-willow bat typically need?", options: ["Under 30 minutes", "4–6 hours of progressive mallet work plus throwdowns", "20+ hours", "None — modern bats are pre-knocked"], answer: 1, explain: "4–6 hours of mallet work compresses the surface fibres so the bat survives live pace." },
+      { q: "What technology lights up bails on dislodgement within ~1 ms?", options: ["Hawk-Eye", "Snicko", "Zing bails", "Hot Spot"], answer: 2, explain: "Zing bails contain LEDs triggered by an accelerometer — adopted in T20 leagues and World Cups since 2014." },
+    ],
+    "environment-science": [
+      { q: "What actually changes more with cloud cover than humidity?", options: ["Ball weight", "Pitch and ball temperature, preserving lacquer and seam grip", "Wind speed", "Light meter readings only"], answer: 1, explain: "It is the temperature and moisture preservation under clouds that helps the ball, not humidity itself." },
+      { q: "Why do sixes travel farther in Johannesburg?", options: ["Larger bats are used", "Air density at altitude drops ~15%, reducing drag", "Smaller boundaries by rule", "Lighter ball at altitude"], answer: 1, explain: "Thinner air means less drag — six-hitting distance increases 6–8%." },
+      { q: "What is the main effect of heavy evening dew in a day-night match?", options: ["Ball swings more", "Ball gets wet and skids on, neutralising spin and slowing seam", "Pitch cracks heal", "Bowlers grip the seam better"], answer: 1, explain: "Dew is why captains often bowl first under lights — spinners and seamers both lose bite." },
+      { q: "Which wind direction most helps a right-arm in-swing bowler to a right-hander?", options: ["Cross-wind from leg side to off side", "Cross-wind from off side to leg side", "Direct headwind", "Direct tailwind"], answer: 1, explain: "A cross-wind blowing toward the leg side enhances in-swing by reinforcing the natural pressure differential." },
+      { q: "Which Indian venue is notorious for early-evening dew affecting white-ball matches?", options: ["Dharamsala", "Chinnaswamy, Bengaluru", "Wankhede, Mumbai", "Eden Gardens, Kolkata"], answer: 2, explain: "Wankhede's coastal humidity produces heavy dew, regularly forcing captains to bowl first." },
+    ],
+    "fitness-science": [
+      { q: "Which energy system fuels a single sprint between wickets?", options: ["Aerobic", "ATP-PCr", "Lactic / glycolytic", "Beta-oxidation"], answer: 1, explain: "ATP-PCr handles all-out efforts under ~10 s; full recovery in 60–90 s." },
+      { q: "What workload metric best predicts fast-bowling stress fractures?", options: ["Total km run", "Acute:chronic workload ratio above 1.5", "Body weight", "Sleep hours"], answer: 1, explain: "Spikes relative to recent baseline are the strongest predictor of bone-stress injuries." },
+      { q: "Which muscle group most directly limits a fast bowler's front-foot brace?", options: ["Biceps", "Quadriceps and gluteals", "Forearms", "Calves only"], answer: 1, explain: "The braced front leg returns 8–10× bodyweight — quads and glutes carry that load." },
+      { q: "What is the typical Yo-Yo Intermediate Test Level 2 cut-off for international male cricketers?", options: ["10.0", "14.3", "17.4", "21.0"], answer: 2, explain: "Boards like BCCI use ~17.4 as the entry standard for men's international squads." },
+      { q: "Which recovery modality has the strongest evidence for next-day bowling performance?", options: ["Ice baths only", "Sleep ≥8 h plus protein within 1 h of finishing", "Static stretching", "Sauna alone"], answer: 1, explain: "Sleep and timely protein outperform any single modality for muscle and CNS recovery." },
+    ],
+    "umpiring-science": [
+      { q: "What is the first question in the LBW decision tree?", options: ["Was the batter playing a shot?", "Did it pitch in line?", "Would it hit the stumps?", "Was there an edge?"], answer: 1, explain: "Pitching in line comes first — outside leg ends the appeal regardless of impact and projection." },
+      { q: "How many frames per second do Hawk-Eye cameras capture?", options: ["60", "120", "340", "1,000"], answer: 2, explain: "Around 340 fps, allowing precise triangulation of ball position." },
+      { q: "Under DRS 'umpire's call' for LBW, what minimum of the ball must hit the stumps to overturn 'not out'?", options: ["Any contact", "More than 50% of the ball striking the wicket zone", "100% of the ball", "Two stumps and the bail"], answer: 1, explain: "If less than half the ball clips the wicket zone, on-field 'not out' stays as umpire's call." },
+      { q: "Which technology detects a faint edge by combining audio spikes with thermal imaging?", options: ["Snicko + Hot Spot", "Hawk-Eye + ball-tracking", "Zing + Stump Mic", "Spidercam + Snicko"], answer: 0, explain: "Real-Time Snickometer pairs with Hot Spot's infrared signature to confirm thin edges." },
+      { q: "Which signal denotes a dead ball by the umpire?", options: ["Both arms above head", "Crossed wrists waved low in front of the body", "Tap on the shoulder", "Touching the cap"], answer: 1, explain: "Crossed wrists waved at waist height is the standard dead-ball signal under MCC Laws." },
     ],
   };
   return bank[slug] ?? [
