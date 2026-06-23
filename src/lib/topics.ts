@@ -1,7 +1,14 @@
 // Reusable topic schema — every cricket topic follows this 21-section structure.
 // Populated for: Leg Break, Off Break, Doosra, Yorker, Reverse Swing.
 
-export type TopicCategory = "Spin Bowling" | "Pace Bowling" | "Swing Bowling";
+export type TopicCategory =
+  | "Spin Bowling"
+  | "Pace Bowling"
+  | "Swing Bowling"
+  | "Fielding"
+  | "Wicketkeeping"
+  | "Equipment"
+  | "Ground & Pitch";
 export type Difficulty = "Beginner" | "Intermediate" | "Advanced";
 
 export type TopicQuiz = {
