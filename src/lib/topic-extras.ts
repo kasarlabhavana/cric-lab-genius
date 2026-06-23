@@ -322,7 +322,6 @@ export function topicQuizzes() {
     moduleSlug: "topics",
     title: `${t.title} — Topic Quiz`,
     xp: 40,
-    topicSlug: t.slug,
     questions: t.quiz.map(q => ({ q: q.q, options: q.options, answer: q.answer, explain: q.explain })),
   }));
 }
