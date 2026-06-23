@@ -137,42 +137,27 @@ function LessonPage() {
           <span className="text-xs text-muted-foreground">17-section schema</span>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {sectionsWithContent.map(({ def, value }) => {
-            const Icon = (Icons as any)[def.icon] ?? Icons.Dot;
-            const empty = !value;
-            return (
-              <div
-                key={def.key}
-                className={`rounded-xl border p-4 ${
-                  empty
-                    ? "border-dashed border-border/60 bg-muted/30"
-                    : "border-border bg-card"
-                }`}
-              >
-                <div className="flex items-center gap-2">
-                  <span
-                    className={`inline-flex size-7 items-center justify-center rounded-lg ${
-                      empty
-                        ? "bg-muted text-muted-foreground"
-                        : "bg-primary/8 text-primary"
-                    }`}
-                  >
-                    <Icon className="size-3.5" />
-                  </span>
-                  <h3 className="text-sm font-semibold text-foreground">{def.label}</h3>
-                </div>
-                {empty ? (
-                  <p className="mt-2 text-xs italic text-muted-foreground">
-                    Not applicable to this lesson.
-                  </p>
-                ) : (
+          {sectionsWithContent
+            .filter((s) => s.value)
+            .map(({ def, value }) => {
+              const Icon = (Icons as any)[def.icon] ?? Icons.Dot;
+              return (
+                <div
+                  key={def.key}
+                  className="rounded-xl border border-border bg-card p-4"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="inline-flex size-7 items-center justify-center rounded-lg bg-primary/8 text-primary">
+                      <Icon className="size-3.5" />
+                    </span>
+                    <h3 className="text-sm font-semibold text-foreground">{def.label}</h3>
+                  </div>
                   <p className="mt-2 text-sm text-foreground/85 leading-relaxed">
                     {value}
                   </p>
-                )}
-              </div>
-            );
-          })}
+                </div>
+              );
+            })}
         </div>
       </section>
 
