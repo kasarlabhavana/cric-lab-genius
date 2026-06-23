@@ -680,7 +680,7 @@ export const TOPICS: Topic[] = [
     category: "Equipment",
     difficulty: "Beginner",
     definition:
-      "A hard, cork-cored leather ball weighing 155.9–163 g with a circumference of 22.4–22.9 cm and a raised, hand-stitched six-row seam. Red for Tests, white for limited-overs, pink for day-night Tests.",
+      "The cricket ball is a hard composite sphere with a cork core wound tightly in layers of moistened wool string and enclosed in two leather hemispheres that are hand-stitched together with a raised, six-row seam down the equator. Regulation balls weigh 155.9–163 g with a circumference of 22.4–22.9 cm, and three principal manufacturers — Dukes (England/West Indies), Kookaburra (Australia/South Africa/most ODIs), and SG (India) — produce balls with measurably different seam profiles and lacquer that change how they swing, reverse, and wear. Colour varies by format and lighting: red for Tests in daylight, white for limited-overs cricket, and pink for day-night Tests, each with distinct visibility and longevity characteristics under floodlights. The interaction between the ball's seam, surface condition, and the bowler's grip is the foundation of swing, seam movement, spin, and reverse swing — the four primary modes of bowling deviation in the game.",
     history:
       "Made by Dukes since 1760, Kookaburra since 1890, and SG since 1950 — three distinct constructions. Pink Dukes balls were introduced in 2009 to support day-night Test cricket under floodlights.",
     grip:
