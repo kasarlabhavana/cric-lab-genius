@@ -175,6 +175,13 @@ const EXTRAS: Record<string, TopicExtras> = {
       Fan:
         "Watch the bowler's front foot at landing during the death overs. A locked, braced front leg is the platform that lets the wrist whip through and bury the ball at the batter's toes; a soft front knee is why even great fast bowlers occasionally serve up a full-toss for six. Jasprit Bumrah and Lasith Malinga's yorkers are essentially perfected versions of the same braced-leg release.",
     },
+    famousPlayers: [
+      { name: "Lasith Malinga", team: "Sri Lanka", note: "The yorker GOAT. His slingy round-arm action and unique low release made his toe-crushers virtually un-pick-able. 4-wicket haul off consecutive balls in 2007 ODI World Cup vs South Africa." },
+      { name: "Jasprit Bumrah", team: "India", note: "Hyper-extended elbow and braced front leg produce yorkers at 145+ km/h with surgical accuracy. The most consistent death bowler of his generation across formats." },
+      { name: "Waqar Younis", team: "Pakistan", note: "Master of the reverse-swinging yorker. 'Waqar Express' often went straight through pads and stumps from over 35 onwards." },
+      { name: "Mitchell Starc", team: "Australia", note: "Left-arm in-swinging yorkers at 150 km/h. Player of the tournament at the 2015 and 2019 ODI World Cups largely on the back of new-ball and death-overs yorkers." },
+      { name: "T. Natarajan", team: "India", note: "Left-arm IPL specialist whose unerring death-yorker accuracy made him a T20I and Test debutant within months of his breakout 2020 season." },
+    ],
   },
   "reverse-swing": {
     relatedSims: [SIM.swing, SIM.pitch, SIM.field],
