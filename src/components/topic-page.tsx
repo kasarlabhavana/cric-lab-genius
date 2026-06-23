@@ -190,6 +190,13 @@ function ReferencesSection({ refs }: { refs: Topic["references"] }) {
 }
 
 export function TopicPage({ topic }: { topic: Topic }) {
+  const extras = getTopicExtras(topic.slug);
+  const [audience, setAudience] = useState<Audience>("Beginner");
+  const relatedSims =
+    extras?.relatedSims
+      .map(slug => LABORATORY_SIMS.find(s => s.slug === slug))
+      .filter((s): s is (typeof LABORATORY_SIMS)[number] => Boolean(s)) ?? [];
+
   return (
     <article className="mx-auto max-w-3xl px-6 py-10">
       <Link
@@ -214,6 +221,93 @@ export function TopicPage({ topic }: { topic: Topic }) {
       <p className="mt-3 text-lg leading-relaxed text-foreground/85">
         {topic.definition}
       </p>
+
+      {/* Audience switcher */}
+      {extras?.audience && (
+        <section className="mt-6 rounded-2xl border border-border bg-card p-4">
+          <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+            <Sparkles className="size-3.5 text-[color:var(--brand-orange)]" />
+            For different learners
+          </div>
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            {AUDIENCES.map(a => (
+              <button
+                key={a}
+                onClick={() => setAudience(a)}
+                className={`rounded-full px-3 py-1 text-xs font-semibold transition ${
+                  a === audience
+                    ? "bg-primary text-primary-foreground"
+                    : "border border-border bg-surface text-muted-foreground hover:bg-muted hover:text-foreground"
+                }`}
+              >
+                {a}
+              </button>
+            ))}
+          </div>
+          <p className="mt-3 text-[15px] leading-relaxed text-foreground/85">
+            {extras.audience[audience]}
+          </p>
+        </section>
+      )}
+
+      {/* Key takeaways */}
+      {extras?.keyTakeaways && extras.keyTakeaways.length > 0 && (
+        <section className="mt-6 rounded-2xl border border-[color:var(--brand-green)]/30 bg-[color:var(--brand-green)]/5 p-4">
+          <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-[color:var(--brand-green)]">
+            <CheckCircle2 className="size-3.5" /> Key takeaways
+          </div>
+          <ul className="mt-3 space-y-2">
+            {extras.keyTakeaways.map((t, i) => (
+              <li key={i} className="flex gap-2 text-[15px] text-foreground/85">
+                <ChevronRight className="mt-0.5 size-4 shrink-0 text-[color:var(--brand-green)]" />
+                <span>{t}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {/* Short lessons */}
+      {extras?.lessons && extras.lessons.length > 0 && (
+        <section className="mt-6 rounded-2xl border border-border bg-card p-4">
+          <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+            <BookOpen className="size-3.5 text-primary" /> Short lessons
+          </div>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            {extras.lessons.map((l, i) => (
+              <div key={i} className="rounded-xl border border-border bg-surface p-3">
+                <div className="flex items-center justify-between text-xs text-muted-foreground">
+                  <span className="font-semibold text-foreground">{l.title}</span>
+                  <span>{l.minutes} min</span>
+                </div>
+                <p className="mt-2 text-sm text-foreground/85">{l.body}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Related Laboratory modules */}
+      {relatedSims.length > 0 && (
+        <section className="mt-6 rounded-2xl border border-[color:var(--brand-orange)]/30 bg-[color:var(--brand-orange)]/5 p-4">
+          <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">
+            <Beaker className="size-3.5" /> Try this in the Laboratory
+          </div>
+          <div className="mt-3 grid gap-2 sm:grid-cols-2">
+            {relatedSims.map(s => (
+              <Link
+                key={s.slug}
+                to="/laboratory/$sim"
+                params={{ sim: s.slug }}
+                className="group flex items-center justify-between rounded-xl border border-border bg-card px-3 py-2.5 text-sm transition hover:-translate-y-0.5 hover:shadow-sm"
+              >
+                <span className="font-semibold text-foreground">{s.title}</span>
+                <ArrowRight className="size-4 text-[color:var(--brand-orange)] transition group-hover:translate-x-0.5" />
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Table of contents */}
       <nav
