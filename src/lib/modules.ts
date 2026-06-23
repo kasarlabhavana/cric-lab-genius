@@ -154,13 +154,19 @@ export const MODULES: Module[] = [
 
 export const MODULE_BY_SLUG: Record<string, Module> = Object.fromEntries(MODULES.map(m => [m.slug, m]));
 
-export const QUIZZES: Quiz[] = MODULES.map(m => ({
+import { topicQuizzes } from "@/lib/topic-extras";
+
+const MODULE_QUIZZES: Quiz[] = MODULES.map(m => ({
   id: `${m.slug}-starter`,
   moduleSlug: m.slug,
   title: `${m.title} — Starter Quiz`,
   xp: 50,
   questions: starterQuestionsFor(m.slug),
 }));
+
+const TOPIC_QUIZZES: Quiz[] = topicQuizzes();
+
+export const QUIZZES: Quiz[] = [...MODULE_QUIZZES, ...TOPIC_QUIZZES];
 
 export const QUIZ_BY_ID: Record<string, Quiz> = Object.fromEntries(QUIZZES.map(q => [q.id, q]));
 
