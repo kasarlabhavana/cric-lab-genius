@@ -59,7 +59,7 @@ export const TOPICS: Topic[] = [
     category: "Spin Bowling",
     difficulty: "Advanced",
     definition:
-      "A wrist-spin delivery from a right-arm bowler to a right-handed batter that pitches and then turns from leg-stump line toward the off-side — away from the bat.",
+      "The leg break is a wrist-spin delivery from a right-arm bowler that, to a right-handed batter, pitches on or around leg-stump line and then deviates laterally toward the off-side — moving the ball away from the bat after it lands. The spin is generated almost entirely by a sharp flick of the third (ring) finger combined with a wrist rotation that snaps the palm from facing the batter to facing the slips at the point of release, imparting a side-spin axis pointed roughly toward first slip. Because the ball is rotating about a near-horizontal axis, it experiences a Magnus force in flight (producing 'drift' toward the batter's pads) and friction at the pitch surface (producing 'turn' away after bouncing), with elite revolutions sitting around 1,800–2,400 RPM and producing measurable dip of 30–50 cm. The leg break is regarded as the most attacking and most difficult of the stock spin deliveries because the wrist action is hard to repeat, but at its best — Warne to Gatting in 1993 being the canonical example — it can beat both edges of the bat in a single ball.",
     history:
       "The leg break is the original wrist-spin weapon. Refined in the early 20th century by Australians like Clarrie Grimmett and Bill O'Reilly, then transformed by Shane Warne, whose 'Ball of the Century' to Mike Gatting in 1993 launched a global revival of leg-spin.",
     grip:
