@@ -56,7 +56,7 @@ const SECTIONS: ReadonlyArray<{
   { id: "aerodynamics", n: 14, label: "Aerodynamics", Icon: Wind, view: "aerodynamics", field: "aerodynamics" },
   { id: "trajectory", n: 15, label: "Trajectory", Icon: Ruler, view: "trajectory", field: "trajectory" },
   { id: "batting-counter", n: 16, label: "Batting Counter Strategy", Icon: Eye, field: "battingCounterStrategy" },
-  { id: "field-placement", n: 17, label: "Field Placement", Icon: Layers, view: "field-placement", field: "field-placement" },
+  { id: "field-placement", n: 17, label: "Field Placement", Icon: Layers, view: "field-placement", field: "fieldPlacement" },
   { id: "common-mistakes", n: 18, label: "Common Mistakes", Icon: Lightbulb, field: "commonMistakes" },
   { id: "drills", n: 19, label: "Drills", Icon: ListChecks, field: "drills" },
   { id: "quiz", n: 20, label: "Quiz", Icon: CircleHelp, field: "quiz" },
