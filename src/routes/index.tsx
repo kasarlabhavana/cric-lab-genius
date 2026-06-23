@@ -1,9 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import {
-  ArrowRight, Beaker, BookOpen, Bot, ListChecks, TrendingUp, Users,
+  ArrowRight, Beaker,
   Sparkles, Target, Swords, Hand, LayoutGrid, CircleDot, CloudSun, Dumbbell, Scale,
-  GraduationCap, Baby, Trophy, Eye, Wrench,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -82,47 +81,6 @@ function Home() {
         </div>
       </section>
 
-      {/* MODULE TILES — every page in one glance */}
-      <section className="mx-auto max-w-6xl px-6 py-16">
-        <div className="text-center max-w-2xl mx-auto">
-          <span className="inline-block rounded-full bg-[color:var(--brand-green)]/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-green)]">Modules</span>
-          <h2 className="mt-3 font-display text-3xl md:text-4xl font-bold text-foreground">Where would you like to start?</h2>
-          <p className="mt-2 text-muted-foreground">Six modules — every page of the app, one click away.</p>
-        </div>
-
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-60px" }}
-          variants={{ visible: { transition: { staggerChildren: 0.06 } } }}
-          className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
-        >
-          {MODULE_TILES.map(t => {
-            const Icon = t.icon;
-            return (
-              <motion.div key={t.to} variants={fadeUp} transition={{ duration: 0.45 }} whileHover={{ y: -4 }}>
-                <Link
-                  to={t.to}
-                  className="group block h-full rounded-2xl border border-border bg-card p-6 shadow-sm hover:shadow-xl transition-shadow"
-                >
-                  <span
-                    className="inline-flex size-12 items-center justify-center rounded-xl"
-                    style={{ background: `color-mix(in oklab, ${t.tint} 14%, transparent)`, color: t.tint }}
-                  >
-                    <Icon className="size-6" />
-                  </span>
-                  <h3 className="mt-4 font-display text-lg font-semibold text-foreground">{t.label}</h3>
-                  <p className="mt-1.5 text-sm text-muted-foreground leading-relaxed">{t.desc}</p>
-                  <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
-                    Open <ArrowRight className="size-4 transition group-hover:translate-x-0.5" />
-                  </span>
-                </Link>
-              </motion.div>
-            );
-          })}
-        </motion.div>
-      </section>
-
       {/* SCIENCE CATEGORIES — compact tile view */}
       <section className="bg-surface border-y border-border">
         <div className="mx-auto max-w-6xl px-6 py-16">
@@ -161,55 +119,6 @@ function Home() {
         </div>
       </section>
 
-      {/* LEARNER PATHS */}
-      <section className="mx-auto max-w-6xl px-6 py-16">
-        <div className="text-center max-w-2xl mx-auto">
-          <span className="inline-block rounded-full bg-primary/8 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">For every learner</span>
-          <h2 className="mt-3 font-display text-3xl md:text-4xl font-bold text-foreground">Pick the path that fits you</h2>
-          <p className="mt-2 text-muted-foreground">CricScience meets you where you are — from gully cricket to international tours.</p>
-        </div>
-
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-60px" }}
-          variants={{ visible: { transition: { staggerChildren: 0.07 } } }}
-          className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4"
-        >
-          {LEARNERS.map(p => {
-            const Icon = p.icon;
-            return (
-              <motion.div
-                key={p.key}
-                variants={fadeUp}
-                transition={{ duration: 0.45 }}
-                whileHover={{ y: -4 }}
-                className="flex flex-col rounded-2xl border border-border bg-card p-6 shadow-sm hover:shadow-xl transition-shadow"
-              >
-                <span
-                  className="inline-flex size-12 items-center justify-center rounded-xl"
-                  style={{ background: `color-mix(in oklab, ${p.color} 14%, transparent)`, color: p.color }}
-                >
-                  <Icon className="size-6" />
-                </span>
-                <h3 className="mt-4 font-display text-lg font-semibold text-foreground">{p.title}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{p.tagline}</p>
-                <ul className="mt-4 space-y-1.5 text-sm text-muted-foreground">
-                  {p.points.map(pt => (
-                    <li key={pt} className="flex gap-2"><span className="mt-1 size-1.5 shrink-0 rounded-full" style={{ background: p.color }} />{pt}</li>
-                  ))}
-                </ul>
-                <Link
-                  to={p.to}
-                  className="mt-auto pt-5 inline-flex items-center gap-1 text-sm font-semibold text-primary"
-                >
-                  {p.cta} <ArrowRight className="size-4" />
-                </Link>
-              </motion.div>
-            );
-          })}
-        </motion.div>
-      </section>
     </div>
   );
 }
