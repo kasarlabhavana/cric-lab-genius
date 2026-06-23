@@ -160,6 +160,7 @@ export function AppFooter() {
           <ul className="space-y-1.5 text-muted-foreground">
             <li><Link to="/privacy" className="hover:text-foreground">Privacy</Link></li>
             <li><Link to="/terms" className="hover:text-foreground">Terms</Link></li>
+            <li><Link to="/disclaimer" className="hover:text-foreground">Disclaimer</Link></li>
           </ul>
         </div>
       </div>
