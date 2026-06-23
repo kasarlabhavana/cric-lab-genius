@@ -207,12 +207,14 @@ function starterQuestionsFor(slug: string): QuizQuestion[] {
 }
 
 export const LABORATORY_SIMS = [
-  { slug: "swing-simulator", title: "Swing Simulator", summary: "Tweak seam angle, speed and wear to see swing direction.", icon: "Wind" },
-  { slug: "trajectory-plotter", title: "Trajectory Plotter", summary: "Map yorker vs bouncer vs good-length release angles.", icon: "TrendingUp" },
-  { slug: "pitch-map", title: "Pitch Map Builder", summary: "Drop deliveries on a pitch and analyze patterns.", icon: "Grid3x3" },
-  { slug: "spin-revs", title: "Spin RPM Visualizer", summary: "See dip and drift change with revolutions.", icon: "Disc3" },
-  { slug: "reaction-trainer", title: "Reaction-Time Trainer", summary: "Test your sub-500ms decision speed.", icon: "Timer" },
+  { slug: "spin-simulator", title: "Spin Simulator", summary: "Dial RPM, speed, release angle, pitch, humidity and wind — read drift, dip, turn and bounce.", icon: "Disc3" },
+  { slug: "swing-simulator", title: "Swing Simulator", summary: "Tweak seam angle, ball wear and pace to see swing direction and magnitude.", icon: "Wind" },
+  { slug: "pitch-builder", title: "Pitch Builder", summary: "Compose a surface from grass, clay, moisture, temperature and rolling time. Read bounce, turn and swing assistance.", icon: "LayoutGrid" },
+  { slug: "bat-builder", title: "Bat Builder", summary: "Configure willow grade, weight, edge and sweet-spot height — see swing speed and power transfer.", icon: "Swords" },
+  { slug: "reaction-time-test", title: "Reaction Time Test", summary: "Test your sub-500ms decision speed against international benchmarks.", icon: "Timer" },
+  { slug: "field-placement-simulator", title: "Field Placement Simulator", summary: "Drop nine fielders on a 2D ground and visualise gaps versus a wagon wheel.", icon: "Grid3x3" },
 ];
+
 
 export const BADGES = [
   { id: "first-step", title: "First Step", desc: "Complete your first lesson", icon: "Footprints" },
