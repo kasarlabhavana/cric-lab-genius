@@ -56,7 +56,7 @@ function Home() {
             transition={{ duration: 0.5, delay: 0.05 }}
             className="mt-4 flex justify-center"
           >
-            <img src={logoUrl} alt="CricScience logo" className="size-20 sm:size-24 object-contain drop-shadow-md" />
+            <img src={logoUrl} alt="CricScience logo" className="size-32 sm:size-40 object-contain drop-shadow-md" />
           </motion.div>
 
           <motion.h1
