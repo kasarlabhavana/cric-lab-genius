@@ -1,7 +1,8 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Beaker, BookOpen, Bot, Flame, Home, ListChecks, Menu, TrendingUp, Trophy, User, Users, X } from "lucide-react";
+import { Beaker, BookOpen, Bot, Flame, Home, ListChecks, Menu, Moon, Sun, TrendingUp, Trophy, User, Users, X } from "lucide-react";
 import { useState } from "react";
 import { useUser, deriveLevel } from "@/lib/user-state";
+import { useTheme } from "@/lib/theme";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const NAV = [
@@ -16,6 +17,7 @@ const NAV = [
 
 export function AppHeader() {
   const { state } = useUser();
+  const { theme, toggle } = useTheme();
   const pathname = useRouterState({ select: s => s.location.pathname });
   const [open, setOpen] = useState(false);
   const level = deriveLevel(state.xp);
@@ -63,6 +65,13 @@ export function AppHeader() {
               <span className="hidden md:inline text-xs font-medium text-muted-foreground">{level.name}</span>
             </div>
           )}
+          <button
+            onClick={toggle}
+            aria-label="Toggle theme"
+            className="inline-flex size-9 items-center justify-center rounded-lg border border-border text-foreground hover:bg-muted transition"
+          >
+            {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
+          </button>
           <Link
             to={state.user ? "/profile" : "/auth"}
             className="hidden sm:inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition"
