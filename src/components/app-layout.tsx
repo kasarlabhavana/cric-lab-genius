@@ -174,8 +174,8 @@ export function AppFooter() {
 
 function Logo() {
   return (
-    <span className="inline-flex size-10 items-center justify-center">
-      <img src={logoUrl} alt="CricScience logo" className="size-10 object-contain" />
+    <span className="inline-flex size-12 items-center justify-center">
+      <img src={logoUrl} alt="CricScience logo" className="size-12 object-contain" />
     </span>
   );
 }
