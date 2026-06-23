@@ -386,7 +386,7 @@ export const BATTING_EXTRA: Lesson[] = [
     [
       "Definition: A shot where the batter reverses stance after the bowler's release, effectively becoming a left-hander (or vice versa) for that ball (Kevin Pietersen, David Warner, Glenn Maxwell).",
       "Mechanics: Hands rotate on the handle, feet switch — both happen between release and bounce (~0.4s).",
-      "Legality: Legal under Law 41.5 provided the stance change happens after delivery — but field placements remain set for the original stance.",
+      "Legality: Legal (under Law 41.5 of the Laws of Cricket) provided the stance change happens after the bowler has released the ball — but the field placements remain set for the original stance.",
       "Tactical Use: Breaks a packed off-side field by hitting what was leg-side into the open off-side.",
       "Common Mistakes: Switching too early gives the bowler time to abort; commit only after release.",
     ]),
