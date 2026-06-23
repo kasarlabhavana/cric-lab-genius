@@ -65,7 +65,7 @@ function LessonPage() {
       <p className="mt-6 text-lg text-foreground/85 leading-relaxed">{lesson.summary}</p>
 
       <div className="mt-8 prose-content space-y-4 text-foreground/90 leading-relaxed">
-        {lesson.body.map((p, i) => (
+        {lesson.body.map((p: string, i: number) => (
           <p key={i} className="text-[15.5px]">{p}</p>
         ))}
       </div>

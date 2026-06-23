@@ -9,38 +9,102 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ExploreRouteImport } from './routes/explore'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ExploreIndexRouteImport } from './routes/explore.index'
+import { Route as ExploreModuleRouteImport } from './routes/explore.$module'
+import { Route as ExploreModuleIndexRouteImport } from './routes/explore.$module.index'
+import { Route as ExploreModuleLessonRouteImport } from './routes/explore.$module.$lesson'
 
+const ExploreRoute = ExploreRouteImport.update({
+  id: '/explore',
+  path: '/explore',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExploreIndexRoute = ExploreIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ExploreRoute,
+} as any)
+const ExploreModuleRoute = ExploreModuleRouteImport.update({
+  id: '/$module',
+  path: '/$module',
+  getParentRoute: () => ExploreRoute,
+} as any)
+const ExploreModuleIndexRoute = ExploreModuleIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ExploreModuleRoute,
+} as any)
+const ExploreModuleLessonRoute = ExploreModuleLessonRouteImport.update({
+  id: '/$lesson',
+  path: '/$lesson',
+  getParentRoute: () => ExploreModuleRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/explore': typeof ExploreRouteWithChildren
+  '/explore/$module': typeof ExploreModuleRouteWithChildren
+  '/explore/': typeof ExploreIndexRoute
+  '/explore/$module/$lesson': typeof ExploreModuleLessonRoute
+  '/explore/$module/': typeof ExploreModuleIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/explore': typeof ExploreIndexRoute
+  '/explore/$module/$lesson': typeof ExploreModuleLessonRoute
+  '/explore/$module': typeof ExploreModuleIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/explore': typeof ExploreRouteWithChildren
+  '/explore/$module': typeof ExploreModuleRouteWithChildren
+  '/explore/': typeof ExploreIndexRoute
+  '/explore/$module/$lesson': typeof ExploreModuleLessonRoute
+  '/explore/$module/': typeof ExploreModuleIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/explore'
+    | '/explore/$module'
+    | '/explore/'
+    | '/explore/$module/$lesson'
+    | '/explore/$module/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/explore' | '/explore/$module/$lesson' | '/explore/$module'
+  id:
+    | '__root__'
+    | '/'
+    | '/explore'
+    | '/explore/$module'
+    | '/explore/'
+    | '/explore/$module/$lesson'
+    | '/explore/$module/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ExploreRoute: typeof ExploreRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/explore': {
+      id: '/explore'
+      path: '/explore'
+      fullPath: '/explore'
+      preLoaderRoute: typeof ExploreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +112,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/explore/': {
+      id: '/explore/'
+      path: '/'
+      fullPath: '/explore/'
+      preLoaderRoute: typeof ExploreIndexRouteImport
+      parentRoute: typeof ExploreRoute
+    }
+    '/explore/$module': {
+      id: '/explore/$module'
+      path: '/$module'
+      fullPath: '/explore/$module'
+      preLoaderRoute: typeof ExploreModuleRouteImport
+      parentRoute: typeof ExploreRoute
+    }
+    '/explore/$module/': {
+      id: '/explore/$module/'
+      path: '/'
+      fullPath: '/explore/$module/'
+      preLoaderRoute: typeof ExploreModuleIndexRouteImport
+      parentRoute: typeof ExploreModuleRoute
+    }
+    '/explore/$module/$lesson': {
+      id: '/explore/$module/$lesson'
+      path: '/$lesson'
+      fullPath: '/explore/$module/$lesson'
+      preLoaderRoute: typeof ExploreModuleLessonRouteImport
+      parentRoute: typeof ExploreModuleRoute
+    }
   }
 }
 
+interface ExploreModuleRouteChildren {
+  ExploreModuleLessonRoute: typeof ExploreModuleLessonRoute
+  ExploreModuleIndexRoute: typeof ExploreModuleIndexRoute
+}
+
+const ExploreModuleRouteChildren: ExploreModuleRouteChildren = {
+  ExploreModuleLessonRoute: ExploreModuleLessonRoute,
+  ExploreModuleIndexRoute: ExploreModuleIndexRoute,
+}
+
+const ExploreModuleRouteWithChildren = ExploreModuleRoute._addFileChildren(
+  ExploreModuleRouteChildren,
+)
+
+interface ExploreRouteChildren {
+  ExploreModuleRoute: typeof ExploreModuleRouteWithChildren
+  ExploreIndexRoute: typeof ExploreIndexRoute
+}
+
+const ExploreRouteChildren: ExploreRouteChildren = {
+  ExploreModuleRoute: ExploreModuleRouteWithChildren,
+  ExploreIndexRoute: ExploreIndexRoute,
+}
+
+const ExploreRouteWithChildren =
+  ExploreRoute._addFileChildren(ExploreRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ExploreRoute: ExploreRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

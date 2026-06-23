@@ -5,7 +5,7 @@ import { MODULE_BY_SLUG, QUIZZES } from "@/lib/modules";
 import { useUser } from "@/lib/user-state";
 import { ProgressRing } from "@/components/cric-ui";
 
-export const Route = createFileRoute("/explore/$module")({
+export const Route = createFileRoute("/explore/$module/")({
   loader: ({ params }) => {
     const mod = MODULE_BY_SLUG[params.module];
     if (!mod) throw notFound();
@@ -47,7 +47,7 @@ function ModulePage() {
           </div>
           <p className="mt-6 max-w-3xl text-foreground/85">{mod.intro}</p>
           <div className="mt-4 flex flex-wrap gap-2">
-            {mod.levels.map(l => <span key={l} className="rounded-full bg-white/60 px-2.5 py-1 text-xs font-medium text-primary border border-border">{l}</span>)}
+            {mod.levels.map((l: string) => <span key={l} className="rounded-full bg-white/60 px-2.5 py-1 text-xs font-medium text-primary border border-border">{l}</span>)}
           </div>
         </div>
       </section>
@@ -56,7 +56,7 @@ function ModulePage() {
         <div className="md:col-span-2">
           <h2 className="font-display text-xl font-bold text-primary mb-4">Lessons</h2>
           <ol className="space-y-3">
-            {mod.lessons.map((l, i) => {
+            {mod.lessons.map((l: { slug: string; title: string; summary: string; minutes: number }, i: number) => {
               const done = !!state.completedLessons[`${mod.slug}/${l.slug}`];
               return (
                 <li key={l.slug}>
@@ -87,7 +87,7 @@ function ModulePage() {
           <div className="rounded-2xl border border-border bg-surface p-5 text-sm">
             <h4 className="font-display font-semibold text-primary mb-2">What you'll learn</h4>
             <ul className="space-y-1.5 text-muted-foreground">
-              {mod.lessons.slice(0, 5).map(l => <li key={l.slug}>· {l.summary}</li>)}
+              {mod.lessons.slice(0, 5).map((l: { slug: string; summary: string }) => <li key={l.slug}>· {l.summary}</li>)}
             </ul>
           </div>
         </aside>
