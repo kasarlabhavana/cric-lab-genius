@@ -18,15 +18,6 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const MODULE_TILES = [
-  { to: "/explore", label: "Explore Topics",      desc: "21-section breakdowns of deliveries, shots and tactics.", icon: BookOpen,    tint: "var(--brand-orange)" },
-  { to: "/laboratory", label: "Cricket Laboratory", desc: "Simulate spin, swing, pitch and field placements.",      icon: Beaker,      tint: "var(--brand-green)"  },
-  { to: "/ai-coach", label: "AI Coach",           desc: "Upload your video — get biomechanics feedback.",         icon: Bot,         tint: "var(--brand-orange)" },
-  { to: "/quiz",     label: "Quiz Zone",          desc: "Test your understanding, earn XP and badges.",           icon: ListChecks,  tint: "var(--brand-green)"  },
-  { to: "/progress", label: "Progress",           desc: "Track lessons, streaks and personal bests.",             icon: TrendingUp,  tint: "var(--brand-orange)" },
-  { to: "/community", label: "Community",         desc: "Discuss, share and learn with other cricket nerds.",     icon: Users,       tint: "var(--brand-green)"  },
-] as const;
-
 const SCIENCE_TILES = [
   { slug: "bowling-science",  title: "Bowling",     icon: Target,     desc: "Pace, spin & seam physics." },
   { slug: "batting-science",  title: "Batting",     icon: Swords,     desc: "Timing, geometry, power." },
@@ -36,49 +27,6 @@ const SCIENCE_TILES = [
   { slug: "environment-science", title: "Environment", icon: CloudSun, desc: "Wind, dew, altitude." },
   { slug: "fitness-science",  title: "Fitness",     icon: Dumbbell,   desc: "Strength & longevity." },
   { slug: "umpiring-science", title: "Umpiring",    icon: Scale,      desc: "Decisions & DRS tech." },
-] as const;
-
-const LEARNERS = [
-  {
-    key: "beginner",
-    icon: Baby,
-    title: "Beginner",
-    tagline: "New to cricket? Start with the basics.",
-    points: ["What swing, spin and seam actually mean", "Simple bat & ball anatomy", "Friendly quizzes — no jargon"],
-    cta: "Start with fundamentals",
-    to: "/explore",
-    color: "var(--brand-green)",
-  },
-  {
-    key: "academy",
-    icon: GraduationCap,
-    title: "Academy Player",
-    tagline: "Train smarter, not just harder.",
-    points: ["Biomechanics of your action", "Drills backed by physics", "Lab simulators to test ideas"],
-    cta: "Open the Laboratory",
-    to: "/laboratory",
-    color: "var(--brand-orange)",
-  },
-  {
-    key: "pro",
-    icon: Trophy,
-    title: "Pro / Coach",
-    tagline: "Edge-of-game detail, ready to apply.",
-    points: ["Reverse swing, kinetic chains, workloads", "AI Coach video analysis", "Field placement simulator"],
-    cta: "Try the AI Coach",
-    to: "/ai-coach",
-    color: "var(--brand-orange)",
-  },
-  {
-    key: "fan",
-    icon: Eye,
-    title: "Fan",
-    tagline: "Watch every match like a scientist.",
-    points: ["Why a yorker beats a slog", "What commentators actually mean", "Bite-sized lessons in 5 minutes"],
-    cta: "Browse topics",
-    to: "/topics",
-    color: "var(--brand-green)",
-  },
 ] as const;
 
 const fadeUp = { hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } };
