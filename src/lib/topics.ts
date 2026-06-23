@@ -197,7 +197,7 @@ export const TOPICS: Topic[] = [
     category: "Spin Bowling",
     difficulty: "Advanced",
     definition:
-      "A finger-spin variation that looks like an off-break but turns the other way — from leg to off — to a right-handed batter. Bowled by an off-spinner using a back-of-the-hand release.",
+      "The doosra (Hindi/Urdu for 'the other one') is a finger-spin variation bowled by an off-spinner that, while leaving the hand from an apparently identical action to the stock off-break, turns the opposite way — from leg to off to a right-handed batter — by virtue of a back-of-the-hand release that imparts a leg-spinner's axis on the ball. Pioneered by Saqlain Mushtaq in the late 1990s and weaponised by Muttiah Muralitharan and Saeed Ajmal, the delivery relies on near-perfect disguise: the arm path, body rotation, and seam visibility must mirror the stock ball so the batter cannot pick the change before the bounce. Because the wrist hyper-rotates to achieve the leg-spinner's release while the arm extends like a finger-spinner, the doosra has historically pushed the limits of the ICC's 15° elbow-flexion rule, and several careers have been derailed by remedial action work. Used sparingly and accurately, it is one of the most disruptive deliveries in spin bowling; over-bowled, it loses surprise and exposes the action to scrutiny.",
     history:
       "Popularised by Saqlain Mushtaq in the late 1990s — the Urdu name means 'the other one'. Refined to devastating effect by Muralitharan and later Saeed Ajmal, though biomechanical legality remains a recurring controversy.",
     grip:
