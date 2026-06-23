@@ -277,6 +277,15 @@ const EXTRAS: Record<string, TopicExtras> = {
       Fan:
         "Watch the keeper's feet, not just their hands. A keeper standing a metre further back than usual is signalling that they expect extra bounce or a cutter; a keeper walking around behind the stumps between balls is usually communicating field changes with the captain. MS Dhoni, Adam Gilchrist and Quinton de Kock built reputations on movement and economy as much as on their gloves.",
     },
+    famousPlayers: [
+      { name: "MS Dhoni", team: "India", note: "Fastest stumper ever recorded — bail-flicks in 0.08 s. 195 ODI stumpings, more than any keeper in history. Pioneered the no-look glove flick to the stumps." },
+      { name: "Adam Gilchrist", team: "Australia", note: "Revolutionised the wicketkeeper-batter role. 416 Test dismissals as keeper plus a Test batting average of 47, including a 57-ball century vs England, 2006." },
+      { name: "Kumar Sangakkara", team: "Sri Lanka", note: "Elegant standing-up keeper to Murali — handled the doosra and conventional off-break with the cleanest glovework of his era. 12,000+ Test runs as well." },
+      { name: "Alan Knott", team: "England", note: "The keeping technician of the 1970s. Reverse-cup high catches, micro-adjusted footwork, and the inventor of the modern low squat." },
+      { name: "Bert Oldfield", team: "Australia", note: "Stand-up specialist of the 1920s — 52 stumpings in 54 Tests, a ratio never matched in the modern era." },
+      { name: "Rishabh Pant", team: "India", note: "Modern keeper-batter — match-defining counter-attacking innings in Australia 2020-21 and England 2022, plus huge sustained workload behind the stumps." },
+      { name: "Quinton de Kock", team: "South Africa", note: "Standout white-ball keeper-batter. Lightning glove transfer for run-outs, plus three centuries vs India in 2017–18 ODIs." },
+    ],
   },
   "cricket-ground": {
     relatedSims: [SIM.pitch, SIM.field],
