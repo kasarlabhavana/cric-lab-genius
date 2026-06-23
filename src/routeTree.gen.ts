@@ -16,6 +16,7 @@ import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as LaboratoryRouteImport } from './routes/laboratory'
 import { Route as ExploreRouteImport } from './routes/explore'
+import { Route as DisclaimerRouteImport } from './routes/disclaimer'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -66,6 +67,11 @@ const LaboratoryRoute = LaboratoryRouteImport.update({
 const ExploreRoute = ExploreRouteImport.update({
   id: '/explore',
   path: '/explore',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DisclaimerRoute = DisclaimerRouteImport.update({
+  id: '/disclaimer',
+  path: '/disclaimer',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -156,6 +162,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
+  '/disclaimer': typeof DisclaimerRoute
   '/explore': typeof ExploreRouteWithChildren
   '/laboratory': typeof LaboratoryRouteWithChildren
   '/privacy': typeof PrivacyRoute
@@ -181,6 +188,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
+  '/disclaimer': typeof DisclaimerRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/progress': typeof ProgressRoute
@@ -203,6 +211,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
+  '/disclaimer': typeof DisclaimerRoute
   '/explore': typeof ExploreRouteWithChildren
   '/laboratory': typeof LaboratoryRouteWithChildren
   '/privacy': typeof PrivacyRoute
@@ -230,6 +239,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/community'
     | '/contact'
+    | '/disclaimer'
     | '/explore'
     | '/laboratory'
     | '/privacy'
@@ -255,6 +265,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/community'
     | '/contact'
+    | '/disclaimer'
     | '/privacy'
     | '/profile'
     | '/progress'
@@ -276,6 +287,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/community'
     | '/contact'
+    | '/disclaimer'
     | '/explore'
     | '/laboratory'
     | '/privacy'
@@ -302,6 +314,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   CommunityRoute: typeof CommunityRoute
   ContactRoute: typeof ContactRoute
+  DisclaimerRoute: typeof DisclaimerRoute
   ExploreRoute: typeof ExploreRouteWithChildren
   LaboratoryRoute: typeof LaboratoryRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
@@ -362,6 +375,13 @@ declare module '@tanstack/react-router' {
       path: '/explore'
       fullPath: '/explore'
       preLoaderRoute: typeof ExploreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/disclaimer': {
+      id: '/disclaimer'
+      path: '/disclaimer'
+      fullPath: '/disclaimer'
+      preLoaderRoute: typeof DisclaimerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -539,6 +559,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   CommunityRoute: CommunityRoute,
   ContactRoute: ContactRoute,
+  DisclaimerRoute: DisclaimerRoute,
   ExploreRoute: ExploreRouteWithChildren,
   LaboratoryRoute: LaboratoryRouteWithChildren,
   PrivacyRoute: PrivacyRoute,

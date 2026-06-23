@@ -48,7 +48,7 @@ function QuizIndex() {
           const result = state.passedQuizzes[q.id];
           return (
             <Link key={q.id} to="/quiz/$quizId" params={{ quizId: q.id }} className="card-hover rounded-2xl border border-border bg-card p-5">
-              <div className="text-xs text-muted-foreground">{mod?.title}</div>
+              <div className="text-xs text-muted-foreground">{mod?.title ?? "Topic quiz"}</div>
               <h3 className="mt-1 font-display font-semibold text-foreground">{q.title}</h3>
               <div className="mt-3 flex items-center gap-4 text-xs text-muted-foreground">
                 <span>{q.questions.length} questions</span>
