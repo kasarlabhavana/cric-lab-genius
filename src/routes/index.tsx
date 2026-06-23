@@ -1,9 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import {
-  ArrowRight, Beaker, BookOpen, Bot, ListChecks, TrendingUp, Users,
+  ArrowRight, Beaker,
   Sparkles, Target, Swords, Hand, LayoutGrid, CircleDot, CloudSun, Dumbbell, Scale,
-  GraduationCap, Baby, Trophy, Eye, Wrench,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -18,15 +17,6 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const MODULE_TILES = [
-  { to: "/explore", label: "Explore Topics",      desc: "21-section breakdowns of deliveries, shots and tactics.", icon: BookOpen,    tint: "var(--brand-orange)" },
-  { to: "/laboratory", label: "Cricket Laboratory", desc: "Simulate spin, swing, pitch and field placements.",      icon: Beaker,      tint: "var(--brand-green)"  },
-  { to: "/ai-coach", label: "AI Coach",           desc: "Upload your video — get biomechanics feedback.",         icon: Bot,         tint: "var(--brand-orange)" },
-  { to: "/quiz",     label: "Quiz Zone",          desc: "Test your understanding, earn XP and badges.",           icon: ListChecks,  tint: "var(--brand-green)"  },
-  { to: "/progress", label: "Progress",           desc: "Track lessons, streaks and personal bests.",             icon: TrendingUp,  tint: "var(--brand-orange)" },
-  { to: "/community", label: "Community",         desc: "Discuss, share and learn with other cricket nerds.",     icon: Users,       tint: "var(--brand-green)"  },
-] as const;
-
 const SCIENCE_TILES = [
   { slug: "bowling-science",  title: "Bowling",     icon: Target,     desc: "Pace, spin & seam physics." },
   { slug: "batting-science",  title: "Batting",     icon: Swords,     desc: "Timing, geometry, power." },
@@ -36,49 +26,6 @@ const SCIENCE_TILES = [
   { slug: "environment-science", title: "Environment", icon: CloudSun, desc: "Wind, dew, altitude." },
   { slug: "fitness-science",  title: "Fitness",     icon: Dumbbell,   desc: "Strength & longevity." },
   { slug: "umpiring-science", title: "Umpiring",    icon: Scale,      desc: "Decisions & DRS tech." },
-] as const;
-
-const LEARNERS = [
-  {
-    key: "beginner",
-    icon: Baby,
-    title: "Beginner",
-    tagline: "New to cricket? Start with the basics.",
-    points: ["What swing, spin and seam actually mean", "Simple bat & ball anatomy", "Friendly quizzes — no jargon"],
-    cta: "Start with fundamentals",
-    to: "/explore",
-    color: "var(--brand-green)",
-  },
-  {
-    key: "academy",
-    icon: GraduationCap,
-    title: "Academy Player",
-    tagline: "Train smarter, not just harder.",
-    points: ["Biomechanics of your action", "Drills backed by physics", "Lab simulators to test ideas"],
-    cta: "Open the Laboratory",
-    to: "/laboratory",
-    color: "var(--brand-orange)",
-  },
-  {
-    key: "pro",
-    icon: Trophy,
-    title: "Pro / Coach",
-    tagline: "Edge-of-game detail, ready to apply.",
-    points: ["Reverse swing, kinetic chains, workloads", "AI Coach video analysis", "Field placement simulator"],
-    cta: "Try the AI Coach",
-    to: "/ai-coach",
-    color: "var(--brand-orange)",
-  },
-  {
-    key: "fan",
-    icon: Eye,
-    title: "Fan",
-    tagline: "Watch every match like a scientist.",
-    points: ["Why a yorker beats a slog", "What commentators actually mean", "Bite-sized lessons in 5 minutes"],
-    cta: "Browse topics",
-    to: "/topics",
-    color: "var(--brand-green)",
-  },
 ] as const;
 
 const fadeUp = { hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } };
@@ -134,47 +81,6 @@ function Home() {
         </div>
       </section>
 
-      {/* MODULE TILES — every page in one glance */}
-      <section className="mx-auto max-w-6xl px-6 py-16">
-        <div className="text-center max-w-2xl mx-auto">
-          <span className="inline-block rounded-full bg-[color:var(--brand-green)]/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-green)]">Modules</span>
-          <h2 className="mt-3 font-display text-3xl md:text-4xl font-bold text-foreground">Where would you like to start?</h2>
-          <p className="mt-2 text-muted-foreground">Six modules — every page of the app, one click away.</p>
-        </div>
-
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-60px" }}
-          variants={{ visible: { transition: { staggerChildren: 0.06 } } }}
-          className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
-        >
-          {MODULE_TILES.map(t => {
-            const Icon = t.icon;
-            return (
-              <motion.div key={t.to} variants={fadeUp} transition={{ duration: 0.45 }} whileHover={{ y: -4 }}>
-                <Link
-                  to={t.to}
-                  className="group block h-full rounded-2xl border border-border bg-card p-6 shadow-sm hover:shadow-xl transition-shadow"
-                >
-                  <span
-                    className="inline-flex size-12 items-center justify-center rounded-xl"
-                    style={{ background: `color-mix(in oklab, ${t.tint} 14%, transparent)`, color: t.tint }}
-                  >
-                    <Icon className="size-6" />
-                  </span>
-                  <h3 className="mt-4 font-display text-lg font-semibold text-foreground">{t.label}</h3>
-                  <p className="mt-1.5 text-sm text-muted-foreground leading-relaxed">{t.desc}</p>
-                  <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
-                    Open <ArrowRight className="size-4 transition group-hover:translate-x-0.5" />
-                  </span>
-                </Link>
-              </motion.div>
-            );
-          })}
-        </motion.div>
-      </section>
-
       {/* SCIENCE CATEGORIES — compact tile view */}
       <section className="bg-surface border-y border-border">
         <div className="mx-auto max-w-6xl px-6 py-16">
@@ -213,55 +119,6 @@ function Home() {
         </div>
       </section>
 
-      {/* LEARNER PATHS */}
-      <section className="mx-auto max-w-6xl px-6 py-16">
-        <div className="text-center max-w-2xl mx-auto">
-          <span className="inline-block rounded-full bg-primary/8 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">For every learner</span>
-          <h2 className="mt-3 font-display text-3xl md:text-4xl font-bold text-foreground">Pick the path that fits you</h2>
-          <p className="mt-2 text-muted-foreground">CricScience meets you where you are — from gully cricket to international tours.</p>
-        </div>
-
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-60px" }}
-          variants={{ visible: { transition: { staggerChildren: 0.07 } } }}
-          className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4"
-        >
-          {LEARNERS.map(p => {
-            const Icon = p.icon;
-            return (
-              <motion.div
-                key={p.key}
-                variants={fadeUp}
-                transition={{ duration: 0.45 }}
-                whileHover={{ y: -4 }}
-                className="flex flex-col rounded-2xl border border-border bg-card p-6 shadow-sm hover:shadow-xl transition-shadow"
-              >
-                <span
-                  className="inline-flex size-12 items-center justify-center rounded-xl"
-                  style={{ background: `color-mix(in oklab, ${p.color} 14%, transparent)`, color: p.color }}
-                >
-                  <Icon className="size-6" />
-                </span>
-                <h3 className="mt-4 font-display text-lg font-semibold text-foreground">{p.title}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{p.tagline}</p>
-                <ul className="mt-4 space-y-1.5 text-sm text-muted-foreground">
-                  {p.points.map(pt => (
-                    <li key={pt} className="flex gap-2"><span className="mt-1 size-1.5 shrink-0 rounded-full" style={{ background: p.color }} />{pt}</li>
-                  ))}
-                </ul>
-                <Link
-                  to={p.to}
-                  className="mt-auto pt-5 inline-flex items-center gap-1 text-sm font-semibold text-primary"
-                >
-                  {p.cta} <ArrowRight className="size-4" />
-                </Link>
-              </motion.div>
-            );
-          })}
-        </motion.div>
-      </section>
     </div>
   );
 }
