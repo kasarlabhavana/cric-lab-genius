@@ -34,6 +34,10 @@ import {
 } from "@/components/topic-images";
 import { AUDIENCES, type Audience, getTopicExtras } from "@/lib/topic-extras";
 import { LABORATORY_SIMS } from "@/lib/modules";
+import {
+  TopicHotspotDiagram,
+  TOPIC_DIAGRAMS,
+} from "@/components/topic-hotspot-diagram";
 
 // 21 sections — every topic renders all of them in the same order.
 // Each section is bound to a placeholder image view where it makes sense.
@@ -248,6 +252,11 @@ export function TopicPage({ topic }: { topic: Topic }) {
             {extras.audience[audience]}
           </p>
         </section>
+      )}
+
+      {/* Interactive hotspot diagram */}
+      {TOPIC_DIAGRAMS[topic.slug] && (
+        <TopicHotspotDiagram kind={TOPIC_DIAGRAMS[topic.slug]} />
       )}
 
       {/* Key takeaways */}
