@@ -9,16 +9,38 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as QuizRouteImport } from './routes/quiz'
+import { Route as LaboratoryRouteImport } from './routes/laboratory'
 import { Route as ExploreRouteImport } from './routes/explore'
+import { Route as AiCoachRouteImport } from './routes/ai-coach'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as QuizIndexRouteImport } from './routes/quiz.index'
+import { Route as LaboratoryIndexRouteImport } from './routes/laboratory.index'
 import { Route as ExploreIndexRouteImport } from './routes/explore.index'
+import { Route as QuizQuizIdRouteImport } from './routes/quiz.$quizId'
+import { Route as LaboratorySimRouteImport } from './routes/laboratory.$sim'
 import { Route as ExploreModuleRouteImport } from './routes/explore.$module'
 import { Route as ExploreModuleIndexRouteImport } from './routes/explore.$module.index'
 import { Route as ExploreModuleLessonRouteImport } from './routes/explore.$module.$lesson'
 
+const QuizRoute = QuizRouteImport.update({
+  id: '/quiz',
+  path: '/quiz',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LaboratoryRoute = LaboratoryRouteImport.update({
+  id: '/laboratory',
+  path: '/laboratory',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ExploreRoute = ExploreRouteImport.update({
   id: '/explore',
   path: '/explore',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiCoachRoute = AiCoachRouteImport.update({
+  id: '/ai-coach',
+  path: '/ai-coach',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -26,10 +48,30 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const QuizIndexRoute = QuizIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => QuizRoute,
+} as any)
+const LaboratoryIndexRoute = LaboratoryIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LaboratoryRoute,
+} as any)
 const ExploreIndexRoute = ExploreIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => ExploreRoute,
+} as any)
+const QuizQuizIdRoute = QuizQuizIdRouteImport.update({
+  id: '/$quizId',
+  path: '/$quizId',
+  getParentRoute: () => QuizRoute,
+} as any)
+const LaboratorySimRoute = LaboratorySimRouteImport.update({
+  id: '/$sim',
+  path: '/$sim',
+  getParentRoute: () => LaboratoryRoute,
 } as any)
 const ExploreModuleRoute = ExploreModuleRouteImport.update({
   id: '/$module',
@@ -49,24 +91,43 @@ const ExploreModuleLessonRoute = ExploreModuleLessonRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ai-coach': typeof AiCoachRoute
   '/explore': typeof ExploreRouteWithChildren
+  '/laboratory': typeof LaboratoryRouteWithChildren
+  '/quiz': typeof QuizRouteWithChildren
   '/explore/$module': typeof ExploreModuleRouteWithChildren
+  '/laboratory/$sim': typeof LaboratorySimRoute
+  '/quiz/$quizId': typeof QuizQuizIdRoute
   '/explore/': typeof ExploreIndexRoute
+  '/laboratory/': typeof LaboratoryIndexRoute
+  '/quiz/': typeof QuizIndexRoute
   '/explore/$module/$lesson': typeof ExploreModuleLessonRoute
   '/explore/$module/': typeof ExploreModuleIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ai-coach': typeof AiCoachRoute
+  '/laboratory/$sim': typeof LaboratorySimRoute
+  '/quiz/$quizId': typeof QuizQuizIdRoute
   '/explore': typeof ExploreIndexRoute
+  '/laboratory': typeof LaboratoryIndexRoute
+  '/quiz': typeof QuizIndexRoute
   '/explore/$module/$lesson': typeof ExploreModuleLessonRoute
   '/explore/$module': typeof ExploreModuleIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ai-coach': typeof AiCoachRoute
   '/explore': typeof ExploreRouteWithChildren
+  '/laboratory': typeof LaboratoryRouteWithChildren
+  '/quiz': typeof QuizRouteWithChildren
   '/explore/$module': typeof ExploreModuleRouteWithChildren
+  '/laboratory/$sim': typeof LaboratorySimRoute
+  '/quiz/$quizId': typeof QuizQuizIdRoute
   '/explore/': typeof ExploreIndexRoute
+  '/laboratory/': typeof LaboratoryIndexRoute
+  '/quiz/': typeof QuizIndexRoute
   '/explore/$module/$lesson': typeof ExploreModuleLessonRoute
   '/explore/$module/': typeof ExploreModuleIndexRoute
 }
@@ -74,35 +135,82 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/ai-coach'
     | '/explore'
+    | '/laboratory'
+    | '/quiz'
     | '/explore/$module'
+    | '/laboratory/$sim'
+    | '/quiz/$quizId'
     | '/explore/'
+    | '/laboratory/'
+    | '/quiz/'
     | '/explore/$module/$lesson'
     | '/explore/$module/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/explore' | '/explore/$module/$lesson' | '/explore/$module'
+  to:
+    | '/'
+    | '/ai-coach'
+    | '/laboratory/$sim'
+    | '/quiz/$quizId'
+    | '/explore'
+    | '/laboratory'
+    | '/quiz'
+    | '/explore/$module/$lesson'
+    | '/explore/$module'
   id:
     | '__root__'
     | '/'
+    | '/ai-coach'
     | '/explore'
+    | '/laboratory'
+    | '/quiz'
     | '/explore/$module'
+    | '/laboratory/$sim'
+    | '/quiz/$quizId'
     | '/explore/'
+    | '/laboratory/'
+    | '/quiz/'
     | '/explore/$module/$lesson'
     | '/explore/$module/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AiCoachRoute: typeof AiCoachRoute
   ExploreRoute: typeof ExploreRouteWithChildren
+  LaboratoryRoute: typeof LaboratoryRouteWithChildren
+  QuizRoute: typeof QuizRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/quiz': {
+      id: '/quiz'
+      path: '/quiz'
+      fullPath: '/quiz'
+      preLoaderRoute: typeof QuizRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/laboratory': {
+      id: '/laboratory'
+      path: '/laboratory'
+      fullPath: '/laboratory'
+      preLoaderRoute: typeof LaboratoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/explore': {
       id: '/explore'
       path: '/explore'
       fullPath: '/explore'
       preLoaderRoute: typeof ExploreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai-coach': {
+      id: '/ai-coach'
+      path: '/ai-coach'
+      fullPath: '/ai-coach'
+      preLoaderRoute: typeof AiCoachRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -112,12 +220,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/quiz/': {
+      id: '/quiz/'
+      path: '/'
+      fullPath: '/quiz/'
+      preLoaderRoute: typeof QuizIndexRouteImport
+      parentRoute: typeof QuizRoute
+    }
+    '/laboratory/': {
+      id: '/laboratory/'
+      path: '/'
+      fullPath: '/laboratory/'
+      preLoaderRoute: typeof LaboratoryIndexRouteImport
+      parentRoute: typeof LaboratoryRoute
+    }
     '/explore/': {
       id: '/explore/'
       path: '/'
       fullPath: '/explore/'
       preLoaderRoute: typeof ExploreIndexRouteImport
       parentRoute: typeof ExploreRoute
+    }
+    '/quiz/$quizId': {
+      id: '/quiz/$quizId'
+      path: '/$quizId'
+      fullPath: '/quiz/$quizId'
+      preLoaderRoute: typeof QuizQuizIdRouteImport
+      parentRoute: typeof QuizRoute
+    }
+    '/laboratory/$sim': {
+      id: '/laboratory/$sim'
+      path: '/$sim'
+      fullPath: '/laboratory/$sim'
+      preLoaderRoute: typeof LaboratorySimRouteImport
+      parentRoute: typeof LaboratoryRoute
     }
     '/explore/$module': {
       id: '/explore/$module'
@@ -170,9 +306,38 @@ const ExploreRouteChildren: ExploreRouteChildren = {
 const ExploreRouteWithChildren =
   ExploreRoute._addFileChildren(ExploreRouteChildren)
 
+interface LaboratoryRouteChildren {
+  LaboratorySimRoute: typeof LaboratorySimRoute
+  LaboratoryIndexRoute: typeof LaboratoryIndexRoute
+}
+
+const LaboratoryRouteChildren: LaboratoryRouteChildren = {
+  LaboratorySimRoute: LaboratorySimRoute,
+  LaboratoryIndexRoute: LaboratoryIndexRoute,
+}
+
+const LaboratoryRouteWithChildren = LaboratoryRoute._addFileChildren(
+  LaboratoryRouteChildren,
+)
+
+interface QuizRouteChildren {
+  QuizQuizIdRoute: typeof QuizQuizIdRoute
+  QuizIndexRoute: typeof QuizIndexRoute
+}
+
+const QuizRouteChildren: QuizRouteChildren = {
+  QuizQuizIdRoute: QuizQuizIdRoute,
+  QuizIndexRoute: QuizIndexRoute,
+}
+
+const QuizRouteWithChildren = QuizRoute._addFileChildren(QuizRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AiCoachRoute: AiCoachRoute,
   ExploreRoute: ExploreRouteWithChildren,
+  LaboratoryRoute: LaboratoryRouteWithChildren,
+  QuizRoute: QuizRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
