@@ -262,7 +262,7 @@ export const BOWLING_EXTRA: Lesson[] = [
     [
       "Definition: A short-pitched delivery that rises to chest or head height (Marshall, Lillee, Bumrah, Archer, Mitchell Johnson).",
       "Release & Geometry: Pitched 7–9 m from the batter, released at +3–4° above horizontal so it clears the chest after one bounce.",
-      "Tactical Use: Two per over allowed by Law 41.6; used to set up the full ball and dismantle hook/pull batters.",
+      "Tactical Use: Two bouncers per over are allowed in men's Test cricket (under Law 41.6 of the Laws of Cricket); used to set up the full ball and unsettle hook/pull batters.",
       "Common Mistakes: Bouncing too short — anything that goes through above head height is a wide; calibrate length on the day-one pitch.",
       "Injury Risks: Concussion remains the most-tracked injury; helmet standards (BS 7928:2013) are mandatory in international cricket post-2014.",
     ]),
