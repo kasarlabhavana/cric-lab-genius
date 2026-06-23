@@ -542,7 +542,7 @@ export const TOPICS: Topic[] = [
     category: "Ground & Pitch",
     difficulty: "Beginner",
     definition:
-      "An oval or circular playing area, typically 137–150 m across, with a central rectangular pitch. The boundary is marked by a rope and ringed by a 30-yard inner circle that governs fielding restrictions in limited-overs cricket.",
+      "A cricket ground is the oval or near-circular playing area on which the game is contested, typically 137–150 metres across at the longer axis and bounded by a rope or fence, with a central rectangular pitch (the 22-yard strip) flanked by sightscreens at either end. Inside the boundary, a 30-yard (27.4 m) inner circle is painted to enforce fielding restrictions in limited-overs cricket, and additional creases, danger areas, and return creases mark the bowling and batting zones at each end of the pitch. Grounds vary dramatically in shape, soil composition, altitude, and outfield speed — Adelaide's short square boundaries reward leg-side hitting, the MCG's long straight ones reward bowling full, and high-altitude venues like Johannesburg shorten the effective boundary by roughly 5%. Beyond the playing area, the slope, drainage, grass species, and even prevailing wind interact with the pitch and ball to shape how cricket is played at each venue.",
     history:
       "The MCC codified ground dimensions in 1788. Lord's (est. 1814) became the spiritual home. Drop-in pitches, floodlights (1977 World Series), and 30-yard circles (1980) progressively reshaped how grounds are used.",
     grip:
