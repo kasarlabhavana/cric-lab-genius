@@ -404,7 +404,7 @@ export const TOPICS: Topic[] = [
     category: "Fielding",
     difficulty: "Beginner",
     definition:
-      "The art of stopping the ball, preventing runs, and taking catches or effecting run-outs. Fielding turns half-chances into wickets and saves 20–40 runs an innings for an elite side.",
+      "Fielding is the collective discipline of preventing runs and creating dismissals once the ball has been struck or has passed the batter — encompassing catching, ground fielding, throwing, backing-up, and the positional intelligence to anticipate where the ball will travel. While historically treated as secondary to batting and bowling, fielding has become the most measurable and rapidly improving area of the modern game, with elite teams now saving or conceding 20–40 runs an innings through fielding margins alone and converting roughly one half-chance in three into wickets. A complete fielder combines reaction times of 0.25–0.35 s, throwing arms accurate at 65+ metres, catching technique that ranges from the reverse-cup grip overhead to the cup grip below the eyeline, and the situational awareness to back up throws, communicate switches, and read the batter's intent. In T20 cricket especially, fielding is now widely regarded as the single biggest swing factor between balanced sides.",
     history:
       "Once an afterthought, fielding was revolutionised by Jonty Rhodes' run-out of Inzamam in the 1992 World Cup and by Australia's specialist fielding coaches in the 2000s. Modern T20 cricket made elite fielding non-negotiable.",
     grip:
