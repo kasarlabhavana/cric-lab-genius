@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { Mail, Sparkles, UserCircle2 } from "lucide-react";
+import { Loader2, Lock, Mail, Sparkles, UserCircle2 } from "lucide-react";
+import { toast } from "sonner";
 import { useUser } from "@/lib/user-state";
 
 export const Route = createFileRoute("/auth")({
@@ -16,13 +17,37 @@ export const Route = createFileRoute("/auth")({
 });
 
 function Auth() {
-  const { signIn } = useUser();
+  const { signInEmail, signUpEmail, signInGoogle, signInGuest } = useUser();
   const navigate = useNavigate();
+  const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [loading, setLoading] = useState<"google" | "email" | "guest" | null>(null);
 
-  const go = (method: "email" | "google" | "guest", payload?: { name?: string; email?: string }) => {
-    signIn(method, payload);
+  const handleEmail = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !password) return;
+    setLoading("email");
+    const res = mode === "signin"
+      ? await signInEmail(email, password)
+      : await signUpEmail(email, password, name || undefined);
+    setLoading(null);
+    if (res.error) return toast.error(res.error);
+    toast.success(mode === "signin" ? "Welcome back!" : "Account created — check your email to confirm.");
+    if (mode === "signin") navigate({ to: "/" });
+  };
+
+  const handleGoogle = async () => {
+    setLoading("google");
+    const res = await signInGoogle();
+    setLoading(null);
+    if (res.error) toast.error(res.error);
+  };
+
+  const handleGuest = () => {
+    setLoading("guest");
+    signInGuest(name || undefined);
     navigate({ to: "/" });
   };
 
@@ -38,10 +63,12 @@ function Auth() {
 
       <div className="rounded-3xl border border-border bg-card p-6 space-y-3">
         <button
-          onClick={() => go("google", { name: "Google Player" })}
-          className="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm font-semibold hover:bg-muted flex items-center justify-center gap-2"
+          onClick={handleGoogle}
+          disabled={loading !== null}
+          className="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm font-semibold hover:bg-muted flex items-center justify-center gap-2 disabled:opacity-60"
         >
-          <GoogleIcon /> Continue with Google
+          {loading === "google" ? <Loader2 className="size-4 animate-spin" /> : <GoogleIcon />}
+          Continue with Google
         </button>
 
         <div className="flex items-center gap-2 my-2">
@@ -50,21 +77,46 @@ function Auth() {
           <div className="flex-1 h-px bg-border" />
         </div>
 
-        <form onSubmit={e => { e.preventDefault(); if (email) go("email", { name: name || undefined, email }); }} className="space-y-3">
-          <Input icon={<UserCircle2 className="size-4" />} placeholder="Your name (optional)" value={name} onChange={setName} />
-          <Input icon={<Mail className="size-4" />} type="email" placeholder="you@email.com" value={email} onChange={setEmail} required />
-          <button type="submit" disabled={!email} className="w-full rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 disabled:opacity-50">Continue with Email</button>
+        <div className="grid grid-cols-2 gap-1 rounded-xl bg-surface p-1">
+          {(["signin", "signup"] as const).map(m => (
+            <button
+              key={m}
+              onClick={() => setMode(m)}
+              className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
+                mode === m ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {m === "signin" ? "Sign in" : "Sign up"}
+            </button>
+          ))}
+        </div>
+
+        <form onSubmit={handleEmail} className="space-y-3">
+          {mode === "signup" && (
+            <Input icon={<UserCircle2 className="size-4" />} placeholder="Your name (optional)" value={name} onChange={setName} />
+          )}
+          <Input icon={<Mail className="size-4" />} type="email" placeholder="you@email.com" value={email} onChange={setEmail} required autoComplete="email" />
+          <Input icon={<Lock className="size-4" />} type="password" placeholder="Password" value={password} onChange={setPassword} required minLength={6} autoComplete={mode === "signin" ? "current-password" : "new-password"} />
+          <button
+            type="submit"
+            disabled={!email || !password || loading !== null}
+            className="w-full rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 disabled:opacity-50 inline-flex items-center justify-center gap-2"
+          >
+            {loading === "email" && <Loader2 className="size-4 animate-spin" />}
+            {mode === "signin" ? "Sign in" : "Create account"}
+          </button>
         </form>
 
         <button
-          onClick={() => go("guest")}
-          className="w-full rounded-xl border border-dashed border-border bg-surface px-4 py-3 text-sm font-medium text-foreground hover:bg-muted"
+          onClick={handleGuest}
+          disabled={loading !== null}
+          className="w-full rounded-xl border border-dashed border-border bg-surface px-4 py-3 text-sm font-medium text-foreground hover:bg-muted disabled:opacity-60"
         >
           Continue as guest
         </button>
       </div>
 
-      <p className="mt-4 text-center text-xs text-muted-foreground">Demo mode — accounts live in your browser for now.</p>
+      <p className="mt-4 text-center text-xs text-muted-foreground">Guest progress lives in your browser. Sign in to sync across devices.</p>
     </div>
   );
 }

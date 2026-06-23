@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { BADGES, type BadgeId, MODULE_BY_SLUG } from "./modules";
+import { supabase } from "@/integrations/supabase/client";
 
 type AuthMethod = "email" | "google" | "guest";
 
@@ -82,8 +83,11 @@ export function deriveLevel(xp: number): Level {
 
 type Ctx = {
   state: UserState;
-  signIn: (method: AuthMethod, payload?: { name?: string; email?: string }) => void;
-  signOut: () => void;
+  signInEmail: (email: string, password: string) => Promise<{ error?: string }>;
+  signUpEmail: (email: string, password: string, name?: string) => Promise<{ error?: string }>;
+  signInGoogle: () => Promise<{ error?: string }>;
+  signInGuest: (name?: string) => void;
+  signOut: () => Promise<void>;
   setLevel: (level: CurrentUser["level"]) => void;
   completeLesson: (moduleSlug: string, lessonSlug: string) => { xpGained: number; newBadges: BadgeId[] };
   toggleBookmark: (moduleSlug: string, lessonSlug: string) => void;
@@ -145,6 +149,41 @@ export function UserProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     setState(load());
     setHydrated(true);
+
+    // Hydrate from Supabase session (real auth) — overrides any cached guest user
+    let active = true;
+    const applySession = (sUser: { id: string; email?: string | null; user_metadata?: Record<string, unknown> } | null, method: AuthMethod) => {
+      if (!active) return;
+      if (!sUser) return;
+      const meta = (sUser.user_metadata ?? {}) as Record<string, unknown>;
+      const name = (meta.name as string) || (meta.full_name as string) || sUser.email?.split("@")[0] || "Player";
+      setState(prev => ({
+        ...prev,
+        user: {
+          id: sUser.id,
+          name,
+          email: sUser.email ?? undefined,
+          method,
+          level: prev.user?.level ?? "Beginner",
+          createdAt: Date.now(),
+        },
+      }));
+    };
+
+    supabase.auth.getSession().then(({ data }) => {
+      const s = data.session;
+      if (s?.user) applySession(s.user, s.user.app_metadata?.provider === "google" ? "google" : "email");
+    });
+    const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_OUT") {
+        setState(prev => ({ ...prev, user: prev.user?.method === "guest" ? prev.user : null }));
+        return;
+      }
+      if (session?.user && (event === "SIGNED_IN" || event === "USER_UPDATED" || event === "TOKEN_REFRESHED")) {
+        applySession(session.user, session.user.app_metadata?.provider === "google" ? "google" : "email");
+      }
+    });
+    return () => { active = false; sub.subscription.unsubscribe(); };
   }, []);
 
   useEffect(() => {
@@ -161,21 +200,45 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const ctx = useMemo<Ctx>(() => ({
     state,
-    signIn: (method, payload) => {
-      const name = payload?.name?.trim() || (method === "guest" ? "Guest Cricketer" : payload?.email?.split("@")[0] || "Player");
+    signInEmail: async (email, password) => {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      return error ? { error: error.message } : {};
+    },
+    signUpEmail: async (email, password, name) => {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: typeof window !== "undefined" ? window.location.origin : undefined,
+          data: name ? { name } : undefined,
+        },
+      });
+      return error ? { error: error.message } : {};
+    },
+    signInGoogle: async () => {
+      const { lovable } = await import("@/integrations/lovable");
+      const result = await lovable.auth.signInWithOAuth("google", {
+        redirect_uri: window.location.origin,
+      });
+      if (result.error) return { error: result.error.message };
+      return {};
+    },
+    signInGuest: (name) => {
       apply(s => ({
         ...s,
         user: {
           id: crypto.randomUUID(),
-          name,
-          email: payload?.email,
-          method,
+          name: name?.trim() || "Guest Cricketer",
+          method: "guest",
           level: s.user?.level ?? "Beginner",
           createdAt: Date.now(),
         },
       }));
     },
-    signOut: () => setState(empty),
+    signOut: async () => {
+      await supabase.auth.signOut().catch(() => {});
+      setState(empty);
+    },
     setLevel: (level) => apply(s => s.user ? { ...s, user: { ...s.user, level } } : s),
     completeLesson: (moduleSlug, lessonSlug) => {
       const key = `${moduleSlug}/${lessonSlug}`;
