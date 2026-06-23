@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import {
   ArrowRight, Beaker,
-  Sparkles, Target, Swords, Hand, Shield, Wrench, LayoutGrid, CircleDot, CloudSun, Dumbbell, Scale,
+  Target, Swords, Hand, Shield, Wrench, LayoutGrid, CircleDot, CloudSun, Dumbbell, Scale,
 } from "lucide-react";
 import logoUrl from "@/assets/logo.png";
 
@@ -40,23 +40,14 @@ function Home() {
       <section className="relative overflow-hidden border-b border-border">
         <GroundLabBackdrop />
         <div className="relative mx-auto max-w-6xl px-6 py-20 md:py-28 text-center text-white">
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium backdrop-blur"
-          >
-            <Sparkles className="size-3.5 text-[color:var(--brand-orange)]" />
-            The science behind every ball
-          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.05 }}
-            className="mt-4 flex justify-center"
+            className="flex justify-center"
           >
-            <img src={logoUrl} alt="CricScience logo" className="size-32 sm:size-40 object-contain drop-shadow-md" />
+            <img src={logoUrl} alt="CricScience logo" className="size-48 sm:size-64 object-contain drop-shadow-md" />
           </motion.div>
 
           <motion.h1
