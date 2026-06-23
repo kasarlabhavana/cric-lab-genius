@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { UserProvider } from "../lib/user-state";
 import { AppHeader, AppFooter } from "../components/app-layout";
 import { Toaster } from "../components/ui/sonner";
+import { ThemeProvider } from "../lib/theme";
 
 function NotFoundComponent() {
   return (
@@ -101,6 +102,11 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('cs-theme');var d=t?t==='dark':matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.classList.add('dark');}catch(e){}})();`,
+          }}
+        />
       </head>
       <body>
         {children}
@@ -115,16 +121,18 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <UserProvider>
-        <div className="flex min-h-screen flex-col bg-background">
-          <AppHeader />
-          <main className="flex-1">
-            <Outlet />
-          </main>
-          <AppFooter />
-        </div>
-        <Toaster />
-      </UserProvider>
+      <ThemeProvider>
+        <UserProvider>
+          <div className="flex min-h-screen flex-col bg-background">
+            <AppHeader />
+            <main className="flex-1">
+              <Outlet />
+            </main>
+            <AppFooter />
+          </div>
+          <Toaster />
+        </UserProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }

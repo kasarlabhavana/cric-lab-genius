@@ -1,7 +1,8 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Beaker, BookOpen, Bot, Flame, Home, ListChecks, Menu, TrendingUp, Trophy, User, Users, X } from "lucide-react";
+import { Beaker, BookOpen, Bot, Flame, Home, ListChecks, Menu, Moon, Sun, TrendingUp, Trophy, User, Users, X } from "lucide-react";
 import { useState } from "react";
 import { useUser, deriveLevel } from "@/lib/user-state";
+import { useTheme } from "@/lib/theme";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const NAV = [
@@ -16,6 +17,7 @@ const NAV = [
 
 export function AppHeader() {
   const { state } = useUser();
+  const { theme, toggle } = useTheme();
   const pathname = useRouterState({ select: s => s.location.pathname });
   const [open, setOpen] = useState(false);
   const level = deriveLevel(state.xp);
@@ -63,6 +65,13 @@ export function AppHeader() {
               <span className="hidden md:inline text-xs font-medium text-muted-foreground">{level.name}</span>
             </div>
           )}
+          <button
+            onClick={toggle}
+            aria-label="Toggle theme"
+            className="inline-flex size-9 items-center justify-center rounded-lg border border-border text-foreground hover:bg-muted transition"
+          >
+            {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
+          </button>
           <Link
             to={state.user ? "/profile" : "/auth"}
             className="hidden sm:inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition"
@@ -135,20 +144,22 @@ export function AppFooter() {
             <li><Link to="/explore" className="hover:text-foreground">Explore Topics</Link></li>
             <li><Link to="/laboratory" className="hover:text-foreground">Laboratory</Link></li>
             <li><Link to="/quiz" className="hover:text-foreground">Quiz Zone</Link></li>
-          </ul>
-        </div>
-        <div>
-          <h4 className="font-display font-semibold mb-2 text-sm">You</h4>
-          <ul className="space-y-1.5 text-muted-foreground">
-            <li><Link to="/progress" className="hover:text-foreground">My Progress</Link></li>
-            <li><Link to="/profile" className="hover:text-foreground">Profile</Link></li>
             <li><Link to="/ai-coach" className="hover:text-foreground">AI Coach</Link></li>
           </ul>
         </div>
         <div>
-          <h4 className="font-display font-semibold mb-2 text-sm">Community</h4>
+          <h4 className="font-display font-semibold mb-2 text-sm">Company</h4>
           <ul className="space-y-1.5 text-muted-foreground">
-            <li><Link to="/community" className="hover:text-foreground">Leaderboard & Feed</Link></li>
+            <li><Link to="/about" className="hover:text-foreground">About</Link></li>
+            <li><Link to="/contact" className="hover:text-foreground">Contact</Link></li>
+            <li><Link to="/community" className="hover:text-foreground">Community</Link></li>
+          </ul>
+        </div>
+        <div>
+          <h4 className="font-display font-semibold mb-2 text-sm">Legal</h4>
+          <ul className="space-y-1.5 text-muted-foreground">
+            <li><Link to="/privacy" className="hover:text-foreground">Privacy</Link></li>
+            <li><Link to="/terms" className="hover:text-foreground">Terms</Link></li>
           </ul>
         </div>
       </div>
