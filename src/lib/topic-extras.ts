@@ -109,6 +109,13 @@ const EXTRAS: Record<string, TopicExtras> = {
       Fan:
         "The off-spinner's biggest weapon is not always turn — it's the dip and bounce that come from heavy over-spin. Watch where the batter's bat ends up: if they are playing for a length 30 cm shorter than where the ball actually pitches, the bowler has used flight, not just spin. Ravichandran Ashwin, Nathan Lyon and Muralitharan have all been masters of this 'invisible' dip.",
     },
+    famousPlayers: [
+      { name: "Muttiah Muralitharan", team: "Sri Lanka", note: "All-time leading Test wicket-taker (800). Hyper-flexible wrist let him rip the off-break with leg-spin-level revs — and produced the doosra without a visible change of action." },
+      { name: "Ravichandran Ashwin", team: "India", note: "500+ Test wickets. Master of subtle release variations — uses the carrom-ball, slider and overspun off-break to attack both edges. Top wicket-taker vs LH batters in his era." },
+      { name: "Nathan Lyon", team: "Australia", note: "500+ Test wickets bowling 'classical' off-spin — tall release, big over-spin, dip and bounce on hard Australian decks." },
+      { name: "Jim Laker", team: "England", note: "19 for 90 against Australia at Old Trafford, 1956 — still the greatest off-spin bowling performance in a Test match." },
+      { name: "Saqlain Mushtaq", team: "Pakistan", note: "Inventor of the modern doosra and one of the most influential off-spin coaches of the 21st century." },
+    ],
   },
   "doosra": {
     relatedSims: [SIM.spin, SIM.pitch, SIM.field],
