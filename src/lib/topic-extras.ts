@@ -208,6 +208,13 @@ const EXTRAS: Record<string, TopicExtras> = {
       Fan:
         "If the ball suddenly starts curving the opposite way around the 35th over, that's reverse swing. Watch where the shiny side is at the top of the bowler's run-up — the ball will curve toward it. Wasim Akram, Waqar Younis and more recently Mohammed Shami have built spells around reverse-swung yorkers that are some of the most spectacular bowling in the game.",
     },
+    famousPlayers: [
+      { name: "Sarfraz Nawaz", team: "Pakistan", note: "The originator. Credited with discovering reverse swing in the 1970s and passing the knowledge to Imran Khan." },
+      { name: "Wasim Akram", team: "Pakistan", note: "Left-arm 'Sultan of Swing'. Generated late, vicious reverse at 145 km/h — including the back-to-back balls that dismissed Lewis and Chapple in the 1992 World Cup final." },
+      { name: "Waqar Younis", team: "Pakistan", note: "Right-arm partner of Wasim. Specialised in 'toe-crushing' reverse-swing yorkers. 373 Test wickets at strike rate 43.4 — fastest of any genuine fast bowler." },
+      { name: "Andrew Flintoff", team: "England", note: "Used reverse swing brilliantly in the 2005 Ashes — his over to Ricky Ponting at Edgbaston is often cited as the moment the series turned." },
+      { name: "Mohammed Shami", team: "India", note: "Modern-day reverse-swing exponent. Locks the seam and bowls a heavy ball that reverses both ways from over 30 onward." },
+    ],
   },
   "fielding": {
     relatedSims: [SIM.field, SIM.reaction],
