@@ -177,6 +177,8 @@ function AICoachPage() {
     setMediaUrl(URL.createObjectURL(file));
     setMediaType(isVideo ? "video" : "image");
     setMediaName(file.name);
+    // Deterministic seed from file identity — same file → same analysis.
+    setMediaSeed(hashSeed(`${file.name}|${file.size}|${file.lastModified}`));
     setAnalysis(null);
     setTitle(file.name.replace(/\.[^.]+$/, ""));
   };
@@ -185,11 +187,13 @@ function AICoachPage() {
     if (!mediaUrl) return;
     setAnalyzing(true);
     setAnalysis(null);
-    // Placeholder pose-estimation: jitter around ideals so users see varied verdicts.
+    // Deterministic pose-estimation placeholder: seeded PRNG ensures the
+    // same uploaded file always produces the same metrics.
     setTimeout(() => {
+      const rand = mulberry32(mediaSeed || 1);
       const seeded = METRICS.reduce<Record<MetricKey, number>>((acc, m) => {
         const spread = (m.max - m.min) * 0.18;
-        const noise = (Math.random() - 0.5) * spread * 2;
+        const noise = (rand() - 0.5) * spread * 2;
         const raw = m.ideal + noise;
         const clamped = Math.max(m.min, Math.min(m.max, raw));
         acc[m.key] = +clamped.toFixed(m.unit === "m" ? 2 : m.unit === "cm" ? 0 : 1);
@@ -199,6 +203,7 @@ function AICoachPage() {
       setAnalyzing(false);
     }, 1100);
   };
+
 
   const overallScore = useMemo(() => {
     if (!analysis) return null;
