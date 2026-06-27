@@ -290,8 +290,8 @@ export function TopicPage({ topic }: { topic: Topic }) {
         </section>
       )}
 
-      {/* Related Laboratory modules */}
-      {relatedSims.length > 0 && (
+      {/* Related Laboratory modules — hidden (Laboratory removed for now) */}
+      {false && relatedSims.length > 0 && (
         <section className="mt-6 rounded-2xl border border-[color:var(--brand-orange)]/30 bg-[color:var(--brand-orange)]/5 p-4">
           <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">
             <Beaker className="size-3.5" /> Try this in the Laboratory
@@ -311,6 +311,7 @@ export function TopicPage({ topic }: { topic: Topic }) {
           </div>
         </section>
       )}
+
 
       {/* Table of contents */}
       <nav

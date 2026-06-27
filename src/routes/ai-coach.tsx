@@ -109,9 +109,31 @@ function feedbackFor(def: MetricDef, value: number, v: Verdict): string {
   }
 }
 
+/* Deterministic PRNG helpers — so the same uploaded file always
+   produces the same placeholder metrics. */
+function hashSeed(str: string): number {
+  let h = 2166136261 >>> 0;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+function mulberry32(seed: number) {
+  let a = seed >>> 0;
+  return function () {
+    a |= 0; a = (a + 0x6D2B79F5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
 /* =========================================================================
    Page
    ========================================================================= */
+
+
 
 type Report = {
   id: string;
@@ -130,6 +152,7 @@ function AICoachPage() {
   const [mediaUrl, setMediaUrl] = useState<string | null>(null);
   const [mediaType, setMediaType] = useState<"video" | "image" | null>(null);
   const [mediaName, setMediaName] = useState<string | null>(null);
+  const [mediaSeed, setMediaSeed] = useState<number>(0);
   const [analysis, setAnalysis] = useState<Record<MetricKey, number> | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -137,6 +160,7 @@ function AICoachPage() {
 
   const [reports, setReports] = useState<Report[]>([]);
   const fileRef = useRef<HTMLInputElement>(null);
+
 
   // Load saved reports
   useEffect(() => {
@@ -175,6 +199,8 @@ function AICoachPage() {
     setMediaUrl(URL.createObjectURL(file));
     setMediaType(isVideo ? "video" : "image");
     setMediaName(file.name);
+    // Deterministic seed from file identity — same file → same analysis.
+    setMediaSeed(hashSeed(`${file.name}|${file.size}|${file.lastModified}`));
     setAnalysis(null);
     setTitle(file.name.replace(/\.[^.]+$/, ""));
   };
@@ -183,11 +209,13 @@ function AICoachPage() {
     if (!mediaUrl) return;
     setAnalyzing(true);
     setAnalysis(null);
-    // Placeholder pose-estimation: jitter around ideals so users see varied verdicts.
+    // Deterministic pose-estimation placeholder: seeded PRNG ensures the
+    // same uploaded file always produces the same metrics.
     setTimeout(() => {
+      const rand = mulberry32(mediaSeed || 1);
       const seeded = METRICS.reduce<Record<MetricKey, number>>((acc, m) => {
         const spread = (m.max - m.min) * 0.18;
-        const noise = (Math.random() - 0.5) * spread * 2;
+        const noise = (rand() - 0.5) * spread * 2;
         const raw = m.ideal + noise;
         const clamped = Math.max(m.min, Math.min(m.max, raw));
         acc[m.key] = +clamped.toFixed(m.unit === "m" ? 2 : m.unit === "cm" ? 0 : 1);
@@ -197,6 +225,7 @@ function AICoachPage() {
       setAnalyzing(false);
     }, 1100);
   };
+
 
   const overallScore = useMemo(() => {
     if (!analysis) return null;
@@ -245,7 +274,7 @@ function AICoachPage() {
 
   const reset = () => {
     if (mediaUrl) URL.revokeObjectURL(mediaUrl);
-    setMediaUrl(null); setMediaType(null); setMediaName(null);
+    setMediaUrl(null); setMediaType(null); setMediaName(null); setMediaSeed(0);
     setAnalysis(null); setTitle("");
     if (fileRef.current) fileRef.current.value = "";
   };

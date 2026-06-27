@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import {
-  ArrowRight, Beaker,
+  ArrowRight,
   Target, Swords, Hand, Shield, Wrench, LayoutGrid, CircleDot, CloudSun, Dumbbell, Scale,
 } from "lucide-react";
+
 import logoUrl from "@/assets/logo.png";
 
 export const Route = createFileRoute("/")({
@@ -77,9 +78,10 @@ function Home() {
             <Link to="/explore" className="group inline-flex items-center gap-2 rounded-xl bg-[color:var(--brand-orange)] px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[color:var(--brand-orange)]/30 hover:translate-y-[-1px] hover:shadow-xl transition">
               Explore Science <ArrowRight className="size-4 transition group-hover:translate-x-0.5" />
             </Link>
-            <Link to="/laboratory" className="group inline-flex items-center gap-2 rounded-xl border border-white/25 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur hover:bg-white/20 transition">
-              <Beaker className="size-4" /> Try Laboratory
+            <Link to="/quiz" className="group inline-flex items-center gap-2 rounded-xl border border-white/25 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur hover:bg-white/20 transition">
+              Play Quiz <ArrowRight className="size-4 transition group-hover:translate-x-0.5" />
             </Link>
+
           </motion.div>
         </div>
       </section>
