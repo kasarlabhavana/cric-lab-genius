@@ -93,37 +93,136 @@ function Home() {
           <div className="text-center max-w-2xl mx-auto">
             <span className="inline-block rounded-full bg-[color:var(--brand-orange)]/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">Science</span>
             <h2 className="mt-3 font-display text-3xl md:text-4xl font-bold text-foreground">Ten sciences of cricket</h2>
-            <p className="mt-2 text-muted-foreground">Tap any tile to dive into lessons, diagrams and quizzes.</p>
+            <p className="mt-2 text-muted-foreground">Hover a planet to preview — tap to dive in.</p>
           </div>
 
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-60px" }}
-            variants={{ visible: { transition: { staggerChildren: 0.04 } } }}
-            className="mt-10 grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
-          >
+          <InteractiveBall />
+
+          {/* Compact list fallback for accessibility / small screens */}
+          <div className="mt-10 grid gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 md:hidden">
             {SCIENCE_TILES.map(s => {
               const Icon = s.icon;
               return (
-                <motion.div key={s.slug} variants={fadeUp} transition={{ duration: 0.4 }} whileHover={{ y: -3 }}>
-                  <Link
-                    to="/explore/$module"
-                    params={{ module: s.slug }}
-                    className="group flex h-full flex-col rounded-2xl border border-border bg-card p-5 shadow-sm hover:shadow-lg transition-shadow"
-                  >
-                    <span className="inline-flex size-10 items-center justify-center rounded-lg bg-primary/8 text-primary">
-                      <Icon className="size-5" />
-                    </span>
-                    <h3 className="mt-3 font-display text-base font-semibold text-foreground">{s.title}</h3>
-                    <p className="mt-1 text-xs text-muted-foreground leading-relaxed">{s.desc}</p>
-                  </Link>
-                </motion.div>
+                <Link key={s.slug} to="/explore/$module" params={{ module: s.slug }}
+                  className="flex items-center gap-2 rounded-xl border border-border bg-card px-3 py-2 text-xs font-medium text-foreground hover:shadow-md transition">
+                  <Icon className="size-4 text-primary" />{s.title}
+                </Link>
               );
             })}
-          </motion.div>
+          </div>
         </div>
       </section>
+
+    </div>
+  );
+}
+
+/** Interactive cricket ball — 10 science "planets" orbit a spinning red ball.
+ *  Hover/tap a planet to preview it in the centre; click to navigate. */
+function InteractiveBall() {
+  const [active, setActive] = useState<number | null>(null);
+  const navigate = useNavigate();
+  const N = SCIENCE_TILES.length;
+  const radius = 210; // px, orbit radius on md+
+  const radiusSm = 150;
+
+  const current = active != null ? SCIENCE_TILES[active] : null;
+
+  return (
+    <div className="relative mx-auto mt-10 aspect-square w-full max-w-[560px] hidden md:block">
+      {/* Orbit ring */}
+      <div className="absolute inset-6 rounded-full border border-dashed border-border" />
+      <div className="absolute inset-16 rounded-full border border-dashed border-border/60" />
+
+      {/* Spinning cricket ball */}
+      <motion.div
+        animate={{ rotate: 360 }}
+        transition={{ duration: 28, ease: "linear", repeat: Infinity }}
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+      >
+        <svg width="220" height="220" viewBox="0 0 220 220">
+          <defs>
+            <radialGradient id="leather" cx="35%" cy="35%" r="70%">
+              <stop offset="0%" stopColor="#d65a4a" />
+              <stop offset="55%" stopColor="#9b1c1c" />
+              <stop offset="100%" stopColor="#4a0a0a" />
+            </radialGradient>
+          </defs>
+          <circle cx="110" cy="110" r="100" fill="url(#leather)" />
+          {/* seam */}
+          <ellipse cx="110" cy="110" rx="100" ry="30" fill="none" stroke="#f5e6c8" strokeWidth="2.5" />
+          {[...Array(28)].map((_, i) => (
+            <line key={i}
+              x1={110 + 98 * Math.cos((i / 28) * Math.PI * 2)}
+              y1={110 + 28 * Math.sin((i / 28) * Math.PI * 2)}
+              x2={110 + 102 * Math.cos((i / 28) * Math.PI * 2)}
+              y2={110 + 32 * Math.sin((i / 28) * Math.PI * 2)}
+              stroke="#f5e6c8" strokeWidth="2" />
+          ))}
+          {/* shine */}
+          <ellipse cx="80" cy="75" rx="28" ry="14" fill="white" fillOpacity="0.18" />
+        </svg>
+      </motion.div>
+
+      {/* Centre label */}
+      <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+        {current ? (
+          <motion.div
+            key={current.slug}
+            initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
+            className="rounded-2xl bg-background/85 backdrop-blur px-4 py-3 shadow-lg border border-border max-w-[180px]"
+          >
+            <div className="font-display text-base font-bold text-foreground">{current.title}</div>
+            <div className="mt-0.5 text-[11px] text-muted-foreground leading-snug">{current.desc}</div>
+            <div className="mt-1.5 text-[10px] font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">Tap to open →</div>
+          </motion.div>
+        ) : (
+          <div className="rounded-full bg-background/70 backdrop-blur px-4 py-2 text-xs font-semibold text-foreground border border-border">
+            Pick a science
+          </div>
+        )}
+      </div>
+
+      {/* Orbiting planets */}
+      {SCIENCE_TILES.map((s, i) => {
+        const angle = (i / N) * Math.PI * 2 - Math.PI / 2;
+        const r = typeof window !== "undefined" && window.innerWidth < 768 ? radiusSm : radius;
+        const x = Math.cos(angle) * r;
+        const y = Math.sin(angle) * r;
+        const Icon = s.icon;
+        const isActive = active === i;
+        return (
+          <motion.button
+            key={s.slug}
+            type="button"
+            onMouseEnter={() => setActive(i)}
+            onFocus={() => setActive(i)}
+            onClick={() => navigate({ to: "/explore/$module", params: { module: s.slug } })}
+            initial={{ opacity: 0, scale: 0.6 }}
+            animate={{ opacity: 1, scale: isActive ? 1.15 : 1 }}
+            transition={{ delay: 0.05 * i, type: "spring", stiffness: 220, damping: 18 }}
+            whileHover={{ scale: 1.18 }}
+            className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-1 group focus:outline-none`}
+            style={{ transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))` }}
+            aria-label={s.title}
+          >
+            <span className={`inline-flex size-12 items-center justify-center rounded-full border-2 shadow-md transition-colors ${
+              isActive
+                ? "bg-[color:var(--brand-orange)] border-[color:var(--brand-orange)] text-white"
+                : "bg-card border-border text-primary group-hover:border-[color:var(--brand-orange)]"
+            }`}>
+              <Icon className="size-5" />
+            </span>
+            <span className={`text-[10px] font-semibold uppercase tracking-wide ${isActive ? "text-[color:var(--brand-orange)]" : "text-muted-foreground"}`}>
+              {s.title}
+            </span>
+          </motion.button>
+        );
+      })}
+    </div>
+  );
+}
+
 
     </div>
   );
