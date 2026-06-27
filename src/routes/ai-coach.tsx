@@ -130,6 +130,7 @@ function AICoachPage() {
   const [mediaUrl, setMediaUrl] = useState<string | null>(null);
   const [mediaType, setMediaType] = useState<"video" | "image" | null>(null);
   const [mediaName, setMediaName] = useState<string | null>(null);
+  const [mediaSeed, setMediaSeed] = useState<number>(0);
   const [analysis, setAnalysis] = useState<Record<MetricKey, number> | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -137,6 +138,7 @@ function AICoachPage() {
 
   const [reports, setReports] = useState<Report[]>([]);
   const fileRef = useRef<HTMLInputElement>(null);
+
 
   // Load saved reports
   useEffect(() => {
