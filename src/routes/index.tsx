@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import {
-  ArrowRight, Beaker,
+  ArrowRight,
   Target, Swords, Hand, Shield, Wrench, LayoutGrid, CircleDot, CloudSun, Dumbbell, Scale,
 } from "lucide-react";
+
 import logoUrl from "@/assets/logo.png";
 
 export const Route = createFileRoute("/")({
