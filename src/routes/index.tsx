@@ -224,9 +224,6 @@ function InteractiveBall() {
 }
 
 
-    </div>
-  );
-}
 
 /** Hero backdrop — left half evokes a cricket ground (pitch + crease + boundary),
  *  right half evokes a laboratory (beakers, molecules, grid). */
