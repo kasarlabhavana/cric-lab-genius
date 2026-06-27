@@ -274,7 +274,7 @@ function AICoachPage() {
 
   const reset = () => {
     if (mediaUrl) URL.revokeObjectURL(mediaUrl);
-    setMediaUrl(null); setMediaType(null); setMediaName(null);
+    setMediaUrl(null); setMediaType(null); setMediaName(null); setMediaSeed(0);
     setAnalysis(null); setTitle("");
     if (fileRef.current) fileRef.current.value = "";
   };
