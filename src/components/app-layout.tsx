@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Beaker, BookOpen, Bot, Flame, Home, ListChecks, Menu, Moon, Sun, TrendingUp, Trophy, User, Users, X } from "lucide-react";
+import { BookOpen, Bot, Flame, Home, ListChecks, Menu, Moon, Sun, TrendingUp, Trophy, User, Users, X } from "lucide-react";
 import { useState } from "react";
 import { useUser, deriveLevel } from "@/lib/user-state";
 import { useTheme } from "@/lib/theme";
@@ -9,12 +9,12 @@ import logoUrl from "@/assets/logo.png";
 const NAV = [
   { to: "/", label: "Home", icon: Home },
   { to: "/explore", label: "Explore", icon: BookOpen },
-  { to: "/laboratory", label: "Laboratory", icon: Beaker },
   { to: "/ai-coach", label: "AI Coach", icon: Bot },
   { to: "/quiz", label: "Quiz Zone", icon: ListChecks },
   { to: "/progress", label: "Progress", icon: TrendingUp },
   { to: "/community", label: "Community", icon: Users },
 ] as const;
+
 
 export function AppHeader() {
   const { state } = useUser();
