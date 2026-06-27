@@ -33,7 +33,7 @@ const SCIENCE_TILES = [
   { slug: "umpiring-science", title: "Umpiring",    icon: Scale,      desc: "Decisions & DRS tech." },
 ] as const;
 
-const fadeUp = { hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } };
+
 
 function Home() {
   return (
