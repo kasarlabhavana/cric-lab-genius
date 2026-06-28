@@ -33,6 +33,8 @@ import { AUDIENCES, type Audience, getTopicExtras } from "@/lib/topic-extras";
 import { LABORATORY_SIMS } from "@/lib/modules";
 import { isFemalePlayer } from "@/lib/glossary";
 import { GlossaryText } from "@/components/glossary-text";
+import { ReadingLevelToggle } from "@/components/reading-level-toggle";
+import { useReadingLevel } from "@/lib/reading-level";
 
 // 21 sections — every topic renders all of them in the same order.
 const SECTIONS: ReadonlyArray<{
@@ -173,6 +175,7 @@ function ReferencesSection({ refs }: { refs: Topic["references"] }) {
 export function TopicPage({ topic }: { topic: Topic }) {
   const extras = getTopicExtras(topic.slug);
   const [audience, setAudience] = useState<Audience>("Beginner");
+  const { simplify } = useReadingLevel();
   const relatedSims =
     extras?.relatedSims
       .map(slug => LABORATORY_SIMS.find(s => s.slug === slug))
@@ -196,11 +199,14 @@ export function TopicPage({ topic }: { topic: Topic }) {
         </span>
       </div>
 
-      <h1 className="mt-3 font-display text-4xl font-bold text-primary md:text-5xl">
-        {topic.title}
-      </h1>
+      <div className="mt-3 flex items-start justify-between gap-3">
+        <h1 className="font-display text-4xl font-bold text-primary md:text-5xl">
+          {topic.title}
+        </h1>
+        <ReadingLevelToggle className="shrink-0" />
+      </div>
       <p className="mt-3 text-lg leading-relaxed text-foreground/85">
-        {topic.definition}
+        {simplify(topic.definition)}
       </p>
 
       {/* Audience switcher */}
@@ -226,7 +232,7 @@ export function TopicPage({ topic }: { topic: Topic }) {
             ))}
           </div>
           <p className="mt-3 text-[15px] leading-relaxed text-foreground/85">
-            {extras.audience[audience]}
+            <GlossaryText text={extras.audience[audience]} />
           </p>
         </section>
       )}
@@ -271,7 +277,7 @@ export function TopicPage({ topic }: { topic: Topic }) {
             {extras.keyTakeaways.map((t, i) => (
               <li key={i} className="flex gap-2 text-[15px] text-foreground/85">
                 <ChevronRight className="mt-0.5 size-4 shrink-0 text-[color:var(--brand-green)]" />
-                <span>{t}</span>
+                <span><GlossaryText text={t} /></span>
               </li>
             ))}
           </ul>
@@ -291,7 +297,7 @@ export function TopicPage({ topic }: { topic: Topic }) {
                   <span className="font-semibold text-foreground">{l.title}</span>
                   <span>{l.minutes} min</span>
                 </div>
-                <p className="mt-2 text-sm text-foreground/85">{l.body}</p>
+                <p className="mt-2 text-sm text-foreground/85"><GlossaryText text={l.body} /></p>
               </div>
             ))}
           </div>

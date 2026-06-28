@@ -298,17 +298,21 @@ const PLAYER_META: Record<string, { role: string; era: string; signature?: strin
 const PLAYER_NAMES = Object.keys(PLAYER_META).sort((a, b) => b.length - a.length);
 
 import { isFemalePlayer } from "@/lib/glossary";
+import { getPlayerDetails } from "@/lib/player-details";
 
 // Build a unique, plain-English blurb for each player so multiple players
-// mentioned in the same sentence don't end up with identical notes.
+// mentioned in the same sentence don't end up with identical notes. When a
+// topic-specific achievement/trick exists for the player, append it so the
+// reader gets a concrete moment or technique, not just a role + era line.
 function buildBlurb(name: string, meta: { role: string; era: string; signature?: string }): string {
   const role = meta.role.replace(/\s*\(.*?\)\s*/g, "").trim();
   const country = meta.role.match(/\(([^)]+)\)/)?.[1];
   const where = country ? ` for ${country}` : "";
-  if (meta.signature) {
-    return `${name} (${role}${where}, ${meta.era}). Best known for: ${meta.signature}.`;
-  }
-  return `${name} — ${role}${where}, active ${meta.era}.`;
+  const head = meta.signature
+    ? `${name} (${role}${where}, ${meta.era}). Best known for: ${meta.signature}.`
+    : `${name} — ${role}${where}, active ${meta.era}.`;
+  const story = getPlayerDetails(name);
+  return story ? `${head} ${story}` : head;
 }
 
 export function extractFamousPlayers(lesson: Lesson): FamousPlayerCard[] {

@@ -15,6 +15,7 @@ import { MODULE_BY_SLUG } from "@/lib/modules";
 import { useUser } from "@/lib/user-state";
 import { Diagram } from "@/components/cric-ui";
 import { GlossaryText } from "@/components/glossary-text";
+import { ReadingLevelToggle } from "@/components/reading-level-toggle";
 import {
   SECTION_DEFS,
   parseLessonBody,
@@ -100,15 +101,18 @@ function LessonPage() {
       <h1 className="mt-2 font-display text-3xl md:text-4xl font-bold text-primary">
         {lesson.title}
       </h1>
-      <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-        <span className="inline-flex items-center gap-1.5">
-          <Clock className="size-4" /> {lesson.minutes} min read
-        </span>
-        <span className="text-border">•</span>
-        <span className="inline-flex items-center gap-1.5">
-          <Sparkles className="size-4 text-[color:var(--brand-orange)]" />
-          {filled}/{SECTION_DEFS.length} sections
-        </span>
+      <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+          <span className="inline-flex items-center gap-1.5">
+            <Clock className="size-4" /> {lesson.minutes} min read
+          </span>
+          <span className="text-border">•</span>
+          <span className="inline-flex items-center gap-1.5">
+            <Sparkles className="size-4 text-[color:var(--brand-orange)]" />
+            {filled}/{SECTION_DEFS.length} sections
+          </span>
+        </div>
+        <ReadingLevelToggle />
       </div>
 
       <p className="mt-6 text-lg text-foreground/85 leading-relaxed">
