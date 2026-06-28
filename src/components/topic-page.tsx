@@ -80,7 +80,7 @@ function SectionHeader({ n, label, Icon }: { n: number; label: string; Icon: typ
 }
 
 function ProseSection({ text }: { text: string }) {
-  return <p className="mt-3 text-[15.5px] leading-relaxed text-foreground/85">{text}</p>;
+  return <p className="mt-3 text-[15.5px] leading-relaxed text-foreground/85"><GlossaryText text={text} /></p>;
 }
 
 function ListSection({ items }: { items: string[] }) {
