@@ -16,6 +16,8 @@ import { useUser } from "@/lib/user-state";
 import { Diagram } from "@/components/cric-ui";
 import { GlossaryText } from "@/components/glossary-text";
 import { ReadingLevelToggle } from "@/components/reading-level-toggle";
+import { NarrationButton } from "@/components/narration-button";
+import { useReadingLevel } from "@/lib/reading-level";
 import {
   SECTION_DEFS,
   parseLessonBody,
@@ -53,6 +55,7 @@ function LessonPage() {
   const bookmarked = isBookmarked(mod.slug, lesson.slug);
   const [justFinished, setJustFinished] = useState(false);
 
+  const { simplify } = useReadingLevel();
   const parsed = parseLessonBody(lesson);
   const difficulty = inferDifficulty(lesson, parsed.sections);
   const players = extractFamousPlayers(lesson);
@@ -63,6 +66,15 @@ function LessonPage() {
     return { def, value };
   });
   const filled = sectionsWithContent.filter((s) => s.value).length;
+
+  const buildNarration = () => {
+    const parts: string[] = [lesson.title, simplify(lesson.summary)];
+    parsed.notes.forEach((n) => parts.push(simplify(n)));
+    sectionsWithContent.forEach(({ def, value }) => {
+      if (value) parts.push(`${def.label}. ${simplify(value)}`);
+    });
+    return parts.join(". ");
+  };
 
   const handleComplete = () => {
     const { xpGained, newBadges } = completeLesson(mod.slug, lesson.slug);
@@ -112,7 +124,10 @@ function LessonPage() {
             {filled}/{SECTION_DEFS.length} sections
           </span>
         </div>
-        <ReadingLevelToggle />
+        <div className="flex flex-wrap items-center gap-2">
+          <ReadingLevelToggle />
+          <NarrationButton getText={buildNarration} />
+        </div>
       </div>
 
       <p className="mt-6 text-lg text-foreground/85 leading-relaxed">

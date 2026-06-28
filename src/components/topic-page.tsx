@@ -34,6 +34,7 @@ import { LABORATORY_SIMS } from "@/lib/modules";
 import { isFemalePlayer } from "@/lib/glossary";
 import { GlossaryText } from "@/components/glossary-text";
 import { ReadingLevelToggle } from "@/components/reading-level-toggle";
+import { NarrationButton } from "@/components/narration-button";
 import { useReadingLevel } from "@/lib/reading-level";
 
 // 21 sections — every topic renders all of them in the same order.
@@ -203,9 +204,15 @@ export function TopicPage({ topic }: { topic: Topic }) {
         <h1 className="font-display text-4xl font-bold text-primary md:text-5xl">
           {topic.title}
         </h1>
-        <ReadingLevelToggle className="shrink-0" />
       </div>
-      <p className="mt-3 text-lg leading-relaxed text-foreground/85">
+      <div className="mt-3 flex flex-wrap items-center gap-2">
+        <ReadingLevelToggle className="shrink-0" />
+        <NarrationButton
+          className="shrink-0"
+          getText={() => `${topic.title}. ${simplify(topic.definition)}`}
+        />
+      </div>
+      <p className="mt-4 text-lg leading-relaxed text-foreground/85">
         {simplify(topic.definition)}
       </p>
 
