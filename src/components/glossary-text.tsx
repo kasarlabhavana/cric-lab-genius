@@ -4,6 +4,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Drawer, DrawerClose, DrawerContent } from "@/components/ui/drawer";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { GLOSSARY_REGEX, lookupGlossary } from "@/lib/glossary";
+import { useReadingLevel } from "@/lib/reading-level";
 
 type Part = { type: "text"; value: string } | { type: "term"; value: string; def: string };
 
@@ -100,7 +101,9 @@ function GlossaryTerm({ term, def }: { term: string; def: string }) {
 }
 
 export function GlossaryText({ text, className }: { text: string; className?: string }) {
-  const parts = useMemo(() => splitWithGlossary(text), [text]);
+  const { simplify } = useReadingLevel();
+  const rendered = simplify(text);
+  const parts = useMemo(() => splitWithGlossary(rendered), [rendered]);
   return (
     <span className={className}>
       {parts.map((p, i) =>
