@@ -432,19 +432,33 @@ function AICoachPage() {
                 className="mt-2 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
                 placeholder="e.g. Net session — outswing focus"
               />
-              {signedIn ? (
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                {signedIn ? (
+                  <button
+                    onClick={saveReport}
+                    disabled={saving}
+                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-[color:var(--brand-green)] px-4 py-2.5 text-sm font-semibold text-white hover:opacity-90 disabled:opacity-60"
+                  >
+                    <Save className="size-4" /> {saving ? "Saving…" : "Save report"}
+                  </button>
+                ) : (
+                  <Link to="/auth" className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-surface px-4 py-2.5 text-sm font-semibold text-primary hover:bg-muted">
+                    Sign in to save <ArrowRight className="size-4" />
+                  </Link>
+                )}
                 <button
-                  onClick={saveReport}
-                  disabled={saving}
-                  className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[color:var(--brand-green)] px-4 py-2.5 text-sm font-semibold text-white hover:opacity-90 disabled:opacity-60"
+                  onClick={() => exportReportPdf({
+                    title: title.trim() || "Untitled analysis",
+                    mediaType,
+                    mediaName,
+                    metrics: analysis,
+                    overall: overallScore,
+                  })}
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-surface px-4 py-2.5 text-sm font-semibold text-primary hover:bg-muted"
                 >
-                  <Save className="size-4" /> {saving ? "Saving…" : "Save report"}
+                  <Download className="size-4" /> Save as PDF
                 </button>
-              ) : (
-                <Link to="/auth" className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-surface px-4 py-2.5 text-sm font-semibold text-primary hover:bg-muted">
-                  Sign in to save reports <ArrowRight className="size-4" />
-                </Link>
-              )}
+              </div>
             </div>
           )}
         </section>
