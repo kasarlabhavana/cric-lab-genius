@@ -98,18 +98,6 @@ function Home() {
 
           <InteractiveBall />
 
-          {/* Compact list fallback for accessibility / small screens */}
-          <div className="mt-10 grid gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 md:hidden">
-            {SCIENCE_TILES.map(s => {
-              const Icon = s.icon;
-              return (
-                <Link key={s.slug} to="/explore/$module" params={{ module: s.slug }}
-                  className="flex items-center gap-2 rounded-xl border border-border bg-card px-3 py-2 text-xs font-medium text-foreground hover:shadow-md transition">
-                  <Icon className="size-4 text-primary" />{s.title}
-                </Link>
-              );
-            })}
-          </div>
         </div>
       </section>
 
@@ -123,24 +111,24 @@ function InteractiveBall() {
   const [active, setActive] = useState<number | null>(null);
   const navigate = useNavigate();
   const N = SCIENCE_TILES.length;
-  const radius = 210; // px, orbit radius on md+
-  const radiusSm = 150;
 
   const current = active != null ? SCIENCE_TILES[active] : null;
 
   return (
-    <div className="relative mx-auto mt-10 aspect-square w-full max-w-[560px] hidden md:block">
+    <div className="relative mx-auto mt-10 aspect-square w-full max-w-[560px]">
       {/* Orbit ring */}
-      <div className="absolute inset-6 rounded-full border border-dashed border-border" />
-      <div className="absolute inset-16 rounded-full border border-dashed border-border/60" />
+      <div className="absolute inset-[6%] rounded-full border border-dashed border-border" />
+      <div className="absolute inset-[18%] rounded-full border border-dashed border-border/60" />
+
 
       {/* Spinning cricket ball */}
       <motion.div
         animate={{ rotate: 360 }}
         transition={{ duration: 28, ease: "linear", repeat: Infinity }}
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[55%] h-[55%]"
       >
-        <svg width="220" height="220" viewBox="0 0 220 220">
+        <svg viewBox="0 0 220 220" className="w-full h-full">
+
           <defs>
             <radialGradient id="leather" cx="35%" cy="35%" r="70%">
               <stop offset="0%" stopColor="#d65a4a" />
@@ -186,9 +174,9 @@ function InteractiveBall() {
       {/* Orbiting planets */}
       {SCIENCE_TILES.map((s, i) => {
         const angle = (i / N) * Math.PI * 2 - Math.PI / 2;
-        const r = typeof window !== "undefined" && window.innerWidth < 768 ? radiusSm : radius;
-        const x = Math.cos(angle) * r;
-        const y = Math.sin(angle) * r;
+        const rPct = 42; // orbit radius as % of container
+        const xPct = 50 + Math.cos(angle) * rPct;
+        const yPct = 50 + Math.sin(angle) * rPct;
         const Icon = s.icon;
         const isActive = active === i;
         return (
@@ -202,10 +190,11 @@ function InteractiveBall() {
             animate={{ opacity: 1, scale: isActive ? 1.15 : 1 }}
             transition={{ delay: 0.05 * i, type: "spring", stiffness: 220, damping: 18 }}
             whileHover={{ scale: 1.18 }}
-            className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-1 group focus:outline-none`}
-            style={{ transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))` }}
+            className={`absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1 group focus:outline-none`}
+            style={{ left: `${xPct}%`, top: `${yPct}%` }}
             aria-label={s.title}
           >
+
             <span className={`inline-flex size-12 items-center justify-center rounded-full border-2 shadow-md transition-colors ${
               isActive
                 ? "bg-[color:var(--brand-orange)] border-[color:var(--brand-orange)] text-white"
