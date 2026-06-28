@@ -33,6 +33,8 @@ import { AUDIENCES, type Audience, getTopicExtras } from "@/lib/topic-extras";
 import { LABORATORY_SIMS } from "@/lib/modules";
 import { isFemalePlayer } from "@/lib/glossary";
 import { GlossaryText } from "@/components/glossary-text";
+import { ReadingLevelToggle } from "@/components/reading-level-toggle";
+import { useReadingLevel } from "@/lib/reading-level";
 
 // 21 sections — every topic renders all of them in the same order.
 const SECTIONS: ReadonlyArray<{
@@ -173,6 +175,7 @@ function ReferencesSection({ refs }: { refs: Topic["references"] }) {
 export function TopicPage({ topic }: { topic: Topic }) {
   const extras = getTopicExtras(topic.slug);
   const [audience, setAudience] = useState<Audience>("Beginner");
+  const { simplify } = useReadingLevel();
   const relatedSims =
     extras?.relatedSims
       .map(slug => LABORATORY_SIMS.find(s => s.slug === slug))
@@ -196,11 +199,14 @@ export function TopicPage({ topic }: { topic: Topic }) {
         </span>
       </div>
 
-      <h1 className="mt-3 font-display text-4xl font-bold text-primary md:text-5xl">
-        {topic.title}
-      </h1>
+      <div className="mt-3 flex items-start justify-between gap-3">
+        <h1 className="font-display text-4xl font-bold text-primary md:text-5xl">
+          {topic.title}
+        </h1>
+        <ReadingLevelToggle className="shrink-0" />
+      </div>
       <p className="mt-3 text-lg leading-relaxed text-foreground/85">
-        {topic.definition}
+        {simplify(topic.definition)}
       </p>
 
       {/* Audience switcher */}
