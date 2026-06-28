@@ -1,7 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { createFileRoute, useRouterState } from "@tanstack/react-router";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Search, BookA } from "lucide-react";
-import { GLOSSARY } from "@/lib/glossary";
+import { GLOSSARY, termSlug } from "@/lib/glossary";
 
 export const Route = createFileRoute("/glossary")({
   component: GlossaryPage,
@@ -17,6 +17,10 @@ const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
 function GlossaryPage() {
   const [query, setQuery] = useState("");
+  const hash = useRouterState({ select: s => s.location.hash });
+  const [activeLetter, setActiveLetter] = useState<string | null>(null);
+  const [highlightedTerm, setHighlightedTerm] = useState<string | null>(null);
+  const sectionRefs = useRef<Map<string, HTMLElement>>(new Map());
 
   const grouped = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -35,6 +39,46 @@ function GlossaryPage() {
   }, [query]);
 
   const activeLetters = new Set(grouped.keys());
+
+  // Handle deep link: #term-<slug> scrolls + highlights; #letter-X jumps to letter.
+  useEffect(() => {
+    const raw = (hash ?? "").replace(/^#/, "");
+    if (!raw) return;
+    const id = raw;
+    // wait for paint
+    const t = setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        if (id.startsWith("term-")) {
+          const slug = id.slice("term-".length);
+          setHighlightedTerm(slug);
+          setTimeout(() => setHighlightedTerm(null), 2200);
+        }
+      }
+    }, 60);
+    return () => clearTimeout(t);
+  }, [hash, grouped]);
+
+  // Track which letter section is currently in view → highlight in the jump bar.
+  useEffect(() => {
+    const sections = Array.from(sectionRefs.current.entries());
+    if (sections.length === 0) return;
+    const observer = new IntersectionObserver(
+      entries => {
+        const visible = entries
+          .filter(e => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible[0]) {
+          const letter = visible[0].target.getAttribute("data-letter");
+          if (letter) setActiveLetter(letter);
+        }
+      },
+      { rootMargin: "-180px 0px -60% 0px", threshold: 0 },
+    );
+    sections.forEach(([, el]) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [grouped]);
 
   return (
     <div className="mx-auto max-w-5xl px-4 sm:px-6 py-8 sm:py-12">
@@ -63,15 +107,19 @@ function GlossaryPage() {
         <div className="mt-3 flex flex-wrap gap-1">
           {ALPHABET.map((l) => {
             const has = activeLetters.has(l);
+            const isActive = has && activeLetter === l;
             return (
               <a
                 key={l}
                 href={has ? `#letter-${l}` : undefined}
                 aria-disabled={!has}
+                aria-current={isActive ? "true" : undefined}
                 className={`inline-flex size-7 sm:size-8 items-center justify-center rounded-md text-[11px] sm:text-xs font-bold transition ${
-                  has
-                    ? "bg-card text-primary hover:bg-primary hover:text-primary-foreground"
-                    : "cursor-default text-muted-foreground/40"
+                  isActive
+                    ? "bg-primary text-primary-foreground ring-2 ring-primary/40"
+                    : has
+                      ? "bg-card text-primary hover:bg-primary hover:text-primary-foreground"
+                      : "cursor-default text-muted-foreground/40"
                 }`}
               >
                 {l}
@@ -88,7 +136,16 @@ function GlossaryPage() {
       ) : (
         <div className="space-y-8">
           {Array.from(grouped.entries()).map(([letter, items]) => (
-            <section key={letter} id={`letter-${letter}`} className="scroll-mt-32">
+            <section
+              key={letter}
+              id={`letter-${letter}`}
+              data-letter={letter}
+              ref={(el) => {
+                if (el) sectionRefs.current.set(letter, el);
+                else sectionRefs.current.delete(letter);
+              }}
+              className="scroll-mt-32"
+            >
               <h2 className="mb-3 flex items-center gap-3 font-display text-2xl font-black text-primary">
                 <span className="inline-flex size-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                   {letter}
@@ -98,17 +155,26 @@ function GlossaryPage() {
                 </span>
               </h2>
               <dl className="grid gap-3 sm:grid-cols-2">
-                {items.map(([term, def]) => (
-                  <div
-                    key={term}
-                    className="rounded-xl border border-border bg-card p-4 transition hover:border-primary/40"
-                  >
-                    <dt className="font-display text-base font-bold capitalize text-primary">
-                      {term}
-                    </dt>
-                    <dd className="mt-1 text-sm leading-relaxed text-foreground/85">{def}</dd>
-                  </div>
-                ))}
+                {items.map(([term, def]) => {
+                  const slug = termSlug(term);
+                  const hl = highlightedTerm === slug;
+                  return (
+                    <div
+                      key={term}
+                      id={`term-${slug}`}
+                      className={`scroll-mt-32 rounded-xl border bg-card p-4 transition ${
+                        hl
+                          ? "border-[color:var(--brand-orange)] ring-2 ring-[color:var(--brand-orange)]/40 shadow-md"
+                          : "border-border hover:border-primary/40"
+                      }`}
+                    >
+                      <dt className="font-display text-base font-bold capitalize text-primary">
+                        {term}
+                      </dt>
+                      <dd className="mt-1 text-sm leading-relaxed text-foreground/85">{def}</dd>
+                    </div>
+                  );
+                })}
               </dl>
             </section>
           ))}
