@@ -219,12 +219,16 @@ export const MODULES: Module[] = [
 // fast-bowling variations, modern T20 shots, fielding positions,
 // wicketkeeping, equipment, DRS tech, fitness, etc.)
 import { EXTRA_LESSONS_BY_MODULE } from "@/lib/modules-extra";
+import { ADDITIONAL_LESSONS_BY_MODULE } from "@/lib/modules-additions";
 for (const m of MODULES) {
-  const extras = EXTRA_LESSONS_BY_MODULE[m.slug];
-  if (extras && extras.length) {
-    const existing = new Set(m.lessons.map(l => l.slug));
-    for (const l of extras) {
-      if (!existing.has(l.slug)) m.lessons.push(l);
+  const existing = new Set(m.lessons.map(l => l.slug));
+  for (const bucket of [EXTRA_LESSONS_BY_MODULE[m.slug], ADDITIONAL_LESSONS_BY_MODULE[m.slug]]) {
+    if (!bucket) continue;
+    for (const l of bucket) {
+      if (!existing.has(l.slug)) {
+        m.lessons.push(l);
+        existing.add(l.slug);
+      }
     }
   }
 }
@@ -238,65 +242,80 @@ for (const m of MODULES) {
 const LESSON_ORDER: Record<string, string[]> = {
   "bowling-science": [
     "anatomy-of-an-action", "pace-and-the-kinetic-chain", "hip-shoulder-separation",
-    "bracing-leg", "slinging-action", "release-angles", "seam-presentation",
-    "wobble-seam", "swing-aerodynamics", "conventional-outswing",
+    "bracing-leg", "slinging-action", "release-angles", "wrist-position-spectrum",
+    "seam-presentation", "wobble-seam", "swing-aerodynamics", "conventional-outswing",
     "conventional-inswing", "reverse-swing", "swing-vs-seam", "spin-revolutions",
-    "off-break", "arm-ball", "doosra", "teesra", "top-spinner-finger",
-    "slider-finger", "carrom-ball", "left-arm-orthodox-stock", "left-arm-arm-ball",
-    "left-arm-angle", "chinaman", "chinaman-googly", "leg-break", "googly",
-    "flipper", "slider-wrist", "top-spinner-wrist", "zooter",
-    "cutters-and-slower-balls", "off-cutter", "leg-cutter", "back-of-hand-slower",
-    "knuckle-ball", "yorker-conventional", "wide-yorker", "toe-crusher", "bouncer",
+    "drift-for-spinners", "over-vs-side-spin", "off-break", "arm-ball", "doosra",
+    "teesra", "top-spinner-finger", "slider-finger", "carrom-ball",
+    "left-arm-orthodox-stock", "left-arm-arm-ball", "left-arm-angle", "chinaman",
+    "chinaman-googly", "leg-break", "googly", "flipper", "slider-wrist",
+    "top-spinner-wrist", "zooter", "cutters-and-slower-balls", "off-cutter",
+    "leg-cutter", "back-of-hand-slower", "knuckle-ball", "yorker-conventional",
+    "wide-yorker", "toe-crusher", "bouncer", "death-overs-yorker-package",
+    "bowling-to-lr-combos",
   ],
   "batting-science": [
     "conventional-grip", "strong-bottom-hand", "open-stance", "head-position",
-    "trigger-movement", "footwork-physics", "reaction-time", "decision-making",
-    "shot-geometry", "power-vs-timing", "forward-defence", "back-foot-defence",
-    "leaving-the-ball", "cover-drive", "pull-shot", "hook-shot", "sweep-shot",
+    "trigger-movement", "footwork-physics", "reaction-time", "picking-length-early",
+    "decision-making", "bat-swing-path", "shot-geometry", "power-vs-timing",
+    "forward-defence", "back-foot-defence", "leaving-the-ball", "playing-the-moving-ball",
+    "cover-drive", "pull-shot", "hook-shot", "sweep-shot", "sweep-family",
     "slog-sweep", "reverse-sweep", "switch-hit", "switch-hit-ramp", "ramp-scoop",
-    "helicopter-shot", "playing-spin", "batting-against-pace", "powerplay-vs-death",
+    "helicopter-shot", "playing-spin", "batting-against-pace", "running-between-wickets",
+    "building-an-innings", "matchup-batting", "powerplay-vs-death",
   ],
   "fielding-science": [
     "fielding-positions", "slip-cordon-position", "gully-position",
-    "point-cover-positions", "boundary-positions", "catching-under-pressure",
-    "high-catch", "slip-catch", "close-in-catch", "slip-cordon", "cutting-angles",
-    "flat-throws", "direct-hits", "direct-hit-runout", "boundary-relay",
-    "relay-catch", "wagon-wheel-fielding",
+    "point-cover-positions", "boundary-positions", "long-barrier", "attacking-pickup",
+    "sliding-stop", "catching-under-pressure", "high-catch", "high-catch-lights",
+    "slip-catch", "close-in-catch", "slip-cordon", "cutting-angles", "flat-throws",
+    "relay-throw", "direct-hits", "direct-hit-runout", "boundary-relay",
+    "relay-catch", "backing-up-throws", "wind-sun-adjustments", "wagon-wheel-fielding",
   ],
   "wicketkeeping-science": [
     "keeper-overview", "keeper-stance", "keeper-glove-work", "wk-footwork",
-    "wk-standing-back", "wk-standing-up", "wk-catching", "wk-stumping",
-    "wk-leadership",
+    "wk-standing-back", "wk-standing-up", "wk-catching", "wk-edges-off-pace",
+    "wk-leg-side-takes", "wk-diving-takes", "wk-stumping", "wk-glove-care",
+    "wk-drs-input", "wk-leadership",
   ],
   "pitch-science": [
     "soil-and-bounce", "pitch-preparation", "moisture-and-seam", "pitch-cracks",
-    "day-by-day-evolution", "pitch-types-by-country", "drop-in-pitches",
-    "reading-the-pitch", "hawkeye-pitch-map",
+    "footmarks-evolution", "bounce-variation", "day-by-day-evolution",
+    "pitch-types-by-country", "subcontinent-vs-sena", "drop-in-pitches",
+    "day-night-pitch", "reading-the-pitch", "toss-decision", "hawkeye-pitch-map",
   ],
   "ball-science": [
     "anatomy-of-a-ball", "seam-stitching", "ball-manufacturing", "ball-compression",
-    "red-vs-white-vs-pink", "dukes-vs-kookaburra-vs-sg", "lifecycle-shine-scuff",
-    "ball-flight-physics", "ball-tampering-history",
+    "red-vs-white-vs-pink", "white-ball-softening", "pink-ball-night",
+    "dukes-vs-kookaburra-vs-sg", "lifecycle-shine-scuff", "ball-age-phases",
+    "saliva-ban-alternatives", "ball-flight-physics", "ball-tampering-physics",
+    "ball-tampering-history",
   ],
   "environment-science": [
-    "temperature-and-fatigue", "humidity-and-swing", "wind-and-bowling-ends",
-    "wind-and-swing", "dew-factor", "dew-management", "altitude",
+    "temperature-and-fatigue", "humidity-and-swing", "cloud-cover-swing",
+    "air-pressure", "wind-and-bowling-ends", "wind-and-swing", "dew-factor",
+    "grass-length-dew", "dew-management", "altitude", "rain-and-dls",
+    "sightscreen-shadows",
   ],
   "fitness-science": [
-    "energy-systems", "sprint-mechanics", "shoulder-hip-mobility",
-    "finger-forearm-strength", "strength-for-batters", "mobility-and-recovery",
-    "recovery-sleep-nutrition", "injury-prevention", "mental-skills",
+    "energy-systems", "position-conditioning", "pre-match-warmup", "sprint-mechanics",
+    "shoulder-hip-mobility", "finger-forearm-strength", "strength-for-batters",
+    "mobility-and-recovery", "hydration-in-heat", "match-day-nutrition",
+    "recovery-sleep-nutrition", "travel-jet-lag", "injury-prevention",
+    "return-to-play", "mental-skills",
   ],
   "umpiring-science": [
-    "umpire-signals", "lbw-logic", "no-balls-and-free-hits",
-    "soft-signal-and-catches", "drs-technology", "hawkeye-detail",
-    "ultraedge-snicko", "snicko-and-hot-spot", "hot-spot", "drs-protocol",
-    "drs-strategy",
+    "umpire-signals", "lbw-logic", "wide-judgment", "no-balls-and-free-hits",
+    "dead-ball", "boundary-catches-umpire", "soft-signal-and-catches",
+    "drs-technology", "hawkeye-detail", "ultraedge-snicko", "snicko-and-hot-spot",
+    "hot-spot", "drs-protocol", "drs-strategy", "mankad", "concussion-substitute",
+    "time-wasting-over-rates",
   ],
   "equipment-science": [
-    "bat-anatomy", "willow-grades", "bat-knocking-oiling", "ball-equipment-spec",
-    "stumps-bails", "helmet-engineering", "batting-pads-gloves", "wk-gear",
-    "shoes-spikes", "training-aids",
+    "bat-anatomy", "bat-profile", "willow-grades", "bat-knocking-oiling",
+    "toe-guard-repair", "ball-equipment-spec", "stumps-bails", "helmet-engineering",
+    "batting-pads-gloves", "thigh-arm-guards", "inner-gloves", "wk-gear",
+    "shoes-spikes", "sunglasses-sweatbands", "training-aids",
   ],
 };
 
