@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { MODULE_BY_SLUG } from "@/lib/modules";
 import { useUser } from "@/lib/user-state";
 import { Diagram } from "@/components/cric-ui";
+import { GlossaryText } from "@/components/glossary-text";
 import {
   SECTION_DEFS,
   parseLessonBody,
