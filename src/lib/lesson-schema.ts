@@ -145,6 +145,7 @@ export type FamousPlayerCard = {
   era?: string;
   note: string;
   signature?: string;
+  female?: boolean;
 };
 
 // Curated player metadata for the names most likely to appear in lessons.
@@ -296,27 +297,37 @@ const PLAYER_META: Record<string, { role: string; era: string; signature?: strin
 // (e.g. "Pat Cummins") wins before a generic single-token ("Cummins").
 const PLAYER_NAMES = Object.keys(PLAYER_META).sort((a, b) => b.length - a.length);
 
+import { isFemalePlayer } from "@/lib/glossary";
+
+// Build a unique, plain-English blurb for each player so multiple players
+// mentioned in the same sentence don't end up with identical notes.
+function buildBlurb(name: string, meta: { role: string; era: string; signature?: string }): string {
+  const role = meta.role.replace(/\s*\(.*?\)\s*/g, "").trim();
+  const country = meta.role.match(/\(([^)]+)\)/)?.[1];
+  const where = country ? ` for ${country}` : "";
+  if (meta.signature) {
+    return `${name} (${role}${where}, ${meta.era}). Best known for: ${meta.signature}.`;
+  }
+  return `${name} — ${role}${where}, active ${meta.era}.`;
+}
+
 export function extractFamousPlayers(lesson: Lesson): FamousPlayerCard[] {
   const cards = new Map<string, FamousPlayerCard>();
   for (const raw of lesson.body) {
     const line = raw.replace(/\s+/g, " ");
     for (const name of PLAYER_NAMES) {
-      // Use word-boundary match; skip if a longer name covering this token
-      // already matched in this same line.
       const re = new RegExp(`\\b${name.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\$&")}\\b`);
       if (!re.test(line)) continue;
       const meta = PLAYER_META[name];
       const canonical = canonicalName(name);
       if (cards.has(canonical)) continue;
-      // Use the sentence containing the player as the note.
-      const sentences = line.split(/(?<=[.!?])\s+/);
-      const sentence = sentences.find((s) => re.test(s)) ?? line;
       cards.set(canonical, {
         name: canonical,
         role: meta.role,
         era: meta.era,
         signature: meta.signature,
-        note: stripLabel(sentence).trim(),
+        note: buildBlurb(canonical, PLAYER_META[canonical] ?? meta),
+        female: isFemalePlayer(canonical),
       });
     }
   }
@@ -324,13 +335,9 @@ export function extractFamousPlayers(lesson: Lesson): FamousPlayerCard[] {
 }
 
 function canonicalName(name: string): string {
-  // Prefer the longer canonical form when both "Kohli" and "Virat Kohli" exist.
   const longer = PLAYER_NAMES.find(
     (other) => other !== name && other.length > name.length && other.includes(name),
   );
   return longer ?? name;
 }
 
-function stripLabel(s: string): string {
-  return s.replace(LABEL_LINE, "$2");
-}

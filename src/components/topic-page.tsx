@@ -31,6 +31,8 @@ import { toast } from "sonner";
 import type { Topic, TopicQuiz } from "@/lib/topics";
 import { AUDIENCES, type Audience, getTopicExtras } from "@/lib/topic-extras";
 import { LABORATORY_SIMS } from "@/lib/modules";
+import { isFemalePlayer } from "@/lib/glossary";
+import { GlossaryText } from "@/components/glossary-text";
 
 // 21 sections — every topic renders all of them in the same order.
 const SECTIONS: ReadonlyArray<{
@@ -78,7 +80,7 @@ function SectionHeader({ n, label, Icon }: { n: number; label: string; Icon: typ
 }
 
 function ProseSection({ text }: { text: string }) {
-  return <p className="mt-3 text-[15.5px] leading-relaxed text-foreground/85">{text}</p>;
+  return <p className="mt-3 text-[15.5px] leading-relaxed text-foreground/85"><GlossaryText text={text} /></p>;
 }
 
 function ListSection({ items }: { items: string[] }) {
@@ -236,19 +238,25 @@ export function TopicPage({ topic }: { topic: Topic }) {
             <Trophy className="size-3.5" /> Famous players & signature moments
           </div>
           <ul className="mt-3 space-y-3">
-            {extras.famousPlayers.map((p, i) => (
-              <li key={i} className="rounded-xl border border-border bg-card p-3">
+            {extras.famousPlayers.map((p, i) => {
+              const female = isFemalePlayer(p.name);
+              return (
+              <li key={i} className={`rounded-xl border ${female ? "border-pink-300/60 bg-pink-50/40" : "border-border bg-card"} p-3`}>
                 <div className="flex items-center justify-between gap-2">
-                  <span className="font-semibold text-foreground">{p.name}</span>
+                  <span className={`font-semibold ${female ? "text-pink-700" : "text-foreground"}`}>
+                    {p.name}
+                    {female && <span className="ml-1.5 align-middle text-[10px] font-semibold uppercase tracking-wider text-pink-600">W</span>}
+                  </span>
                   {p.team && (
-                    <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                    <span className={`text-[11px] font-medium uppercase tracking-wider ${female ? "text-pink-600" : "text-muted-foreground"}`}>
                       {p.team}
                     </span>
                   )}
                 </div>
-                <p className="mt-1.5 text-sm leading-relaxed text-foreground/85">{p.note}</p>
+                <p className="mt-1.5 text-sm leading-relaxed text-foreground/85"><GlossaryText text={p.note} /></p>
               </li>
-            ))}
+              );
+            })}
           </ul>
         </section>
       )}

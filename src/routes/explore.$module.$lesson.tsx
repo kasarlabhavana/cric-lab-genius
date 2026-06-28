@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { MODULE_BY_SLUG } from "@/lib/modules";
 import { useUser } from "@/lib/user-state";
 import { Diagram } from "@/components/cric-ui";
+import { GlossaryText } from "@/components/glossary-text";
 import {
   SECTION_DEFS,
   parseLessonBody,
@@ -110,13 +111,15 @@ function LessonPage() {
         </span>
       </div>
 
-      <p className="mt-6 text-lg text-foreground/85 leading-relaxed">{lesson.summary}</p>
+      <p className="mt-6 text-lg text-foreground/85 leading-relaxed">
+        <GlossaryText text={lesson.summary} />
+      </p>
 
       {parsed.notes.length > 0 && (
         <div className="mt-8 space-y-3 text-foreground/90 leading-relaxed">
           {parsed.notes.map((p, i) => (
             <p key={i} className="text-[15.5px]">
-              {p}
+              <GlossaryText text={p} />
             </p>
           ))}
         </div>
@@ -153,7 +156,7 @@ function LessonPage() {
                     <h3 className="text-sm font-semibold text-foreground">{def.label}</h3>
                   </div>
                   <p className="mt-2 text-sm text-foreground/85 leading-relaxed">
-                    {value}
+                    <GlossaryText text={value!} />
                   </p>
                 </div>
               );
@@ -173,19 +176,26 @@ function LessonPage() {
             </span>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {players.map((p) => (
+            {players.map((p) => {
+              const accent = p.female
+                ? { ring: "border-pink-300/60", bg: "bg-pink-100", text: "text-pink-600", chipBg: "bg-pink-100", chipText: "text-pink-700" }
+                : { ring: "border-border", bg: "bg-[color:var(--brand-green)]/12", text: "text-[color:var(--brand-green)]", chipBg: "bg-[color:var(--brand-orange)]/10", chipText: "text-[color:var(--brand-orange)]" };
+              return (
               <div
                 key={p.name}
-                className="rounded-xl border border-border bg-card p-4"
+                className={`rounded-xl border ${accent.ring} bg-card p-4`}
               >
                 <div className="flex items-start gap-3">
-                  <span className="inline-flex size-9 items-center justify-center rounded-full bg-[color:var(--brand-green)]/12 text-[color:var(--brand-green)]">
+                  <span className={`inline-flex size-9 items-center justify-center rounded-full ${accent.bg} ${accent.text}`}>
                     <UserIcon className="size-4" />
                   </span>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-baseline justify-between gap-2">
                       <h3 className="text-sm font-semibold text-foreground truncate">
                         {p.name}
+                        {p.female && (
+                          <span className="ml-1.5 align-middle text-[10px] font-semibold uppercase tracking-wider text-pink-600">W</span>
+                        )}
                       </h3>
                       {p.era && (
                         <span className="shrink-0 text-[11px] text-muted-foreground">
@@ -199,16 +209,17 @@ function LessonPage() {
                   </div>
                 </div>
                 <p className="mt-3 text-sm text-foreground/85 leading-relaxed">
-                  {p.note}
+                  <GlossaryText text={p.note} />
                 </p>
                 {p.signature && (
-                  <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-[color:var(--brand-orange)]/10 px-2.5 py-1 text-[11px] font-medium text-[color:var(--brand-orange)]">
+                  <div className={`mt-3 inline-flex items-center gap-1.5 rounded-full ${accent.chipBg} px-2.5 py-1 text-[11px] font-medium ${accent.chipText}`}>
                     <Sparkles className="size-3" />
                     {p.signature}
                   </div>
                 )}
               </div>
-            ))}
+              );
+            })}
           </div>
         </section>
       )}
