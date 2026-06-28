@@ -232,7 +232,7 @@ export function TopicPage({ topic }: { topic: Topic }) {
             ))}
           </div>
           <p className="mt-3 text-[15px] leading-relaxed text-foreground/85">
-            {extras.audience[audience]}
+            <GlossaryText text={extras.audience[audience]} />
           </p>
         </section>
       )}
@@ -277,7 +277,7 @@ export function TopicPage({ topic }: { topic: Topic }) {
             {extras.keyTakeaways.map((t, i) => (
               <li key={i} className="flex gap-2 text-[15px] text-foreground/85">
                 <ChevronRight className="mt-0.5 size-4 shrink-0 text-[color:var(--brand-green)]" />
-                <span>{t}</span>
+                <span><GlossaryText text={t} /></span>
               </li>
             ))}
           </ul>
@@ -297,7 +297,7 @@ export function TopicPage({ topic }: { topic: Topic }) {
                   <span className="font-semibold text-foreground">{l.title}</span>
                   <span>{l.minutes} min</span>
                 </div>
-                <p className="mt-2 text-sm text-foreground/85">{l.body}</p>
+                <p className="mt-2 text-sm text-foreground/85"><GlossaryText text={l.body} /></p>
               </div>
             ))}
           </div>
