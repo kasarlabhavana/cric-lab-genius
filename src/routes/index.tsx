@@ -123,16 +123,15 @@ function InteractiveBall() {
   const [active, setActive] = useState<number | null>(null);
   const navigate = useNavigate();
   const N = SCIENCE_TILES.length;
-  const radius = 210; // px, orbit radius on md+
-  const radiusSm = 150;
 
   const current = active != null ? SCIENCE_TILES[active] : null;
 
   return (
-    <div className="relative mx-auto mt-10 aspect-square w-full max-w-[560px] hidden md:block">
+    <div className="relative mx-auto mt-10 aspect-square w-full max-w-[560px]">
       {/* Orbit ring */}
-      <div className="absolute inset-6 rounded-full border border-dashed border-border" />
-      <div className="absolute inset-16 rounded-full border border-dashed border-border/60" />
+      <div className="absolute inset-[6%] rounded-full border border-dashed border-border" />
+      <div className="absolute inset-[18%] rounded-full border border-dashed border-border/60" />
+
 
       {/* Spinning cricket ball */}
       <motion.div
