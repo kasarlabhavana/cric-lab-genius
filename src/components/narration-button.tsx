@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Headphones, Pause, Play, Square, Gauge, Mic2 } from "lucide-react";
+import { Headphones, Pause, Play, Square, Gauge, Mic2, X } from "lucide-react";
+import { Drawer, DrawerClose, DrawerContent } from "@/components/ui/drawer";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type Props = {
   /** Called when user presses play — returns the full text to narrate. */
@@ -129,7 +131,7 @@ export function NarrationButton({ getText, className = "", label = "Listen" }: P
 
   return (
     <div
-      className={`relative inline-flex items-center gap-1 rounded-full border border-border bg-card p-1 ${className}`}
+      className={`relative inline-flex flex-wrap items-center gap-1 rounded-full border border-border bg-card p-1 ${className}`}
       role="group"
       aria-label="Audio narration"
     >
@@ -168,69 +170,122 @@ export function NarrationButton({ getText, className = "", label = "Listen" }: P
         {rate}x
       </button>
       {voices.length > 0 && (
-        <>
-          <button
-            type="button"
-            onClick={() => setVoiceOpen((o) => !o)}
-            className="inline-flex items-center gap-1 rounded-full px-2 py-1.5 text-[11px] font-semibold text-muted-foreground hover:bg-muted hover:text-foreground"
-            title="Choose voice"
-            aria-haspopup="listbox"
-            aria-expanded={voiceOpen}
-          >
-            <Mic2 className="size-3" />
-            <span className="max-w-[7rem] truncate">{currentVoice ? currentVoice.name.split(/[\s(]/)[0] : "Voice"}</span>
-          </button>
-          {voiceOpen && (
-            <>
-              <button
-                type="button"
-                aria-label="Close voice picker"
-                className="fixed inset-0 z-40 cursor-default bg-transparent"
-                onClick={() => setVoiceOpen(false)}
-              />
-              <div
-                role="listbox"
-                className="absolute right-0 top-full z-50 mt-2 max-h-72 w-64 overflow-auto rounded-xl border border-border bg-popover p-1 text-popover-foreground shadow-lg"
-              >
-                {englishVoices.length > 0 && (
-                  <div className="px-2 pt-1 pb-0.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">English</div>
-                )}
-                {englishVoices.map((v) => (
-                  <button
-                    key={v.voiceURI}
-                    role="option"
-                    aria-selected={v.voiceURI === voiceURI}
-                    onClick={() => pickVoiceByURI(v.voiceURI)}
-                    className={`flex w-full items-center justify-between gap-2 rounded-lg px-2 py-1.5 text-left text-xs hover:bg-muted ${
-                      v.voiceURI === voiceURI ? "bg-muted font-semibold text-foreground" : "text-foreground/85"
-                    }`}
-                  >
-                    <span className="truncate">{v.name}</span>
-                    <span className="shrink-0 text-[10px] text-muted-foreground">{v.lang}</span>
-                  </button>
-                ))}
-                {otherVoices.length > 0 && (
-                  <div className="px-2 pt-2 pb-0.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Other</div>
-                )}
-                {otherVoices.map((v) => (
-                  <button
-                    key={v.voiceURI}
-                    role="option"
-                    aria-selected={v.voiceURI === voiceURI}
-                    onClick={() => pickVoiceByURI(v.voiceURI)}
-                    className={`flex w-full items-center justify-between gap-2 rounded-lg px-2 py-1.5 text-left text-xs hover:bg-muted ${
-                      v.voiceURI === voiceURI ? "bg-muted font-semibold text-foreground" : "text-foreground/85"
-                    }`}
-                  >
-                    <span className="truncate">{v.name}</span>
-                    <span className="shrink-0 text-[10px] text-muted-foreground">{v.lang}</span>
-                  </button>
-                ))}
-              </div>
-            </>
-          )}
-        </>
+        <VoicePicker
+          open={voiceOpen}
+          setOpen={setVoiceOpen}
+          current={currentVoice}
+          englishVoices={englishVoices}
+          otherVoices={otherVoices}
+          voiceURI={voiceURI}
+          onPick={pickVoiceByURI}
+        />
       )}
     </div>
   );
 }
+
+function VoicePicker({
+  open, setOpen, current, englishVoices, otherVoices, voiceURI, onPick,
+}: {
+  open: boolean;
+  setOpen: (v: boolean) => void;
+  current?: SpeechSynthesisVoice;
+  englishVoices: SpeechSynthesisVoice[];
+  otherVoices: SpeechSynthesisVoice[];
+  voiceURI: string;
+  onPick: (uri: string) => void;
+}) {
+  const isMobile = useIsMobile();
+  const trigger = (
+    <button
+      type="button"
+      onClick={() => setOpen(!open)}
+      className="inline-flex items-center gap-1 rounded-full px-2 py-1.5 text-[11px] font-semibold text-muted-foreground hover:bg-muted hover:text-foreground"
+      title="Choose voice"
+      aria-haspopup="listbox"
+      aria-expanded={open}
+    >
+      <Mic2 className="size-3" />
+      <span className="max-w-[7rem] truncate">{current ? current.name.split(/[\s(]/)[0] : "Voice"}</span>
+    </button>
+  );
+
+  const list = (
+    <>
+      {englishVoices.length > 0 && (
+        <div className="px-2 pt-1 pb-0.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">English</div>
+      )}
+      {englishVoices.map((v) => (
+        <VoiceRow key={v.voiceURI} v={v} active={v.voiceURI === voiceURI} onPick={onPick} />
+      ))}
+      {otherVoices.length > 0 && (
+        <div className="px-2 pt-2 pb-0.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Other</div>
+      )}
+      {otherVoices.map((v) => (
+        <VoiceRow key={v.voiceURI} v={v} active={v.voiceURI === voiceURI} onPick={onPick} />
+      ))}
+    </>
+  );
+
+  if (isMobile) {
+    return (
+      <>
+        {trigger}
+        <Drawer open={open} onOpenChange={setOpen}>
+          <DrawerContent className="pb-[max(env(safe-area-inset-bottom),1rem)]">
+            <div className="mx-auto w-full max-w-lg px-4 pt-2 pb-3">
+              <div className="flex items-center justify-between gap-3 pb-2">
+                <div className="font-display text-base font-bold text-primary">Choose voice</div>
+                <DrawerClose asChild>
+                  <button aria-label="Close" className="inline-flex size-9 items-center justify-center rounded-full text-muted-foreground hover:bg-muted">
+                    <X className="size-5" />
+                  </button>
+                </DrawerClose>
+              </div>
+              <div className="max-h-[60vh] overflow-auto rounded-xl border border-border">{list}</div>
+            </div>
+          </DrawerContent>
+        </Drawer>
+      </>
+    );
+  }
+
+  return (
+    <>
+      {trigger}
+      {open && (
+        <>
+          <button
+            type="button"
+            aria-label="Close voice picker"
+            className="fixed inset-0 z-40 cursor-default bg-transparent"
+            onClick={() => setOpen(false)}
+          />
+          <div
+            role="listbox"
+            className="absolute right-0 top-full z-50 mt-2 max-h-72 w-[min(16rem,calc(100vw-2rem))] overflow-auto rounded-xl border border-border bg-popover p-1 text-popover-foreground shadow-lg"
+          >
+            {list}
+          </div>
+        </>
+      )}
+    </>
+  );
+}
+
+function VoiceRow({ v, active, onPick }: { v: SpeechSynthesisVoice; active: boolean; onPick: (uri: string) => void }) {
+  return (
+    <button
+      role="option"
+      aria-selected={active}
+      onClick={() => onPick(v.voiceURI)}
+      className={`flex w-full items-center justify-between gap-2 rounded-lg px-3 py-2.5 text-left text-sm hover:bg-muted ${
+        active ? "bg-muted font-semibold text-foreground" : "text-foreground/85"
+      }`}
+    >
+      <span className="truncate">{v.name}</span>
+      <span className="shrink-0 text-[10px] text-muted-foreground">{v.lang}</span>
+    </button>
+  );
+}
+
