@@ -102,6 +102,10 @@ export function lookupGlossary(term: string): string | undefined {
   return GLOSSARY[term.toLowerCase()];
 }
 
+export function termSlug(term: string): string {
+  return term.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
 // Lightweight helper to check if a player is in our female-cricketer set
 // (used to color avatars/badges in Famous Players cards).
 const FEMALE_PLAYER_NAMES = new Set<string>([

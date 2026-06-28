@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { BookOpen, Bot, Flame, Home, ListChecks, Menu, Moon, Sun, TrendingUp, Trophy, User, Users, X } from "lucide-react";
+import { BookA, BookOpen, Bot, Flame, Home, ListChecks, Menu, Moon, Sun, TrendingUp, Trophy, User, Users, X } from "lucide-react";
 import { useState } from "react";
 import { useUser, deriveLevel } from "@/lib/user-state";
 import { useTheme } from "@/lib/theme";
@@ -11,6 +11,7 @@ const NAV = [
   { to: "/explore", label: "Explore", icon: BookOpen },
   { to: "/ai-coach", label: "AI Coach", icon: Bot },
   { to: "/quiz", label: "Quiz Zone", icon: ListChecks },
+  { to: "/glossary", label: "Glossary", icon: BookA },
   { to: "/progress", label: "Progress", icon: TrendingUp },
   { to: "/community", label: "Community", icon: Users },
 ] as const;
