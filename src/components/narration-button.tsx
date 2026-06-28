@@ -234,4 +234,3 @@ export function NarrationButton({ getText, className = "", label = "Listen" }: P
     </div>
   );
 }
-}
