@@ -145,6 +145,7 @@ export type FamousPlayerCard = {
   era?: string;
   note: string;
   signature?: string;
+  female?: boolean;
 };
 
 // Curated player metadata for the names most likely to appear in lessons.
