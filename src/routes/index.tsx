@@ -137,9 +137,10 @@ function InteractiveBall() {
       <motion.div
         animate={{ rotate: 360 }}
         transition={{ duration: 28, ease: "linear", repeat: Infinity }}
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[55%] h-[55%]"
       >
-        <svg width="220" height="220" viewBox="0 0 220 220">
+        <svg viewBox="0 0 220 220" className="w-full h-full">
+
           <defs>
             <radialGradient id="leather" cx="35%" cy="35%" r="70%">
               <stop offset="0%" stopColor="#d65a4a" />
