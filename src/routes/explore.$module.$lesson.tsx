@@ -16,6 +16,8 @@ import { useUser } from "@/lib/user-state";
 import { Diagram } from "@/components/cric-ui";
 import { GlossaryText } from "@/components/glossary-text";
 import { ReadingLevelToggle } from "@/components/reading-level-toggle";
+import { NarrationButton } from "@/components/narration-button";
+import { useReadingLevel } from "@/lib/reading-level";
 import {
   SECTION_DEFS,
   parseLessonBody,
