@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Headphones, Pause, Play, Square, Gauge } from "lucide-react";
+import { Headphones, Pause, Play, Square, Gauge, Mic2 } from "lucide-react";
 
 type Props = {
   /** Called when user presses play — returns the full text to narrate. */
@@ -10,19 +10,14 @@ type Props = {
 
 const SPEEDS = [0.85, 1, 1.15, 1.3] as const;
 const RATE_KEY = "cs-narration-rate";
+const VOICE_KEY = "cs-narration-voice";
 
-function pickVoice(voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | undefined {
-  if (!voices.length) return undefined;
-  const prefs = [
-    /en[-_]?(GB|IN|AU)/i,
-    /en[-_]?US/i,
-    /^en/i,
-  ];
-  for (const re of prefs) {
-    const v = voices.find((vv) => re.test(vv.lang));
-    if (v) return v;
-  }
-  return voices[0];
+function rankVoice(v: SpeechSynthesisVoice): number {
+  // English voices first, prefer GB/IN/AU then US then other en, then others
+  if (/en[-_]?(GB|IN|AU)/i.test(v.lang)) return 0;
+  if (/en[-_]?US/i.test(v.lang)) return 1;
+  if (/^en/i.test(v.lang)) return 2;
+  return 3;
 }
 
 /**
