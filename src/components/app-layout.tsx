@@ -146,6 +146,8 @@ export function AppFooter() {
             <li><Link to="/quiz" className="hover:text-foreground">Quiz Zone</Link></li>
             <li><Link to="/ai-coach" className="hover:text-foreground">AI Coach</Link></li>
             <li><Link to="/glossary" className="hover:text-foreground">Glossary A–Z</Link></li>
+          </ul>
+
 
         </div>
         <div>
