@@ -156,7 +156,7 @@ function LessonPage() {
                     <h3 className="text-sm font-semibold text-foreground">{def.label}</h3>
                   </div>
                   <p className="mt-2 text-sm text-foreground/85 leading-relaxed">
-                    {value}
+                    <GlossaryText text={value!} />
                   </p>
                 </div>
               );
