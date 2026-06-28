@@ -31,6 +31,8 @@ import { toast } from "sonner";
 import type { Topic, TopicQuiz } from "@/lib/topics";
 import { AUDIENCES, type Audience, getTopicExtras } from "@/lib/topic-extras";
 import { LABORATORY_SIMS } from "@/lib/modules";
+import { isFemalePlayer } from "@/lib/glossary";
+import { GlossaryText } from "@/components/glossary-text";
 
 // 21 sections — every topic renders all of them in the same order.
 const SECTIONS: ReadonlyArray<{
