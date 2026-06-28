@@ -6,6 +6,7 @@ import {
   Bot,
   CheckCircle2,
   CircleAlert,
+  Download,
   Image as ImageIcon,
   RefreshCw,
   Save,
@@ -14,6 +15,7 @@ import {
   Video as VideoIcon,
   XCircle,
 } from "lucide-react";
+import { jsPDF } from "jspdf";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useUser } from "@/lib/user-state";
