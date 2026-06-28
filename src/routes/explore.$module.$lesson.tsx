@@ -15,6 +15,7 @@ import { MODULE_BY_SLUG } from "@/lib/modules";
 import { useUser } from "@/lib/user-state";
 import { Diagram } from "@/components/cric-ui";
 import { GlossaryText } from "@/components/glossary-text";
+import { ReadingLevelToggle } from "@/components/reading-level-toggle";
 import {
   SECTION_DEFS,
   parseLessonBody,
