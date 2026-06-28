@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Headphones, Pause, Play, Square, Gauge, Mic2 } from "lucide-react";
+import { Headphones, Pause, Play, Square, Gauge, Mic2, X } from "lucide-react";
+import { Drawer, DrawerClose, DrawerContent } from "@/components/ui/drawer";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type Props = {
   /** Called when user presses play — returns the full text to narrate. */
