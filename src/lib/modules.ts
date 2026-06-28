@@ -219,12 +219,16 @@ export const MODULES: Module[] = [
 // fast-bowling variations, modern T20 shots, fielding positions,
 // wicketkeeping, equipment, DRS tech, fitness, etc.)
 import { EXTRA_LESSONS_BY_MODULE } from "@/lib/modules-extra";
+import { ADDITIONAL_LESSONS_BY_MODULE } from "@/lib/modules-additions";
 for (const m of MODULES) {
-  const extras = EXTRA_LESSONS_BY_MODULE[m.slug];
-  if (extras && extras.length) {
-    const existing = new Set(m.lessons.map(l => l.slug));
-    for (const l of extras) {
-      if (!existing.has(l.slug)) m.lessons.push(l);
+  const existing = new Set(m.lessons.map(l => l.slug));
+  for (const bucket of [EXTRA_LESSONS_BY_MODULE[m.slug], ADDITIONAL_LESSONS_BY_MODULE[m.slug]]) {
+    if (!bucket) continue;
+    for (const l of bucket) {
+      if (!existing.has(l.slug)) {
+        m.lessons.push(l);
+        existing.add(l.slug);
+      }
     }
   }
 }
