@@ -1,9 +1,10 @@
 import { Fragment, useMemo, useState } from "react";
-import { X } from "lucide-react";
+import { ArrowUpRight, X } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Drawer, DrawerClose, DrawerContent } from "@/components/ui/drawer";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { GLOSSARY_REGEX, lookupGlossary } from "@/lib/glossary";
+import { GLOSSARY_REGEX, lookupGlossary, termSlug } from "@/lib/glossary";
 import { useReadingLevel } from "@/lib/reading-level";
 
 type Part = { type: "text"; value: string } | { type: "term"; value: string; def: string };
@@ -44,6 +45,8 @@ function TermButton({
 function GlossaryTerm({ term, def }: { term: string; def: string }) {
   const isMobile = useIsMobile();
   const [open, setOpen] = useState(false);
+  const slug = termSlug(term);
+  const hash = `#term-${slug}`;
 
   if (isMobile) {
     return (
@@ -71,6 +74,14 @@ function GlossaryTerm({ term, def }: { term: string; def: string }) {
               </DrawerClose>
             </div>
             <p className="mt-3 text-[15px] leading-relaxed text-foreground/90">{def}</p>
+            <Link
+              to="/glossary"
+              hash={`term-${slug}`}
+              onClick={() => setOpen(false)}
+              className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
+            >
+              Open in A–Z glossary <ArrowUpRight className="size-3.5" />
+            </Link>
             <DrawerClose asChild>
               <button
                 type="button"
@@ -95,6 +106,14 @@ function GlossaryTerm({ term, def }: { term: string; def: string }) {
           <div className="font-display text-sm font-semibold text-primary break-words">{term}</div>
         </div>
         <p className="mt-1 text-[13px] leading-relaxed text-foreground/85">{def}</p>
+        <Link
+          to="/glossary"
+          hash={`term-${slug}`}
+          className="mt-2 inline-flex items-center gap-1 text-[12px] font-semibold text-primary hover:underline"
+        >
+          Open in A–Z glossary <ArrowUpRight className="size-3" />
+        </Link>
+        <span className="sr-only">{hash}</span>
       </PopoverContent>
     </Popover>
   );
