@@ -229,6 +229,88 @@ for (const m of MODULES) {
   }
 }
 
+// -----------------------------------------------------------------------------
+// Re-order each module's lessons into a pedagogical sequence: foundations →
+// fundamentals → core techniques → variations → advanced applications.
+// Any lesson not listed below keeps its merged order and is appended at the end,
+// so adding new lessons later still works without losing them from the UI.
+// -----------------------------------------------------------------------------
+const LESSON_ORDER: Record<string, string[]> = {
+  "bowling-science": [
+    "anatomy-of-an-action", "pace-and-the-kinetic-chain", "hip-shoulder-separation",
+    "bracing-leg", "slinging-action", "release-angles", "seam-presentation",
+    "wobble-seam", "swing-aerodynamics", "conventional-outswing",
+    "conventional-inswing", "reverse-swing", "swing-vs-seam", "spin-revolutions",
+    "off-break", "arm-ball", "doosra", "teesra", "top-spinner-finger",
+    "slider-finger", "carrom-ball", "left-arm-orthodox-stock", "left-arm-arm-ball",
+    "left-arm-angle", "chinaman", "chinaman-googly", "leg-break", "googly",
+    "flipper", "slider-wrist", "top-spinner-wrist", "zooter",
+    "cutters-and-slower-balls", "off-cutter", "leg-cutter", "back-of-hand-slower",
+    "knuckle-ball", "yorker-conventional", "wide-yorker", "toe-crusher", "bouncer",
+  ],
+  "batting-science": [
+    "conventional-grip", "strong-bottom-hand", "open-stance", "head-position",
+    "trigger-movement", "footwork-physics", "reaction-time", "decision-making",
+    "shot-geometry", "power-vs-timing", "forward-defence", "back-foot-defence",
+    "leaving-the-ball", "cover-drive", "pull-shot", "hook-shot", "sweep-shot",
+    "slog-sweep", "reverse-sweep", "switch-hit", "switch-hit-ramp", "ramp-scoop",
+    "helicopter-shot", "playing-spin", "batting-against-pace", "powerplay-vs-death",
+  ],
+  "fielding-science": [
+    "fielding-positions", "slip-cordon-position", "gully-position",
+    "point-cover-positions", "boundary-positions", "catching-under-pressure",
+    "high-catch", "slip-catch", "close-in-catch", "slip-cordon", "cutting-angles",
+    "flat-throws", "direct-hits", "direct-hit-runout", "boundary-relay",
+    "relay-catch", "wagon-wheel-fielding",
+  ],
+  "wicketkeeping-science": [
+    "keeper-overview", "keeper-stance", "keeper-glove-work", "wk-footwork",
+    "wk-standing-back", "wk-standing-up", "wk-catching", "wk-stumping",
+    "wk-leadership",
+  ],
+  "pitch-science": [
+    "soil-and-bounce", "pitch-preparation", "moisture-and-seam", "pitch-cracks",
+    "day-by-day-evolution", "pitch-types-by-country", "drop-in-pitches",
+    "reading-the-pitch", "hawkeye-pitch-map",
+  ],
+  "ball-science": [
+    "anatomy-of-a-ball", "seam-stitching", "ball-manufacturing", "ball-compression",
+    "red-vs-white-vs-pink", "dukes-vs-kookaburra-vs-sg", "lifecycle-shine-scuff",
+    "ball-flight-physics", "ball-tampering-history",
+  ],
+  "environment-science": [
+    "temperature-and-fatigue", "humidity-and-swing", "wind-and-bowling-ends",
+    "wind-and-swing", "dew-factor", "dew-management", "altitude",
+  ],
+  "fitness-science": [
+    "energy-systems", "sprint-mechanics", "shoulder-hip-mobility",
+    "finger-forearm-strength", "strength-for-batters", "mobility-and-recovery",
+    "recovery-sleep-nutrition", "injury-prevention", "mental-skills",
+  ],
+  "umpiring-science": [
+    "umpire-signals", "lbw-logic", "no-balls-and-free-hits",
+    "soft-signal-and-catches", "drs-technology", "hawkeye-detail",
+    "ultraedge-snicko", "snicko-and-hot-spot", "hot-spot", "drs-protocol",
+    "drs-strategy",
+  ],
+  "equipment-science": [
+    "bat-anatomy", "willow-grades", "bat-knocking-oiling", "ball-equipment-spec",
+    "stumps-bails", "helmet-engineering", "batting-pads-gloves", "wk-gear",
+    "shoes-spikes", "training-aids",
+  ],
+};
+
+for (const m of MODULES) {
+  const order = LESSON_ORDER[m.slug];
+  if (!order) continue;
+  const rank = new Map(order.map((s, i) => [s, i]));
+  m.lessons.sort((a, b) => {
+    const ra = rank.has(a.slug) ? (rank.get(a.slug) as number) : Number.MAX_SAFE_INTEGER;
+    const rb = rank.has(b.slug) ? (rank.get(b.slug) as number) : Number.MAX_SAFE_INTEGER;
+    return ra - rb;
+  });
+}
+
 export const MODULE_BY_SLUG: Record<string, Module> = Object.fromEntries(MODULES.map(m => [m.slug, m]));
 
 const MODULE_QUIZZES: Quiz[] = MODULES.map(m => ({
