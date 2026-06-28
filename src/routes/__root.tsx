@@ -15,6 +15,7 @@ import { UserProvider } from "../lib/user-state";
 import { AppHeader, AppFooter } from "../components/app-layout";
 import { Toaster } from "../components/ui/sonner";
 import { ThemeProvider } from "../lib/theme";
+import { ReadingLevelProvider } from "../lib/reading-level";
 
 function NotFoundComponent() {
   return (
@@ -122,16 +123,18 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <UserProvider>
-          <div className="flex min-h-screen flex-col bg-background">
-            <AppHeader />
-            <main className="flex-1">
-              <Outlet />
-            </main>
-            <AppFooter />
-          </div>
-          <Toaster />
-        </UserProvider>
+        <ReadingLevelProvider>
+          <UserProvider>
+            <div className="flex min-h-screen flex-col bg-background">
+              <AppHeader />
+              <main className="flex-1">
+                <Outlet />
+              </main>
+              <AppFooter />
+            </div>
+            <Toaster />
+          </UserProvider>
+        </ReadingLevelProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );
