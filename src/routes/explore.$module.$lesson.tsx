@@ -111,13 +111,15 @@ function LessonPage() {
         </span>
       </div>
 
-      <p className="mt-6 text-lg text-foreground/85 leading-relaxed">{lesson.summary}</p>
+      <p className="mt-6 text-lg text-foreground/85 leading-relaxed">
+        <GlossaryText text={lesson.summary} />
+      </p>
 
       {parsed.notes.length > 0 && (
         <div className="mt-8 space-y-3 text-foreground/90 leading-relaxed">
           {parsed.notes.map((p, i) => (
             <p key={i} className="text-[15.5px]">
-              {p}
+              <GlossaryText text={p} />
             </p>
           ))}
         </div>
