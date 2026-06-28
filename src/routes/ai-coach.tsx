@@ -485,7 +485,7 @@ function AICoachPage() {
           <h2 className="font-display text-xl font-bold text-foreground mb-4">Your saved reports</h2>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {reports.map(r => (
-              <article key={r.id} className="rounded-2xl border border-border bg-card p-4">
+              <article key={r.id} className="rounded-2xl border border-border bg-card p-4 flex flex-col">
                 <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                   {r.media_type === "video" ? <VideoIcon className="size-3" /> : <ImageIcon className="size-3" />}
                   {r.media_type}
@@ -498,6 +498,19 @@ function AICoachPage() {
                   <span className="text-xs text-muted-foreground">overall</span>
                 </div>
                 {r.media_name && <p className="mt-1 text-xs text-muted-foreground truncate">{r.media_name}</p>}
+                <button
+                  onClick={() => exportReportPdf({
+                    title: r.title,
+                    mediaType: r.media_type,
+                    mediaName: r.media_name,
+                    metrics: r.metrics,
+                    overall: r.overall_score,
+                    createdAt: r.created_at,
+                  })}
+                  className="mt-3 inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-surface px-3 py-2 text-xs font-semibold text-primary hover:bg-muted"
+                >
+                  <Download className="size-3.5" /> Save as PDF
+                </button>
               </article>
             ))}
           </div>
