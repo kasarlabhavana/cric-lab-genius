@@ -98,18 +98,6 @@ function Home() {
 
           <InteractiveBall />
 
-          {/* Compact list fallback for accessibility / small screens */}
-          <div className="mt-10 grid gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 md:hidden">
-            {SCIENCE_TILES.map(s => {
-              const Icon = s.icon;
-              return (
-                <Link key={s.slug} to="/explore/$module" params={{ module: s.slug }}
-                  className="flex items-center gap-2 rounded-xl border border-border bg-card px-3 py-2 text-xs font-medium text-foreground hover:shadow-md transition">
-                  <Icon className="size-4 text-primary" />{s.title}
-                </Link>
-              );
-            })}
-          </div>
         </div>
       </section>
 
