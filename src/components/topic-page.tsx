@@ -33,7 +33,6 @@ import { AUDIENCES, type Audience, getTopicExtras } from "@/lib/topic-extras";
 import { LABORATORY_SIMS } from "@/lib/modules";
 import { isFemalePlayer } from "@/lib/glossary";
 import { GlossaryText } from "@/components/glossary-text";
-import { ReadingLevelToggle } from "@/components/reading-level-toggle";
 import { NarrationButton } from "@/components/narration-button";
 import { useReadingLevel } from "@/lib/reading-level";
 
