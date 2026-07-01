@@ -46,9 +46,6 @@ function ModulePage() {
             <ProgressRing value={p.pct} label="Done" />
           </div>
           <p className="mt-6 max-w-3xl text-foreground/85">{mod.intro}</p>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {mod.levels.map((l: string) => <span key={l} className="rounded-full bg-white/60 px-2.5 py-1 text-xs font-medium text-primary border border-border">{l}</span>)}
-          </div>
         </div>
       </section>
 

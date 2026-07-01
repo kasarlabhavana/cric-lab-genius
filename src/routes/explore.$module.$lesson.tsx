@@ -17,6 +17,7 @@ import { Diagram } from "@/components/cric-ui";
 import { GlossaryText } from "@/components/glossary-text";
 import { ReadingLevelToggle } from "@/components/reading-level-toggle";
 import { NarrationButton } from "@/components/narration-button";
+import { ShareButton } from "@/components/share-button";
 import { useReadingLevel } from "@/lib/reading-level";
 import {
   SECTION_DEFS,
@@ -127,6 +128,7 @@ function LessonPage() {
         <div className="flex flex-wrap items-center gap-2">
           <ReadingLevelToggle />
           <NarrationButton getText={buildNarration} />
+          <ShareButton title={`${lesson.title} — ${mod.title}`} text={lesson.summary} />
         </div>
       </div>
 
