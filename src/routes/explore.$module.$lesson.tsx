@@ -162,7 +162,7 @@ function LessonPage() {
           <h2 className="font-display text-xl font-semibold text-primary">
             Technical Breakdown
           </h2>
-          <span className="text-xs text-muted-foreground">17-section schema</span>
+          <span className="text-xs text-muted-foreground">19-section schema</span>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {sectionsWithContent
