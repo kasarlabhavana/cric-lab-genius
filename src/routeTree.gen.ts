@@ -15,6 +15,7 @@ import { Route as ProgressRouteImport } from './routes/progress'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as LaboratoryRouteImport } from './routes/laboratory'
+import { Route as KnowledgeGraphRouteImport } from './routes/knowledge-graph'
 import { Route as GlossaryRouteImport } from './routes/glossary'
 import { Route as ExploreRouteImport } from './routes/explore'
 import { Route as DisclaimerRouteImport } from './routes/disclaimer'
@@ -63,6 +64,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const LaboratoryRoute = LaboratoryRouteImport.update({
   id: '/laboratory',
   path: '/laboratory',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KnowledgeGraphRoute = KnowledgeGraphRouteImport.update({
+  id: '/knowledge-graph',
+  path: '/knowledge-graph',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GlossaryRoute = GlossaryRouteImport.update({
@@ -171,6 +177,7 @@ export interface FileRoutesByFullPath {
   '/disclaimer': typeof DisclaimerRoute
   '/explore': typeof ExploreRouteWithChildren
   '/glossary': typeof GlossaryRoute
+  '/knowledge-graph': typeof KnowledgeGraphRoute
   '/laboratory': typeof LaboratoryRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
@@ -197,6 +204,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/disclaimer': typeof DisclaimerRoute
   '/glossary': typeof GlossaryRoute
+  '/knowledge-graph': typeof KnowledgeGraphRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/progress': typeof ProgressRoute
@@ -222,6 +230,7 @@ export interface FileRoutesById {
   '/disclaimer': typeof DisclaimerRoute
   '/explore': typeof ExploreRouteWithChildren
   '/glossary': typeof GlossaryRoute
+  '/knowledge-graph': typeof KnowledgeGraphRoute
   '/laboratory': typeof LaboratoryRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
@@ -251,6 +260,7 @@ export interface FileRouteTypes {
     | '/disclaimer'
     | '/explore'
     | '/glossary'
+    | '/knowledge-graph'
     | '/laboratory'
     | '/privacy'
     | '/profile'
@@ -277,6 +287,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/disclaimer'
     | '/glossary'
+    | '/knowledge-graph'
     | '/privacy'
     | '/profile'
     | '/progress'
@@ -301,6 +312,7 @@ export interface FileRouteTypes {
     | '/disclaimer'
     | '/explore'
     | '/glossary'
+    | '/knowledge-graph'
     | '/laboratory'
     | '/privacy'
     | '/profile'
@@ -329,6 +341,7 @@ export interface RootRouteChildren {
   DisclaimerRoute: typeof DisclaimerRoute
   ExploreRoute: typeof ExploreRouteWithChildren
   GlossaryRoute: typeof GlossaryRoute
+  KnowledgeGraphRoute: typeof KnowledgeGraphRoute
   LaboratoryRoute: typeof LaboratoryRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRoute
@@ -381,6 +394,13 @@ declare module '@tanstack/react-router' {
       path: '/laboratory'
       fullPath: '/laboratory'
       preLoaderRoute: typeof LaboratoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/knowledge-graph': {
+      id: '/knowledge-graph'
+      path: '/knowledge-graph'
+      fullPath: '/knowledge-graph'
+      preLoaderRoute: typeof KnowledgeGraphRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/glossary': {
@@ -582,6 +602,7 @@ const rootRouteChildren: RootRouteChildren = {
   DisclaimerRoute: DisclaimerRoute,
   ExploreRoute: ExploreRouteWithChildren,
   GlossaryRoute: GlossaryRoute,
+  KnowledgeGraphRoute: KnowledgeGraphRoute,
   LaboratoryRoute: LaboratoryRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRoute,
