@@ -136,7 +136,7 @@ function InteractiveBall() {
       <motion.div
         animate={{ rotate: 360 }}
         transition={{ duration: 28, ease: "linear", repeat: Infinity }}
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[34%] h-[34%]"
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[24%] h-[24%]"
       >
         <svg viewBox="0 0 220 220" className="w-full h-full">
           <defs>
