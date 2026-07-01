@@ -22,6 +22,8 @@ import {
   SECTION_DEFS,
   parseLessonBody,
   inferDifficulty,
+  inferEtymology,
+  inferHistory,
   extractFamousPlayers,
 } from "@/lib/lesson-schema";
 
