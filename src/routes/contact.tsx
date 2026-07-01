@@ -17,12 +17,12 @@ export const Route = createFileRoute("/contact")({
         <a href="mailto:hello.cricscience@gmail.com" className="card-hover rounded-2xl border border-border bg-card p-5">
           <MessageSquare className="size-5 text-primary" />
           <div className="mt-3 font-display font-semibold">Press</div>
-          <div className="text-sm text-muted-foreground mt-1">press@cricscience.app</div>
+          <div className="text-sm text-muted-foreground mt-1">press@cricscience.com</div>
         </a>
         <a href="#" className="card-hover rounded-2xl border border-border bg-card p-5 sm:col-span-2">
           <Users className="size-5 text-primary" />
           <div className="mt-3 font-display font-semibold">Coaching academies & federations</div>
-          <div className="text-sm text-muted-foreground mt-1">partner@cricscience.app — bring CricScience to your players.</div>
+          <div className="text-sm text-muted-foreground mt-1">partner@cricscience.com — bring CricScience to your players.</div>
         </a>
       </div>
     </article>
