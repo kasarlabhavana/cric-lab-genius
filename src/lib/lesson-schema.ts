@@ -6,6 +6,8 @@ import type { Lesson } from "@/lib/modules";
 
 export type SectionKey =
   | "definition"
+  | "etymology"
+  | "history"
   | "difficulty"
   | "grip"
   | "fingerPlacement"
@@ -27,6 +29,8 @@ export type SectionDef = { key: SectionKey; label: string; icon: string };
 
 export const SECTION_DEFS: SectionDef[] = [
   { key: "definition", label: "Definition", icon: "BookOpen" },
+  { key: "etymology", label: "Etymology", icon: "BookText" },
+  { key: "history", label: "History", icon: "Landmark" },
   { key: "difficulty", label: "Difficulty Level", icon: "Gauge" },
   { key: "grip", label: "Grip", icon: "Hand" },
   { key: "fingerPlacement", label: "Finger Placement", icon: "Fingerprint" },
@@ -49,6 +53,12 @@ export const SECTION_DEFS: SectionDef[] = [
 // to canonical section keys. Multiple labels can feed one key.
 const LABEL_MAP: Array<[RegExp, SectionKey]> = [
   [/^definition\b/i, "definition"],
+  [/^etymology\b/i, "etymology"],
+  [/^origin(?:\s+of\s+name)?\b/i, "etymology"],
+  [/^name origin\b/i, "etymology"],
+  [/^history\b/i, "history"],
+  [/^background\b/i, "history"],
+  [/^heritage\b/i, "history"],
   [/^difficulty(?: level)?\b/i, "difficulty"],
   [/^grip(?:\s*&.*)?$/i, "grip"],
   [/^grip(?:\s*&.*)?:?$/i, "grip"],
@@ -133,6 +143,83 @@ export function inferDifficulty(lesson: Lesson, parsed: ParsedSections): string 
     return "Intermediate — accessible technique with a steep accuracy curve in match conditions.";
   if (/(grip|stance|defence|trigger|forward defence|back-foot defence)/.test(t))
     return "Foundation — the first thing every player learns; the basis of every advanced variation.";
+  return null;
+}
+
+// ---------------------------------------------------------------------------
+// Etymology — origin of the term used in the lesson title.
+// ---------------------------------------------------------------------------
+const ETYMOLOGY_MAP: Array<[RegExp, string]> = [
+  [/doosra/i, "'Doosra' is Urdu/Hindi for 'the other one' — coined to describe the off-spinner's ball that turns the opposite way."],
+  [/teesra/i, "'Teesra' is Urdu/Hindi for 'the third one', named as the follow-up variation to the doosra."],
+  [/googly/i, "'Googly' entered cricket lexicon around 1903 via English leg-spinner B. J. T. Bosanquet; the term likely evokes the confused, 'goggling' look of the batter."],
+  [/chinaman/i, "'Chinaman' traces to a 1933 Old Trafford Test: West Indian left-arm wrist-spinner Ellis 'Puss' Achong (of Chinese descent) dismissed Walter Robins, who muttered 'fancy being done by a bloody Chinaman'."],
+  [/carrom/i, "Named after the carrom board — the ball is flicked out with a bent middle finger, mimicking the striker flick used in the tabletop game."],
+  [/flipper/i, "'Flipper' describes the wrist-spinner's back-spinning ball 'flipped' out from under the fingers, popularised by Clarrie Grimmett in the 1930s."],
+  [/yorker/i, "The 'yorker' likely takes its name from Yorkshire bowlers of the 19th century known for pitching the ball at the batter's feet ('to york' a batter)."],
+  [/bouncer/i, "'Bouncer' is simply descriptive — a short ball that bounces up sharply toward the batter's head or chest."],
+  [/reverse swing/i, "'Reverse swing' was named in Pakistan in the 1970s–80s: an old ball that swings toward the shiny side, i.e. the reverse of conventional swing."],
+  [/switch hit/i, "'Switch hit' describes the batter switching handedness mid-delivery; Kevin Pietersen brought it into the mainstream in 2008."],
+  [/reverse sweep/i, "The 'reverse sweep' is a sweep played with the bat face reversed; Mushtaq Mohammad is widely credited with pioneering it in the 1970s."],
+  [/scoop|ramp|dilscoop/i, "'Scoop' / 'ramp' names the shot that lifts the ball over the keeper; the 'Dilscoop' was branded after Tillakaratne Dilshan at the 2009 World T20."],
+  [/knuckle ball/i, "Borrowed from baseball — the ball is held with knuckles or nails so it leaves the hand with minimal spin, mimicking baseball's knuckleball."],
+  [/wobble seam/i, "'Wobble seam' describes a seam released tilted so it wobbles in flight, causing unpredictable movement off the pitch."],
+  [/off[- ]?break|off[- ]?spin/i, "'Off-break' names the ball that breaks from the off side toward the leg side for a right-hand batter."],
+  [/leg[- ]?break|leg[- ]?spin/i, "'Leg-break' names the ball that breaks from the leg side to the off side for a right-hand batter."],
+  [/out[- ]?swing/i, "'Outswing' describes the ball moving away from the right-hand batter after pitching-line release."],
+  [/in[- ]?swing/i, "'Inswing' describes the ball moving into the right-hand batter."],
+  [/cover drive/i, "'Cover drive' is named after the fielding position it is hit through — cover."],
+  [/pull shot|pull\b/i, "'Pull' describes the batter pulling a short ball across the line to the leg side."],
+  [/hook shot|hook\b/i, "'Hook' names the shot that hooks a short ball rising toward the head to fine leg or square leg."],
+  [/sweep\b/i, "'Sweep' comes from the sweeping horizontal-bat arc used against spin from a kneeling position."],
+  [/stance|grip|trigger/i, "The English 'stance', 'grip' and 'trigger' terms were codified in 19th-century English coaching manuals as the fundamentals of batsmanship."],
+  [/pitch\b/i, "'Pitch' comes from the Old English 'piccean' — to fix or plant — referring to the strip 'pitched' between the wickets."],
+  [/wicket/i, "'Wicket' derives from the Old French 'wiket' (small gate); early cricket used a low two-stump 'gate' as the target."],
+  [/stump/i, "'Stumps' are named after tree stumps — the earliest wickets were literally cut tree stumps set into the ground."],
+  [/mankad/i, "'Mankading' is named after Indian all-rounder Vinoo Mankad, who ran out Australia's Bill Brown at the non-striker's end in 1947."],
+];
+
+export function inferEtymology(lesson: Lesson, parsed: ParsedSections): string | null {
+  if (parsed.etymology?.length) return parsed.etymology.join(" ");
+  const t = lesson.title;
+  for (const [re, text] of ETYMOLOGY_MAP) if (re.test(t)) return text;
+  return null;
+}
+
+// ---------------------------------------------------------------------------
+// History — brief backstory of the technique/term.
+// ---------------------------------------------------------------------------
+const HISTORY_MAP: Array<[RegExp, string]> = [
+  [/doosra/i, "Popularised by Pakistan's Saqlain Mushtaq in the late 1990s and later refined by Saeed Ajmal and Muttiah Muralitharan; the ICC's 15° elbow-flexion tolerance (2005) reshaped who could bowl it legally."],
+  [/googly/i, "Invented by B. J. T. Bosanquet around 1900 (and still called 'bosie' in Australia); a staple of every top wrist-spinner from Warne to Kumble to Rashid Khan."],
+  [/chinaman/i, "Named after Ellis Achong's 1933 dismissal of Walter Robins; kept alive by Garry Sobers, revived by Brad Hogg, and dominant again through Kuldeep Yadav and Tabraiz Shamsi. ICC style guides now prefer 'left-arm wrist-spin'."],
+  [/carrom/i, "Popularised in Test cricket by Sri Lanka's Ajantha Mendis (2008) and later mastered by India's R. Ashwin as a T20 wicket-taking option."],
+  [/flipper/i, "Perfected by Clarrie Grimmett in the 1930s, taught to Richie Benaud, and turned into an art form by Shane Warne in the 1990s."],
+  [/reverse swing/i, "Pioneered in Pakistan by Sarfraz Nawaz in the 1970s, taught to Imran Khan, and later mastered by Wasim Akram and Waqar Younis — the toe-crushing reverse yorker era."],
+  [/yorker/i, "A staple death-overs weapon since the 1990s ODI era; Waqar Younis and Lasith Malinga made it iconic, and Jasprit Bumrah is its modern benchmark."],
+  [/bouncer/i, "The short-pitched bouncer has been law-limited since 1991 (Law 41.6 — a maximum of two per over above shoulder height); the 1932/33 Bodyline series is its most infamous chapter."],
+  [/switch hit/i, "Kevin Pietersen played the first widely televised switch-hits in 2008 vs New Zealand; the MCC confirmed the shot legal under Law 41.16 (unfair play does not apply)."],
+  [/reverse sweep/i, "Mushtaq Mohammad played it in the 1970s; Mike Gatting's 1987 World Cup final dismissal briefly stigmatised it before it re-entered the T20 mainstream."],
+  [/scoop|ramp|dilscoop/i, "Ryan Campbell and Douglas Marillier tried early versions; Tillakaratne Dilshan branded the scoop at the 2009 World T20, and Jos Buttler industrialised the ramp."],
+  [/knuckle ball/i, "Zaheer Khan popularised the cricket knuckle ball in the mid-2000s; Bhuvneshwar Kumar and Andrew Tye later turned it into a death-overs staple."],
+  [/wobble seam/i, "Mohammad Asif and later Pat Cummins and Vernon Philander refined the wobble-seam release as an alternative to conventional swing on flat pitches."],
+  [/mankad/i, "First seen in a Test in 1947 (Vinoo Mankad vs Bill Brown); reclassified from 'unfair play' to a regular run-out under MCC Law 38.3 in 2022."],
+  [/spin|off[- ]?break|leg[- ]?break/i, "Finger- and wrist-spin have been part of cricket since the 18th century; over-arm spin was legalised in 1864, and the ICC's 15° flex tolerance (2005) modernised its regulation."],
+  [/swing|seam/i, "Swing bowling grew with the introduction of the seamed leather ball in the 19th century; the saliva ban (ICC, 2020, permanent 2022) forced a shift to sweat-only shine and wobble-seam variations."],
+  [/wicketkeep/i, "Wicket-keeping as a specialist role dates to the 1770s; the modern glove-work standard was set by Bert Oldfield, Alan Knott, Ian Healy, and later Adam Gilchrist and MS Dhoni."],
+  [/pitch|ground|boundary/i, "MCC's Laws (first codified 1744, current 2017 edition) set the 22-yard pitch and playing-area dimensions cricket still uses today."],
+  [/bat\b|willow/i, "Bats have been made from English/Kashmir willow since the 18th century; blade dimensions are fixed under MCC Law 5 (max 108 mm wide, 67 mm deep)."],
+  [/ball\b/i, "The cricket ball's cork-and-leather construction dates to the 1770s (Duke's of Kent); pink and white balls were introduced later for day-night and limited-overs cricket."],
+  [/helmet|equipment|pad|glove/i, "Batting helmets became common after Dennis Amiss and Graham Yallop wore them in 1977–78; British Standard BS7928:2013 is today's certification benchmark."],
+  [/fielding|catch|throw|slide/i, "Modern fielding standards were rewritten by South Africa's Jonty Rhodes in the 1990s; the flat, one-bounce throw and sliding stop are now coached from junior level."],
+  [/umpire|drs|review/i, "Neutral umpires became standard in the 1990s; the Decision Review System (DRS) was introduced in Test cricket in 2008 and refined with ball-tracking and UltraEdge."],
+  [/fitness|nutrition|warm/i, "Cricket professionalised its strength-and-conditioning after Australia's 1990s dominance under Steve Waugh; year-round S&C, hydration protocols and GPS-tracked workloads are now standard."],
+];
+
+export function inferHistory(lesson: Lesson, parsed: ParsedSections): string | null {
+  if (parsed.history?.length) return parsed.history.join(" ");
+  const t = lesson.title;
+  for (const [re, text] of HISTORY_MAP) if (re.test(t)) return text;
   return null;
 }
 

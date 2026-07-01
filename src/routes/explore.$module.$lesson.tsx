@@ -15,7 +15,6 @@ import { MODULE_BY_SLUG } from "@/lib/modules";
 import { useUser } from "@/lib/user-state";
 import { Diagram } from "@/components/cric-ui";
 import { GlossaryText } from "@/components/glossary-text";
-import { ReadingLevelToggle } from "@/components/reading-level-toggle";
 import { NarrationButton } from "@/components/narration-button";
 import { ShareButton } from "@/components/share-button";
 import { useReadingLevel } from "@/lib/reading-level";
@@ -23,6 +22,8 @@ import {
   SECTION_DEFS,
   parseLessonBody,
   inferDifficulty,
+  inferEtymology,
+  inferHistory,
   extractFamousPlayers,
 } from "@/lib/lesson-schema";
 
@@ -59,11 +60,15 @@ function LessonPage() {
   const { simplify } = useReadingLevel();
   const parsed = parseLessonBody(lesson);
   const difficulty = inferDifficulty(lesson, parsed.sections);
+  const etymology = inferEtymology(lesson, parsed.sections);
+  const history = inferHistory(lesson, parsed.sections);
   const players = extractFamousPlayers(lesson);
 
   const sectionsWithContent = SECTION_DEFS.map((def) => {
     let value = parsed.sections[def.key]?.join(" ");
     if (!value && def.key === "difficulty" && difficulty) value = difficulty;
+    if (!value && def.key === "etymology" && etymology) value = etymology;
+    if (!value && def.key === "history" && history) value = history;
     return { def, value };
   });
   const filled = sectionsWithContent.filter((s) => s.value).length;
@@ -126,7 +131,6 @@ function LessonPage() {
           </span>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <ReadingLevelToggle />
           <NarrationButton getText={buildNarration} />
           <ShareButton title={`${lesson.title} — ${mod.title}`} text={lesson.summary} />
         </div>
@@ -158,7 +162,7 @@ function LessonPage() {
           <h2 className="font-display text-xl font-semibold text-primary">
             Technical Breakdown
           </h2>
-          <span className="text-xs text-muted-foreground">17-section schema</span>
+          <span className="text-xs text-muted-foreground">19-section schema</span>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {sectionsWithContent
