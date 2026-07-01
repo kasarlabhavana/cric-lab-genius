@@ -162,7 +162,7 @@ function InteractiveBall() {
 
       {/* Centre label */}
       <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center z-10">
-        {current ? (
+        {current && (
           <motion.div
             key={current.slug}
             initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
@@ -172,10 +172,6 @@ function InteractiveBall() {
             <div className="mt-0.5 text-[11px] text-muted-foreground leading-snug">{current.desc}</div>
             <div className="mt-1.5 text-[10px] font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">Tap to open →</div>
           </motion.div>
-        ) : (
-          <div className="rounded-full bg-background/80 backdrop-blur px-4 py-2 text-xs font-semibold text-foreground border border-border">
-            Pick a science
-          </div>
         )}
       </div>
 
