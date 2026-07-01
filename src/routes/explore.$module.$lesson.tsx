@@ -60,11 +60,15 @@ function LessonPage() {
   const { simplify } = useReadingLevel();
   const parsed = parseLessonBody(lesson);
   const difficulty = inferDifficulty(lesson, parsed.sections);
+  const etymology = inferEtymology(lesson, parsed.sections);
+  const history = inferHistory(lesson, parsed.sections);
   const players = extractFamousPlayers(lesson);
 
   const sectionsWithContent = SECTION_DEFS.map((def) => {
     let value = parsed.sections[def.key]?.join(" ");
     if (!value && def.key === "difficulty" && difficulty) value = difficulty;
+    if (!value && def.key === "etymology" && etymology) value = etymology;
+    if (!value && def.key === "history" && history) value = history;
     return { def, value };
   });
   const filled = sectionsWithContent.filter((s) => s.value).length;
