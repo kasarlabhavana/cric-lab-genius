@@ -51,21 +51,45 @@ function ModulePage() {
 
       <section className="mx-auto max-w-5xl px-6 py-10 grid md:grid-cols-3 gap-8">
         <div className="md:col-span-2">
-          <h2 className="font-display text-xl font-bold text-primary mb-4">Lessons</h2>
-          <ol className="space-y-3">
+          <h2 className="font-display text-xl font-bold text-primary mb-6">Learning path</h2>
+          <ol className="relative">
             {mod.lessons.map((l: { slug: string; title: string; summary: string; minutes: number }, i: number) => {
               const done = !!state.completedLessons[`${mod.slug}/${l.slug}`];
+              const isLast = i === mod.lessons.length - 1;
               return (
-                <li key={l.slug}>
-                  <Link to="/explore/$module/$lesson" params={{ module: mod.slug, lesson: l.slug }} className="card-hover flex items-center gap-4 rounded-2xl border border-border bg-card p-4">
-                    {done ? <CheckCircle2 className="size-6 text-[color:var(--brand-green)] shrink-0" /> : <Circle className="size-6 text-muted-foreground shrink-0" />}
-                    <div className="flex-1 min-w-0">
-                      <div className="text-xs text-muted-foreground">Lesson {i + 1}</div>
-                      <h3 className="font-display font-semibold text-foreground">{l.title}</h3>
-                      <p className="text-sm text-muted-foreground line-clamp-1">{l.summary}</p>
+                <li key={l.slug} className="relative pl-14 pb-6">
+                  {!isLast && (
+                    <span
+                      aria-hidden
+                      className={`absolute left-[22px] top-11 bottom-0 w-0.5 ${done ? "bg-[color:var(--brand-green)]" : "bg-border"}`}
+                    />
+                  )}
+                  <span
+                    className={`absolute left-0 top-1 inline-flex size-11 items-center justify-center rounded-full border-2 text-sm font-bold shadow-sm ${
+                      done
+                        ? "border-[color:var(--brand-green)] bg-[color:var(--brand-green)] text-white"
+                        : "border-border bg-card text-primary"
+                    }`}
+                  >
+                    {done ? <CheckCircle2 className="size-5" /> : i + 1}
+                  </span>
+                  <Link
+                    to="/explore/$module/$lesson"
+                    params={{ module: mod.slug, lesson: l.slug }}
+                    className="card-hover block rounded-2xl border border-border bg-card p-4"
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className="flex-1 min-w-0">
+                        <div className="text-[11px] uppercase tracking-wider text-muted-foreground">Lesson {i + 1}</div>
+                        <h3 className="font-display font-semibold text-foreground">{l.title}</h3>
+                        <p className="mt-0.5 text-sm text-muted-foreground line-clamp-2">{l.summary}</p>
+                        <div className="mt-2 flex items-center gap-3 text-xs text-muted-foreground">
+                          <span className="inline-flex items-center gap-1"><Clock className="size-3.5" /> {l.minutes} min</span>
+                          {done && <span className="text-[color:var(--brand-green)] font-medium">Completed</span>}
+                        </div>
+                      </div>
+                      <ArrowRight className="size-4 text-muted-foreground mt-1" />
                     </div>
-                    <div className="hidden sm:flex items-center gap-1 text-xs text-muted-foreground"><Clock className="size-3.5" /> {l.minutes}m</div>
-                    <ArrowRight className="size-4 text-muted-foreground" />
                   </Link>
                 </li>
               );
