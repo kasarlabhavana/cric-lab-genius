@@ -87,6 +87,9 @@ function Home() {
             <Link to="/quiz" className="group inline-flex items-center gap-2 rounded-xl border border-white/25 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur hover:bg-white/20 transition">
               Play Quiz <ArrowRight className="size-4 transition group-hover:translate-x-0.5" />
             </Link>
+            <Link to="/knowledge-graph" className="group inline-flex items-center gap-2 rounded-xl border border-white/25 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur hover:bg-white/20 transition">
+              <Network className="size-4" /> Knowledge Graph
+            </Link>
 
           </motion.div>
         </div>
@@ -97,7 +100,7 @@ function Home() {
         <div className="mx-auto max-w-6xl px-6 py-16">
           <div className="text-center max-w-2xl mx-auto">
             <span className="inline-block rounded-full bg-[color:var(--brand-orange)]/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">Science</span>
-            <h2 className="mt-3 font-display text-3xl md:text-4xl font-bold text-foreground">Ten sciences of cricket</h2>
+            <h2 className="mt-3 font-display text-3xl md:text-4xl font-bold text-foreground">Thirteen sciences of cricket</h2>
             <p className="mt-2 text-muted-foreground">Hover a planet to preview — tap to dive in.</p>
           </div>
 
@@ -109,6 +112,7 @@ function Home() {
     </div>
   );
 }
+
 
 /** Interactive cricket ball — 10 science "planets" orbit a spinning red ball.
  *  Hover/tap a planet to preview it in the centre; click to navigate. */
