@@ -204,12 +204,12 @@ function InteractiveBall() {
             aria-label={s.title}
           >
 
-            <span className={`inline-flex size-12 items-center justify-center rounded-full border-2 shadow-md transition-colors ${
+            <span className={`inline-flex size-10 sm:size-12 items-center justify-center rounded-full border-2 shadow-md transition-colors ${
               isActive
                 ? "bg-[color:var(--brand-orange)] border-[color:var(--brand-orange)] text-white"
                 : "bg-card border-border text-primary group-hover:border-[color:var(--brand-orange)]"
             }`}>
-              <Icon className="size-5" />
+              <Icon className="size-4 sm:size-5" />
             </span>
             <span className={`text-[10px] font-semibold uppercase tracking-wide ${isActive ? "text-[color:var(--brand-orange)]" : "text-muted-foreground"}`}>
               {s.title}
