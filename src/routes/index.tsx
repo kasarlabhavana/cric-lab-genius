@@ -2,8 +2,9 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { useState } from "react";
 import {
-  ArrowRight,
+  ArrowRight, Network,
   Target, Swords, Hand, Shield, Wrench, LayoutGrid, CircleDot, CloudSun, Dumbbell, Scale,
+  Atom, Activity, Brain,
 } from "lucide-react";
 
 import logoUrl from "@/assets/logo.png";
@@ -24,14 +25,18 @@ const SCIENCE_TILES = [
   { slug: "bowling-science",  title: "Bowling",     icon: Target,     desc: "Pace, spin & seam physics." },
   { slug: "batting-science",  title: "Batting",     icon: Swords,     desc: "Timing, geometry, power." },
   { slug: "fielding-science", title: "Fielding",    icon: Hand,       desc: "Angles, catching, throws." },
-  { slug: "wicketkeeping-science", title: "Wicketkeeping", icon: Shield, desc: "Gloves, stumping, leadership." },
+  { slug: "wicketkeeping-science", title: "Keeping", icon: Shield,    desc: "Gloves, stumping, leadership." },
   { slug: "pitch-science",    title: "Pitch",       icon: LayoutGrid, desc: "Soil, moisture, behavior." },
   { slug: "ball-science",     title: "Ball",        icon: CircleDot,  desc: "Leather, seam, lacquer." },
   { slug: "equipment-science", title: "Equipment",  icon: Wrench,     desc: "Bats, helmets, pads, gear." },
   { slug: "environment-science", title: "Environment", icon: CloudSun, desc: "Wind, dew, altitude." },
   { slug: "fitness-science",  title: "Fitness",     icon: Dumbbell,   desc: "Strength & longevity." },
   { slug: "umpiring-science", title: "Umpiring",    icon: Scale,      desc: "Decisions & DRS tech." },
+  { slug: "physics-science",  title: "Physics",     icon: Atom,       desc: "Magnus, drag & forces." },
+  { slug: "biomechanics-science", title: "Biomechanics", icon: Activity, desc: "Body, joints & load." },
+  { slug: "mental-science",   title: "Mental",      icon: Brain,      desc: "Focus, flow, pressure." },
 ] as const;
+
 
 
 
