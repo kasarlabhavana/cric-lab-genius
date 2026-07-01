@@ -126,7 +126,6 @@ function LessonPage() {
           </span>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <ReadingLevelToggle />
           <NarrationButton getText={buildNarration} />
           <ShareButton title={`${lesson.title} — ${mod.title}`} text={lesson.summary} />
         </div>
