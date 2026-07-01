@@ -173,9 +173,6 @@ function InteractiveBall() {
             <div className="mt-1.5 text-[10px] font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">Tap to open →</div>
           </motion.div>
         ) : (
-          <div className="rounded-full bg-background/80 backdrop-blur px-4 py-2 text-xs font-semibold text-foreground border border-border">
-            Pick a science
-          </div>
         )}
       </div>
 
