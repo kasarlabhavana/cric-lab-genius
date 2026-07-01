@@ -469,6 +469,27 @@ function starterQuestionsFor(slug: string): QuizQuestion[] {
       { q: "Which technology detects a faint edge by combining audio spikes with thermal imaging?", options: ["Snicko + Hot Spot", "Hawk-Eye + ball-tracking", "Zing + Stump Mic", "Spidercam + Snicko"], answer: 0, explain: "Real-Time Snickometer pairs with Hot Spot's infrared signature to confirm thin edges." },
       { q: "Which signal denotes a dead ball by the umpire?", options: ["Both arms above head", "Crossed wrists waved low in front of the body", "Tap on the shoulder", "Touching the cap"], answer: 1, explain: "Crossed wrists waved at waist height is the standard dead-ball signal under MCC Laws." },
     ],
+    "physics-science": [
+      { q: "What sideways force makes a spinning cricket ball curve in the air?", options: ["Coriolis force", "Magnus force", "Gravity", "Bernoulli force"], answer: 1, explain: "The Magnus force is the sideways push a spinning ball feels from asymmetric airflow." },
+      { q: "Drag on a cricket ball scales roughly with…", options: ["Velocity", "Velocity squared", "Velocity cubed", "Not with velocity"], answer: 1, explain: "Aerodynamic drag is proportional to v² and cross-sectional area." },
+      { q: "Ignoring drag, what launch angle maximises range?", options: ["30°", "45°", "60°", "90°"], answer: 1, explain: "In a vacuum 45° is optimal; with drag and lift, the sweet spot for a cricket six is ~30–32°." },
+      { q: "Around what Reynolds number does airflow around a cricket ball transition to turbulent?", options: ["~9,000", "~90,000", "~900,000", "~9,000,000"], answer: 1, explain: "Around Re ~90,000 (roughly 90 km/h with a new ball) — the threshold conventional swing appears at." },
+      { q: "What does the coefficient of restitution measure?", options: ["Ball hardness", "Fraction of collision energy that returns as bounce", "Air drag", "Spin decay"], answer: 1, explain: "COR quantifies bounce-back energy in a bat–ball collision." },
+    ],
+    "biomechanics-science": [
+      { q: "What is 'hip-shoulder separation' in fast bowling?", options: ["The distance between hip and shoulder in cm", "The angle between hip line and shoulder line at back-foot contact", "A stretching drill", "A yoga pose"], answer: 1, explain: "Elite quicks show 40–60° of separation, storing elastic energy in the trunk." },
+      { q: "A braced front leg helps because…", options: ["It looks stylish", "It acts as a rigid lever transferring ground reaction force up the chain", "It slows the follow-through", "It aligns the seam"], answer: 1, explain: "A straight knee avoids absorbing 20–30% of force into the quads." },
+      { q: "What proportion of bat speed comes from torso rotation?", options: ["~20%", "~40%", "~60%", "~90%"], answer: 2, explain: "About 60% torso, 25% arms, 15% wrists in a well-sequenced stroke." },
+      { q: "What is GIRD in bowling shoulders?", options: ["General Injury Risk Diagnosis", "Glenohumeral Internal Rotation Deficit", "Grip-Independent Rotator Disorder", "Ground Impact Recoil Damage"], answer: 1, explain: "GIRD >20° is linked to rotator cuff and labrum injury." },
+      { q: "Which action pattern most doubles lumbar stress in fast bowlers?", options: ["Pure side-on", "Pure front-on", "Mixed with shoulder counter-rotation >30°", "Round-arm"], answer: 2, explain: "Mixed actions drive the highest rates of adolescent pars stress fractures." },
+    ],
+    "mental-science": [
+      { q: "What is the main purpose of a pre-ball routine?", options: ["To waste time", "To reset attention and calm physiology", "To sledge the bowler", "To fix the grip"], answer: 1, explain: "Routines stabilise cortisol and shorten between-ball cognitive load." },
+      { q: "According to explicit monitoring theory, choking occurs when…", options: ["The batter is tired", "Pressure forces attention onto automated movements", "The pitch is slow", "The umpire is unfair"], answer: 1, explain: "Thinking about grip or footwork disrupts automated skills under pressure." },
+      { q: "Which reappraisal statement best preserves performance under pressure?", options: ["'I must not fail'", "'This is excitement, not anxiety'", "'Just breathe'", "'Ignore the crowd'"], answer: 1, explain: "The two states are physiologically identical — reappraisal preserves skill." },
+      { q: "What does neuroscience show during vivid visualisation?", options: ["Nothing happens", "The same motor cortex areas fire as during real movement", "Only visual cortex activates", "Only memory areas activate"], answer: 1, explain: "fMRI confirms motor overlap — hence the training effect." },
+      { q: "Which cocktail of neurochemicals is associated with flow state?", options: ["Only adrenaline", "Dopamine, norepinephrine, endorphins, anandamide, serotonin", "Only serotonin", "Cortisol and adrenaline"], answer: 1, explain: "Flow is the highest natural performance-enhancing brain state known." },
+    ],
   };
   return bank[slug] ?? [
     { q: "Sample question for this module.", options: ["A", "B", "C", "D"], answer: 0, explain: "Sample explanation." },
