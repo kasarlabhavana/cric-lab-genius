@@ -114,30 +114,31 @@ function Home() {
 }
 
 
-/** Interactive cricket ball — 10 science "planets" orbit a spinning red ball.
- *  Hover/tap a planet to preview it in the centre; click to navigate. */
+/** Interactive cricket ball — science "planets" orbit a spinning red ball on two rings
+ *  so 13 tiles fit without overlap. Hover/tap to preview, click to open. */
 function InteractiveBall() {
   const [active, setActive] = useState<number | null>(null);
   const navigate = useNavigate();
-  const N = SCIENCE_TILES.length;
 
   const current = active != null ? SCIENCE_TILES[active] : null;
 
+  // Split into two rings so labels don't collide.
+  const outer = SCIENCE_TILES.slice(0, 8);   // 8 planets on the outer ring
+  const inner = SCIENCE_TILES.slice(8);      // 5 planets on the inner ring
+
   return (
-    <div className="relative mx-auto mt-10 aspect-square w-full max-w-[560px]">
-      {/* Orbit ring */}
-      <div className="absolute inset-[6%] rounded-full border border-dashed border-border" />
-      <div className="absolute inset-[18%] rounded-full border border-dashed border-border/60" />
+    <div className="relative mx-auto mt-10 aspect-square w-full max-w-[620px]">
+      {/* Orbit rings */}
+      <div className="absolute inset-[4%] rounded-full border border-dashed border-border" />
+      <div className="absolute inset-[26%] rounded-full border border-dashed border-border/60" />
 
-
-      {/* Spinning cricket ball */}
+      {/* Spinning cricket ball (smaller so inner ring has room) */}
       <motion.div
         animate={{ rotate: 360 }}
         transition={{ duration: 28, ease: "linear", repeat: Infinity }}
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[55%] h-[55%]"
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[34%] h-[34%]"
       >
         <svg viewBox="0 0 220 220" className="w-full h-full">
-
           <defs>
             <radialGradient id="leather" cx="35%" cy="35%" r="70%">
               <stop offset="0%" stopColor="#d65a4a" />
@@ -146,7 +147,6 @@ function InteractiveBall() {
             </radialGradient>
           </defs>
           <circle cx="110" cy="110" r="100" fill="url(#leather)" />
-          {/* seam */}
           <ellipse cx="110" cy="110" rx="100" ry="30" fill="none" stroke="#f5e6c8" strokeWidth="2.5" />
           {[...Array(28)].map((_, i) => (
             <line key={i}
@@ -156,67 +156,70 @@ function InteractiveBall() {
               y2={110 + 32 * Math.sin((i / 28) * Math.PI * 2)}
               stroke="#f5e6c8" strokeWidth="2" />
           ))}
-          {/* shine */}
           <ellipse cx="80" cy="75" rx="28" ry="14" fill="white" fillOpacity="0.18" />
         </svg>
       </motion.div>
 
       {/* Centre label */}
-      <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+      <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center z-10">
         {current ? (
           <motion.div
             key={current.slug}
             initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
-            className="rounded-2xl bg-background/85 backdrop-blur px-4 py-3 shadow-lg border border-border max-w-[180px]"
+            className="rounded-2xl bg-background/90 backdrop-blur px-4 py-3 shadow-lg border border-border max-w-[180px]"
           >
             <div className="font-display text-base font-bold text-foreground">{current.title}</div>
             <div className="mt-0.5 text-[11px] text-muted-foreground leading-snug">{current.desc}</div>
             <div className="mt-1.5 text-[10px] font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">Tap to open →</div>
           </motion.div>
         ) : (
-          <div className="rounded-full bg-background/70 backdrop-blur px-4 py-2 text-xs font-semibold text-foreground border border-border">
+          <div className="rounded-full bg-background/80 backdrop-blur px-4 py-2 text-xs font-semibold text-foreground border border-border">
             Pick a science
           </div>
         )}
       </div>
 
-      {/* Orbiting planets */}
-      {SCIENCE_TILES.map((s, i) => {
-        const angle = (i / N) * Math.PI * 2 - Math.PI / 2;
-        const rPct = 42; // orbit radius as % of container
-        const xPct = 50 + Math.cos(angle) * rPct;
-        const yPct = 50 + Math.sin(angle) * rPct;
-        const Icon = s.icon;
-        const isActive = active === i;
-        return (
-          <motion.button
-            key={s.slug}
-            type="button"
-            onMouseEnter={() => setActive(i)}
-            onFocus={() => setActive(i)}
-            onClick={() => navigate({ to: "/explore/$module", params: { module: s.slug } })}
-            initial={{ opacity: 0, scale: 0.6 }}
-            animate={{ opacity: 1, scale: isActive ? 1.15 : 1 }}
-            transition={{ delay: 0.05 * i, type: "spring", stiffness: 220, damping: 18 }}
-            whileHover={{ scale: 1.18 }}
-            className={`absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1 group focus:outline-none`}
-            style={{ left: `${xPct}%`, top: `${yPct}%` }}
-            aria-label={s.title}
-          >
-
-            <span className={`inline-flex size-10 sm:size-12 items-center justify-center rounded-full border-2 shadow-md transition-colors ${
-              isActive
-                ? "bg-[color:var(--brand-orange)] border-[color:var(--brand-orange)] text-white"
-                : "bg-card border-border text-primary group-hover:border-[color:var(--brand-orange)]"
-            }`}>
-              <Icon className="size-4 sm:size-5" />
-            </span>
-            <span className={`text-[10px] font-semibold uppercase tracking-wide ${isActive ? "text-[color:var(--brand-orange)]" : "text-muted-foreground"}`}>
-              {s.title}
-            </span>
-          </motion.button>
-        );
-      })}
+      {/* Ring renderer */}
+      {[
+        { items: outer, radius: 46, offset: -Math.PI / 2 },
+        { items: inner, radius: 20, offset: -Math.PI / 2 + Math.PI / inner.length },
+      ].map(({ items, radius, offset }, ringIdx) =>
+        items.map((s, i) => {
+          const globalIdx = ringIdx === 0 ? i : outer.length + i;
+          const angle = (i / items.length) * Math.PI * 2 + offset;
+          const xPct = 50 + Math.cos(angle) * radius;
+          const yPct = 50 + Math.sin(angle) * radius;
+          const Icon = s.icon;
+          const isActive = active === globalIdx;
+          return (
+            <motion.button
+              key={s.slug}
+              type="button"
+              onMouseEnter={() => setActive(globalIdx)}
+              onFocus={() => setActive(globalIdx)}
+              onClick={() => navigate({ to: "/explore/$module", params: { module: s.slug } })}
+              initial={{ opacity: 0, scale: 0.6 }}
+              animate={{ opacity: 1, scale: isActive ? 1.15 : 1 }}
+              transition={{ delay: 0.04 * globalIdx, type: "spring", stiffness: 220, damping: 18 }}
+              whileHover={{ scale: 1.18 }}
+              className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1 group focus:outline-none"
+              style={{ left: `${xPct}%`, top: `${yPct}%` }}
+              aria-label={s.title}
+            >
+              <span className={`inline-flex size-9 sm:size-11 items-center justify-center rounded-full border-2 shadow-md transition-colors ${
+                isActive
+                  ? "bg-[color:var(--brand-orange)] border-[color:var(--brand-orange)] text-white"
+                  : "bg-card border-border text-primary group-hover:border-[color:var(--brand-orange)]"
+              }`}>
+                <Icon className="size-4 sm:size-5" />
+              </span>
+              <span className={`whitespace-nowrap text-[9px] sm:text-[10px] font-semibold uppercase tracking-wide ${isActive ? "text-[color:var(--brand-orange)]" : "text-muted-foreground"}`}>
+                {s.title}
+              </span>
+            </motion.button>
+          );
+        })
+      )}
     </div>
   );
 }
