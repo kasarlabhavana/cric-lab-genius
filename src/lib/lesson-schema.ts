@@ -6,6 +6,8 @@ import type { Lesson } from "@/lib/modules";
 
 export type SectionKey =
   | "definition"
+  | "etymology"
+  | "history"
   | "difficulty"
   | "grip"
   | "fingerPlacement"
@@ -27,6 +29,8 @@ export type SectionDef = { key: SectionKey; label: string; icon: string };
 
 export const SECTION_DEFS: SectionDef[] = [
   { key: "definition", label: "Definition", icon: "BookOpen" },
+  { key: "etymology", label: "Etymology", icon: "BookText" },
+  { key: "history", label: "History", icon: "Landmark" },
   { key: "difficulty", label: "Difficulty Level", icon: "Gauge" },
   { key: "grip", label: "Grip", icon: "Hand" },
   { key: "fingerPlacement", label: "Finger Placement", icon: "Fingerprint" },
