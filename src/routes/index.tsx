@@ -2,8 +2,9 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { useState } from "react";
 import {
-  ArrowRight,
+  ArrowRight, Network,
   Target, Swords, Hand, Shield, Wrench, LayoutGrid, CircleDot, CloudSun, Dumbbell, Scale,
+  Atom, Activity, Brain,
 } from "lucide-react";
 
 import logoUrl from "@/assets/logo.png";
@@ -24,14 +25,18 @@ const SCIENCE_TILES = [
   { slug: "bowling-science",  title: "Bowling",     icon: Target,     desc: "Pace, spin & seam physics." },
   { slug: "batting-science",  title: "Batting",     icon: Swords,     desc: "Timing, geometry, power." },
   { slug: "fielding-science", title: "Fielding",    icon: Hand,       desc: "Angles, catching, throws." },
-  { slug: "wicketkeeping-science", title: "Wicketkeeping", icon: Shield, desc: "Gloves, stumping, leadership." },
+  { slug: "wicketkeeping-science", title: "Keeping", icon: Shield,    desc: "Gloves, stumping, leadership." },
   { slug: "pitch-science",    title: "Pitch",       icon: LayoutGrid, desc: "Soil, moisture, behavior." },
   { slug: "ball-science",     title: "Ball",        icon: CircleDot,  desc: "Leather, seam, lacquer." },
   { slug: "equipment-science", title: "Equipment",  icon: Wrench,     desc: "Bats, helmets, pads, gear." },
   { slug: "environment-science", title: "Environment", icon: CloudSun, desc: "Wind, dew, altitude." },
   { slug: "fitness-science",  title: "Fitness",     icon: Dumbbell,   desc: "Strength & longevity." },
   { slug: "umpiring-science", title: "Umpiring",    icon: Scale,      desc: "Decisions & DRS tech." },
+  { slug: "physics-science",  title: "Physics",     icon: Atom,       desc: "Magnus, drag & forces." },
+  { slug: "biomechanics-science", title: "Biomechanics", icon: Activity, desc: "Body, joints & load." },
+  { slug: "mental-science",   title: "Mental",      icon: Brain,      desc: "Focus, flow, pressure." },
 ] as const;
+
 
 
 
@@ -82,6 +87,9 @@ function Home() {
             <Link to="/quiz" className="group inline-flex items-center gap-2 rounded-xl border border-white/25 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur hover:bg-white/20 transition">
               Play Quiz <ArrowRight className="size-4 transition group-hover:translate-x-0.5" />
             </Link>
+            <Link to="/knowledge-graph" className="group inline-flex items-center gap-2 rounded-xl border border-white/25 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur hover:bg-white/20 transition">
+              <Network className="size-4" /> Knowledge Graph
+            </Link>
 
           </motion.div>
         </div>
@@ -92,7 +100,7 @@ function Home() {
         <div className="mx-auto max-w-6xl px-6 py-16">
           <div className="text-center max-w-2xl mx-auto">
             <span className="inline-block rounded-full bg-[color:var(--brand-orange)]/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">Science</span>
-            <h2 className="mt-3 font-display text-3xl md:text-4xl font-bold text-foreground">Ten sciences of cricket</h2>
+            <h2 className="mt-3 font-display text-3xl md:text-4xl font-bold text-foreground">Thirteen sciences of cricket</h2>
             <p className="mt-2 text-muted-foreground">Hover a planet to preview — tap to dive in.</p>
           </div>
 
@@ -104,6 +112,7 @@ function Home() {
     </div>
   );
 }
+
 
 /** Interactive cricket ball — 10 science "planets" orbit a spinning red ball.
  *  Hover/tap a planet to preview it in the centre; click to navigate. */
@@ -195,12 +204,12 @@ function InteractiveBall() {
             aria-label={s.title}
           >
 
-            <span className={`inline-flex size-12 items-center justify-center rounded-full border-2 shadow-md transition-colors ${
+            <span className={`inline-flex size-10 sm:size-12 items-center justify-center rounded-full border-2 shadow-md transition-colors ${
               isActive
                 ? "bg-[color:var(--brand-orange)] border-[color:var(--brand-orange)] text-white"
                 : "bg-card border-border text-primary group-hover:border-[color:var(--brand-orange)]"
             }`}>
-              <Icon className="size-5" />
+              <Icon className="size-4 sm:size-5" />
             </span>
             <span className={`text-[10px] font-semibold uppercase tracking-wide ${isActive ? "text-[color:var(--brand-orange)]" : "text-muted-foreground"}`}>
               {s.title}

@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { BookA, BookOpen, Bot, Flame, Home, ListChecks, Menu, Moon, Sun, TrendingUp, Trophy, User, Users, X } from "lucide-react";
+import { BookA, BookOpen, Bot, Flame, Home, ListChecks, Menu, Moon, Network, Sun, TrendingUp, Trophy, User, Users, X } from "lucide-react";
 import { useState } from "react";
 import { useUser, deriveLevel } from "@/lib/user-state";
 import { useTheme } from "@/lib/theme";
@@ -9,6 +9,7 @@ import logoUrl from "@/assets/logo.png";
 const NAV = [
   { to: "/", label: "Home", icon: Home },
   { to: "/explore", label: "Explore", icon: BookOpen },
+  { to: "/knowledge-graph", label: "Graph", icon: Network },
   { to: "/ai-coach", label: "AI Coach", icon: Bot },
   { to: "/quiz", label: "Quiz Zone", icon: ListChecks },
   { to: "/glossary", label: "Glossary", icon: BookA },
