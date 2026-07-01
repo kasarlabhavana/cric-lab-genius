@@ -206,7 +206,6 @@ export function TopicPage({ topic }: { topic: Topic }) {
         </h1>
       </div>
       <div className="mt-3 flex flex-wrap items-center gap-2">
-        <ReadingLevelToggle className="shrink-0" />
         <NarrationButton
           className="shrink-0"
           getText={() => `${topic.title}. ${simplify(topic.definition)}`}
