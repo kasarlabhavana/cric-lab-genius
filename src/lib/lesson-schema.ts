@@ -53,6 +53,12 @@ export const SECTION_DEFS: SectionDef[] = [
 // to canonical section keys. Multiple labels can feed one key.
 const LABEL_MAP: Array<[RegExp, SectionKey]> = [
   [/^definition\b/i, "definition"],
+  [/^etymology\b/i, "etymology"],
+  [/^origin(?:\s+of\s+name)?\b/i, "etymology"],
+  [/^name origin\b/i, "etymology"],
+  [/^history\b/i, "history"],
+  [/^background\b/i, "history"],
+  [/^heritage\b/i, "history"],
   [/^difficulty(?: level)?\b/i, "difficulty"],
   [/^grip(?:\s*&.*)?$/i, "grip"],
   [/^grip(?:\s*&.*)?:?$/i, "grip"],
