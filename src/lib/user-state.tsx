@@ -17,7 +17,8 @@ export type UserState = {
   user: CurrentUser | null;
   xp: number;
   completedLessons: Record<string, number>; // key: `${moduleSlug}/${lessonSlug}` → timestamp
-  passedQuizzes: Record<string, { score: number; total: number; at: number }>; // quizId
+  passedQuizzes: Record<string, { score: number; total: number; at: number }>; // quizId → best score
+  correctQuestions: Record<string, number>; // key: `${quizId}#${questionIndex}` → timestamp first answered correctly
   bookmarks: string[]; // lesson keys
   badges: BadgeId[];
   streak: { count: number; lastDay: string | null };
