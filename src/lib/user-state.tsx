@@ -268,19 +268,31 @@ export function UserProvider({ children }: { children: ReactNode }) {
         bookmarks: s.bookmarks.includes(key) ? s.bookmarks.filter(k => k !== key) : [...s.bookmarks, key],
       }));
     },
-    recordQuiz: (quizId, score, total) => {
+    recordQuiz: (quizId, correctIndices, total) => {
       let xpGained = 0;
       let newBadges: BadgeId[] = [];
+      let newlyCorrect = 0;
+      let alreadyCorrect = 0;
       setState(prev => {
+        const nextCorrect = { ...prev.correctQuestions };
+        for (const idx of correctIndices) {
+          const key = `${quizId}#${idx}`;
+          if (nextCorrect[key]) {
+            alreadyCorrect++;
+          } else {
+            nextCorrect[key] = Date.now();
+            newlyCorrect++;
+          }
+        }
+        xpGained = newlyCorrect * 10;
+        const score = correctIndices.length;
+        const passed = total > 0 && score / total >= 0.6;
         const prior = prev.passedQuizzes[quizId];
-        const passed = score / total >= 0.6;
-        const perAnswer = 5 * score;
-        const passBonus = passed && (!prior || prior.score < score) ? 50 : 0;
-        xpGained = perAnswer + passBonus;
         let next: UserState = {
           ...prev,
           xp: prev.xp + xpGained,
-          passedQuizzes: passed
+          correctQuestions: nextCorrect,
+          passedQuizzes: passed && (!prior || prior.score < score)
             ? { ...prev.passedQuizzes, [quizId]: { score, total, at: Date.now() } }
             : prev.passedQuizzes,
         };
@@ -289,7 +301,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         newBadges = earned;
         return earned.length ? { ...next, badges: [...next.badges, ...earned] } : next;
       });
-      return { xpGained, newBadges };
+      return { xpGained, newBadges, newlyCorrect, alreadyCorrect };
     },
     visitLab: (slug) => {
       let newBadges: BadgeId[] = [];
