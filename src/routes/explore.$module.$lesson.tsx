@@ -168,7 +168,7 @@ function LessonPage() {
             </span>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {lesson.videos.map((v, i) => (
+            {lesson.videos.map((v: { url: string; title?: string }, i: number) => (
               <YouTubeEmbed key={i} url={v.url} title={v.title} />
             ))}
           </div>
