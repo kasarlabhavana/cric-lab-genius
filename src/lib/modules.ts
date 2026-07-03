@@ -7,6 +7,7 @@ export type Lesson = {
   summary: string;
   body: string[];
   diagram?: "trajectory" | "pitch" | "force" | "swing";
+  videos?: { url: string; title?: string }[];
 };
 
 export type QuizQuestion = {
