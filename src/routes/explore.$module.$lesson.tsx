@@ -10,6 +10,7 @@ import {
   User as UserIcon,
 } from "lucide-react";
 import { useState } from "react";
+import { YouTubeEmbed } from "@/components/youtube-embed";
 import { toast } from "sonner";
 import { MODULE_BY_SLUG } from "@/lib/modules";
 import { useUser } from "@/lib/user-state";
