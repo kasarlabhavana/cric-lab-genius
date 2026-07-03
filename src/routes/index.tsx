@@ -2,12 +2,13 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { motion } from "motion/react";
 
 import {
-  ArrowRight, Network,
+  ArrowRight, Network, BookOpen,
   Target, Swords, Hand, Shield, Wrench, LayoutGrid, CircleDot, CloudSun, Dumbbell, Scale,
   Atom, Activity, Brain,
 } from "lucide-react";
 
 import logoUrl from "@/assets/logo.png";
+import { MODULE_BY_SLUG } from "@/lib/modules";
 
 export const Route = createFileRoute("/")({
   head: () => ({
