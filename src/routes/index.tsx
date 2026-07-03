@@ -131,19 +131,10 @@ const CATEGORY: Record<string, { label: string; accent: string; ring: string }> 
 };
 
 function CardDeck() {
-  // 13 cards (a prime) → use flex-wrap + justify-center so any orphan row is
-  // centered rather than left-aligned or clipped. Card widths use calc() with
-  // a shared --gap so each breakpoint locks to a fixed column count
-  // (2 / 3 / 4 / 5) without wrapping mid-card.
   return (
-    <div
-      className="mx-auto mt-10 flex max-w-6xl flex-wrap justify-center gap-[var(--deck-gap)] [--deck-gap:0.75rem] sm:[--deck-gap:1rem]"
-    >
+    <div className="mx-auto mt-10 grid max-w-6xl grid-cols-2 gap-5 sm:grid-cols-3 sm:gap-6 md:grid-cols-4 lg:grid-cols-5">
       {SCIENCE_TILES.map((tile, i) => (
-        <div
-          key={tile.slug}
-          className="basis-[calc((100%-var(--deck-gap))/2)] sm:basis-[calc((100%-2*var(--deck-gap))/3)] md:basis-[calc((100%-3*var(--deck-gap))/4)] lg:basis-[calc((100%-4*var(--deck-gap))/5)]"
-        >
+        <div key={tile.slug} className="relative" style={{ aspectRatio: "3 / 4" }}>
           <ScienceCard tile={tile} delay={i * 0.04} />
         </div>
       ))}
@@ -161,8 +152,8 @@ function ScienceCard({ tile, delay }: { tile: typeof SCIENCE_TILES[number]; dela
     <Link
       to="/explore/$module/"
       params={{ module: tile.slug }}
-      className="group relative overflow-hidden rounded-2xl border-2 bg-card text-left shadow-md hover:shadow-xl transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--brand-orange)] focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-      style={{ borderColor: cat.ring, aspectRatio: "3 / 4" }}
+      className="group absolute inset-0 overflow-hidden rounded-2xl border-2 bg-card text-left shadow-md hover:shadow-xl transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--brand-orange)] focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      style={{ borderColor: cat.ring }}
       aria-label={`${tile.title} science — ${tile.desc} ${lessonCount} lessons`}
     >
       <motion.div
@@ -187,7 +178,7 @@ function ScienceCard({ tile, delay }: { tile: typeof SCIENCE_TILES[number]; dela
 
       {/* Color band header */}
       <div
-        className="relative flex items-center justify-between px-3 py-2"
+        className="relative flex items-center justify-between px-4 py-2.5"
         style={{
           background: `linear-gradient(135deg, ${cat.accent}, color-mix(in oklch, ${cat.accent} 60%, black))`,
         }}
@@ -202,7 +193,7 @@ function ScienceCard({ tile, delay }: { tile: typeof SCIENCE_TILES[number]; dela
 
       {/* Icon "portrait" */}
       <div
-        className="relative flex items-center justify-center py-4 sm:py-5"
+        className="relative flex items-center justify-center py-5 sm:py-6"
         style={{
           background: `radial-gradient(ellipse at center, color-mix(in oklch, ${cat.accent} 18%, transparent), transparent 70%)`,
         }}
@@ -219,7 +210,7 @@ function ScienceCard({ tile, delay }: { tile: typeof SCIENCE_TILES[number]; dela
       </div>
 
       {/* Body */}
-      <div className="px-3 pb-3">
+      <div className="px-4 pb-4">
         <div className="font-display text-sm sm:text-base font-bold text-foreground leading-tight">
           {tile.title}
         </div>
