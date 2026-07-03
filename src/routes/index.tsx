@@ -221,7 +221,7 @@ function ScienceCard({ tile, delay }: { tile: typeof SCIENCE_TILES[number]; dela
       >
         №{String(SCIENCE_TILES.indexOf(tile) + 1).padStart(2, "0")}/13
       </span>
-    </motion.button>
+    </MotionLink>
   );
 }
 
