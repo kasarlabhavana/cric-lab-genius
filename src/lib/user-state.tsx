@@ -32,6 +32,7 @@ const empty: UserState = {
   xp: 0,
   completedLessons: {},
   passedQuizzes: {},
+  correctQuestions: {},
   bookmarks: [],
   badges: [],
   streak: { count: 0, lastDay: null },
