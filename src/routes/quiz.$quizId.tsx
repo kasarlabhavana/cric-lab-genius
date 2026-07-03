@@ -33,6 +33,8 @@ function QuizPage() {
   const [picked, setPicked] = useState<number | null>(null);
   const [finished, setFinished] = useState(false);
   const [xpGained, setXpGained] = useState(0);
+  const [newlyCorrect, setNewlyCorrect] = useState(0);
+  const [alreadyCorrect, setAlreadyCorrect] = useState(0);
 
   const q: QuizQuestion = quiz.questions[step];
 
@@ -47,15 +49,20 @@ function QuizPage() {
     if (step + 1 < quiz.questions.length) {
       setStep(step + 1);
     } else {
-      const score = all.reduce((s, p, i) => s + (p === quiz.questions[i].answer ? 1 : 0), 0);
-      const { xpGained, newBadges } = recordQuiz(quiz.id, score, quiz.questions.length);
-      setXpGained(xpGained);
+      const correctIndices = all
+        .map((p, i) => (p === quiz.questions[i].answer ? i : -1))
+        .filter(i => i >= 0);
+      const res = recordQuiz(quiz.id, correctIndices, quiz.questions.length);
+      setXpGained(res.xpGained);
+      setNewlyCorrect(res.newlyCorrect);
+      setAlreadyCorrect(res.alreadyCorrect);
       setFinished(true);
-      if (xpGained > 0) toast.success(`+${xpGained} XP!`);
-      newBadges.forEach(b => toast(`🏅 Badge unlocked: ${b}`));
+      if (res.xpGained > 0) toast.success(`+${res.xpGained} XP!`);
+      else if (res.alreadyCorrect > 0) toast(`No new XP — you already answered these correctly before.`);
+      res.newBadges.forEach(b => toast(`🏅 Badge unlocked: ${b}`));
     }
   };
-  const reset = () => { setStep(0); setPicks([]); setPicked(null); setFinished(false); setXpGained(0); };
+  const reset = () => { setStep(0); setPicks([]); setPicked(null); setFinished(false); setXpGained(0); setNewlyCorrect(0); setAlreadyCorrect(0); };
 
   if (finished) {
     const score = picks.reduce((s, p, i) => s + (p === quiz.questions[i].answer ? 1 : 0), 0);
@@ -66,9 +73,10 @@ function QuizPage() {
           <Trophy className={`mx-auto size-14 ${passed ? "text-[color:var(--brand-green)]" : "text-muted-foreground"}`} />
           <h1 className="mt-4 font-display text-2xl font-bold text-primary">{passed ? "Quiz passed!" : "Keep at it!"}</h1>
           <p className="mt-1 text-muted-foreground">You scored {score} / {quiz.questions.length}</p>
-          {xpGained > 0 && <div className="mt-3 inline-block rounded-full bg-[color:var(--brand-orange)]/15 px-3 py-1 text-sm font-semibold text-[color:var(--brand-orange)]">+{xpGained} XP earned</div>}
+          {xpGained > 0 && <div className="mt-3 inline-block rounded-full bg-[color:var(--brand-orange)]/15 px-3 py-1 text-sm font-semibold text-[color:var(--brand-orange)]">+{xpGained} XP ({newlyCorrect} new correct × 10)</div>}
+          {alreadyCorrect > 0 && <p className="mt-2 text-xs text-muted-foreground">{alreadyCorrect} question{alreadyCorrect === 1 ? "" : "s"} already mastered — no XP repeat.</p>}
           <div className="mt-6 flex justify-center gap-2">
-            <button onClick={reset} className="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-2 text-sm font-medium hover:bg-muted"><RotateCcw className="size-4" /> Retry</button>
+            <button onClick={reset} className="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-2 text-sm font-medium hover:bg-muted"><RotateCcw className="size-4" /> Retake</button>
             <Link to="/quiz" className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90">More quizzes</Link>
           </div>
         </div>
