@@ -140,17 +140,18 @@ function CardDeck() {
   );
 }
 
+const MotionLink = motion.create(Link);
+
 function ScienceCard({ tile, delay }: { tile: typeof SCIENCE_TILES[number]; delay: number }) {
-  const navigate = useNavigate();
   const Icon = tile.icon;
   const cat = CATEGORY[tile.slug];
   const mod = MODULE_BY_SLUG[tile.slug];
   const lessonCount = mod?.lessons?.length ?? 0;
 
   return (
-    <motion.button
-      type="button"
-      onClick={() => navigate({ to: "/explore/$module", params: { module: tile.slug } })}
+    <MotionLink
+      to="/explore/$module/"
+      params={{ module: tile.slug }}
       initial={{ opacity: 0, y: 18, rotate: -2 }}
       animate={{ opacity: 1, y: 0, rotate: 0 }}
       transition={{ delay, type: "spring", stiffness: 200, damping: 20 }}
