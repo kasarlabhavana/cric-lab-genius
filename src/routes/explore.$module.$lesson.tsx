@@ -157,6 +157,24 @@ function LessonPage() {
         </div>
       )}
 
+      {lesson.videos && lesson.videos.length > 0 && (
+        <section className="mt-8">
+          <div className="mb-3 flex items-baseline justify-between">
+            <h2 className="font-display text-xl font-semibold text-primary">
+              Watch
+            </h2>
+            <span className="text-xs text-muted-foreground">
+              {lesson.videos.length} video{lesson.videos.length > 1 ? "s" : ""}
+            </span>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {lesson.videos.map((v, i) => (
+              <YouTubeEmbed key={i} url={v.url} title={v.title} />
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* 17-section schema */}
       <section className="mt-10">
         <div className="mb-4 flex items-baseline justify-between">
