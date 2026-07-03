@@ -140,8 +140,6 @@ function CardDeck() {
   );
 }
 
-const MotionLink = motion.create(Link);
-
 function ScienceCard({ tile, delay }: { tile: typeof SCIENCE_TILES[number]; delay: number }) {
   const Icon = tile.icon;
   const cat = CATEGORY[tile.slug];
@@ -149,18 +147,21 @@ function ScienceCard({ tile, delay }: { tile: typeof SCIENCE_TILES[number]; dela
   const lessonCount = mod?.lessons?.length ?? 0;
 
   return (
-    <MotionLink
+    <Link
       to="/explore/$module/"
       params={{ module: tile.slug }}
-      initial={{ opacity: 0, y: 18, rotate: -2 }}
-      animate={{ opacity: 1, y: 0, rotate: 0 }}
-      transition={{ delay, type: "spring", stiffness: 200, damping: 20 }}
-      whileHover={{ y: -6, rotate: 0.5, scale: 1.03 }}
-      whileTap={{ scale: 0.97 }}
       className="group relative overflow-hidden rounded-2xl border-2 bg-card text-left shadow-md hover:shadow-xl transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--brand-orange)]"
       style={{ borderColor: cat.ring, aspectRatio: "3 / 4" }}
       aria-label={`${tile.title} — ${lessonCount} lessons`}
     >
+      <motion.div
+        initial={{ opacity: 0, y: 18, rotate: -2 }}
+        animate={{ opacity: 1, y: 0, rotate: 0 }}
+        transition={{ delay, type: "spring", stiffness: 200, damping: 20 }}
+        whileHover={{ y: -6, rotate: 0.5, scale: 1.03 }}
+        whileTap={{ scale: 0.97 }}
+        className="h-full w-full"
+      >
       {/* Foil sheen */}
       <span
         aria-hidden
