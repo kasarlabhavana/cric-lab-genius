@@ -96,16 +96,16 @@ function Home() {
         </div>
       </section>
 
-      {/* SCIENCE CATEGORIES — dugout helmet bench */}
+      {/* SCIENCE CATEGORIES — trading-card deck */}
       <section className="bg-surface border-y border-border">
         <div className="mx-auto max-w-6xl px-6 py-16">
           <div className="text-center max-w-2xl mx-auto">
             <span className="inline-block rounded-full bg-[color:var(--brand-orange)]/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">Science</span>
-            <h2 className="mt-3 font-display text-3xl md:text-4xl font-bold text-foreground">Pick your kit from the dugout</h2>
-            <p className="mt-2 text-muted-foreground">Thirteen helmets — one per science. Hover to lift, tap to gear up.</p>
+            <h2 className="mt-3 font-display text-3xl md:text-4xl font-bold text-foreground">Collect all thirteen</h2>
+            <p className="mt-2 text-muted-foreground">A deck of science player-cards — flip through and pick your specialism.</p>
           </div>
 
-          <HelmetDugout />
+          <CardDeck />
         </div>
       </section>
 
@@ -113,155 +113,113 @@ function Home() {
   );
 }
 
-/** Dugout: 13 helmets sitting on wooden shelves. Hover lifts the helmet. */
-const CATEGORY_COLOR: Record<string, string> = {
-  "bowling-science": "var(--brand-orange)",
-  "batting-science": "var(--brand-orange)",
-  "fielding-science": "var(--brand-orange)",
-  "wicketkeeping-science": "var(--brand-orange)",
-  "mental-science": "var(--brand-orange)",
-  "physics-science": "var(--brand-green)",
-  "biomechanics-science": "var(--brand-green)",
-  "fitness-science": "var(--brand-green)",
-  "environment-science": "var(--brand-green)",
-  "pitch-science": "oklch(0.55 0.14 258)",
-  "ball-science": "oklch(0.55 0.14 258)",
-  "equipment-science": "oklch(0.55 0.14 258)",
-  "umpiring-science": "oklch(0.55 0.14 258)",
+/** Trading-card deck: 13 science cards laid out 5-4-4 on desktop. */
+const CATEGORY: Record<string, { label: string; accent: string; ring: string }> = {
+  "bowling-science":       { label: "Play",   accent: "var(--brand-orange)",  ring: "oklch(0.55 0.18 35)" },
+  "batting-science":       { label: "Play",   accent: "var(--brand-orange)",  ring: "oklch(0.55 0.18 35)" },
+  "fielding-science":      { label: "Play",   accent: "var(--brand-orange)",  ring: "oklch(0.55 0.18 35)" },
+  "wicketkeeping-science": { label: "Play",   accent: "var(--brand-orange)",  ring: "oklch(0.55 0.18 35)" },
+  "mental-science":        { label: "Play",   accent: "var(--brand-orange)",  ring: "oklch(0.55 0.18 35)" },
+  "physics-science":       { label: "Body",   accent: "var(--brand-green)",   ring: "oklch(0.45 0.14 150)" },
+  "biomechanics-science":  { label: "Body",   accent: "var(--brand-green)",   ring: "oklch(0.45 0.14 150)" },
+  "fitness-science":       { label: "Body",   accent: "var(--brand-green)",   ring: "oklch(0.45 0.14 150)" },
+  "environment-science":   { label: "Body",   accent: "var(--brand-green)",   ring: "oklch(0.45 0.14 150)" },
+  "pitch-science":         { label: "Gear",   accent: "oklch(0.55 0.14 258)", ring: "oklch(0.45 0.16 258)" },
+  "ball-science":          { label: "Gear",   accent: "oklch(0.55 0.14 258)", ring: "oklch(0.45 0.16 258)" },
+  "equipment-science":     { label: "Gear",   accent: "oklch(0.55 0.14 258)", ring: "oklch(0.45 0.16 258)" },
+  "umpiring-science":      { label: "Gear",   accent: "oklch(0.55 0.14 258)", ring: "oklch(0.45 0.16 258)" },
 };
 
-function HelmetDugout() {
-  // 4 shelves, always fully filled: 4 / 3 / 3 / 3 = 13.
-  const shelves = [
-    SCIENCE_TILES.slice(0, 4),
-    SCIENCE_TILES.slice(4, 7),
-    SCIENCE_TILES.slice(7, 10),
-    SCIENCE_TILES.slice(10, 13),
-  ];
+function CardDeck() {
   return (
-    <div className="mx-auto mt-12 max-w-4xl space-y-8">
-      {shelves.map((row, rIdx) => (
-        <div key={rIdx} className="relative">
-          {/* Helmets */}
-          <div className="relative z-10 flex flex-wrap justify-center gap-x-4 gap-y-6 sm:gap-x-8 px-3">
-            {row.map((tile, i) => (
-              <Helmet key={tile.slug} tile={tile} delay={rIdx * 0.1 + i * 0.05} />
-            ))}
-          </div>
-          {/* Wooden shelf */}
-          <div className="relative -mt-2 h-4 rounded-sm bg-gradient-to-b from-[oklch(0.55_0.09_55)] via-[oklch(0.42_0.08_50)] to-[oklch(0.3_0.06_45)] shadow-[0_6px_10px_-4px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.15)]">
-            <div
-              className="absolute inset-0 opacity-25 rounded-sm"
-              style={{
-                backgroundImage:
-                  "repeating-linear-gradient(90deg,transparent 0 22px,rgba(0,0,0,0.15) 22px 23px)",
-              }}
-            />
-          </div>
-          <div className="mx-auto h-4 max-w-[95%] bg-[radial-gradient(ellipse_at_top,rgba(0,0,0,0.18),transparent_70%)]" />
-        </div>
+    <div className="mx-auto mt-10 grid max-w-6xl grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
+      {SCIENCE_TILES.map((tile, i) => (
+        <ScienceCard key={tile.slug} tile={tile} delay={i * 0.04} />
       ))}
     </div>
   );
 }
 
-function Helmet({ tile, delay }: { tile: typeof SCIENCE_TILES[number]; delay: number }) {
+function ScienceCard({ tile, delay }: { tile: typeof SCIENCE_TILES[number]; delay: number }) {
   const navigate = useNavigate();
   const Icon = tile.icon;
-  const accent = CATEGORY_COLOR[tile.slug] ?? "var(--brand-orange)";
+  const cat = CATEGORY[tile.slug];
+  const mod = MODULE_BY_SLUG[tile.slug];
+  const lessonCount = mod?.lessons?.length ?? 0;
+
   return (
     <motion.button
       type="button"
       onClick={() => navigate({ to: "/explore/$module", params: { module: tile.slug } })}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 18, rotate: -2 }}
+      animate={{ opacity: 1, y: 0, rotate: 0 }}
       transition={{ delay, type: "spring", stiffness: 200, damping: 20 }}
-      whileHover={{ y: -10 }}
-      whileTap={{ scale: 0.95 }}
-      className="group relative flex flex-col items-center focus:outline-none"
-      aria-label={tile.title}
+      whileHover={{ y: -6, rotate: 0.5, scale: 1.03 }}
+      whileTap={{ scale: 0.97 }}
+      className="group relative overflow-hidden rounded-2xl border-2 bg-card text-left shadow-md hover:shadow-xl transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--brand-orange)]"
+      style={{ borderColor: cat.ring, aspectRatio: "3 / 4" }}
+      aria-label={`${tile.title} — ${lessonCount} lessons`}
     >
-      {/* Helmet */}
-      <div className="relative" style={{ width: "clamp(72px, 11vw, 108px)", aspectRatio: "1 / 1" }}>
-        <svg viewBox="0 0 120 120" className="h-full w-full drop-shadow-md">
-          <defs>
-            <linearGradient id={`shell-${tile.slug}`} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor={accent} stopOpacity="1" />
-              <stop offset="100%" stopColor={accent} stopOpacity="0.75" />
-            </linearGradient>
-            <linearGradient id={`shell-hi-${tile.slug}`} x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="white" stopOpacity="0.35" />
-              <stop offset="60%" stopColor="white" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-          {/* Peak */}
-          <path
-            d="M14,72 Q14,40 60,32 Q106,40 106,72 L106,78 Q106,80 104,80 L16,80 Q14,80 14,78 Z"
-            fill={`url(#shell-${tile.slug})`}
-            stroke="rgba(0,0,0,0.25)"
-            strokeWidth="1.5"
-          />
-          {/* Shell highlight */}
-          <path
-            d="M20,68 Q26,44 60,38 Q80,40 92,52"
-            fill="none"
-            stroke={`url(#shell-hi-${tile.slug})`}
-            strokeWidth="10"
-            strokeLinecap="round"
-          />
-          {/* Front brim / bill */}
-          <path
-            d="M10,78 Q60,90 110,78 L108,88 Q60,98 12,88 Z"
-            fill="oklch(0.25 0.02 60)"
-            stroke="rgba(0,0,0,0.35)"
-            strokeWidth="1"
-          />
-          {/* Ear pad */}
-          <ellipse cx="18" cy="76" rx="6" ry="9" fill="oklch(0.22 0.02 60)" />
-          <ellipse cx="102" cy="76" rx="6" ry="9" fill="oklch(0.22 0.02 60)" />
-          {/* Grille — three horizontal bars */}
-          <g stroke="oklch(0.85 0.005 90)" strokeWidth="2" strokeLinecap="round" opacity="0.9">
-            <line x1="26" y1="86" x2="94" y2="86" />
-            <line x1="24" y1="94" x2="96" y2="94" />
-            <line x1="26" y1="102" x2="94" y2="102" />
-            {/* verticals */}
-            <line x1="42" y1="82" x2="42" y2="106" strokeWidth="1.5" />
-            <line x1="60" y1="80" x2="60" y2="108" strokeWidth="1.5" />
-            <line x1="78" y1="82" x2="78" y2="106" strokeWidth="1.5" />
-          </g>
-          {/* Chin strap */}
-          <path
-            d="M22,80 Q60,116 98,80"
-            fill="none"
-            stroke="oklch(0.3 0.02 60)"
-            strokeWidth="2"
-          />
-        </svg>
+      {/* Foil sheen */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{
+          background:
+            "linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.28) 50%, transparent 70%)",
+        }}
+      />
 
-        {/* Icon badge on the peak */}
-        <span
-          className="absolute left-1/2 top-[26%] -translate-x-1/2 inline-flex size-6 sm:size-7 items-center justify-center rounded-full bg-background/90 shadow-sm ring-1 ring-black/10"
-          style={{ color: accent }}
-        >
-          <Icon className="size-3.5 sm:size-4" />
+      {/* Color band header */}
+      <div
+        className="relative flex items-center justify-between px-3 py-2"
+        style={{
+          background: `linear-gradient(135deg, ${cat.accent}, color-mix(in oklch, ${cat.accent} 60%, black))`,
+        }}
+      >
+        <span className="text-[9px] font-bold uppercase tracking-widest text-white/95">
+          {cat.label}
+        </span>
+        <span className="inline-flex items-center gap-1 rounded-full bg-white/25 px-1.5 py-0.5 text-[9px] font-bold text-white backdrop-blur">
+          <BookOpen className="size-2.5" /> {lessonCount}
         </span>
       </div>
 
-      {/* Name plate under helmet */}
-      <div className="mt-1 text-center">
-        <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wide text-foreground">
-          {tile.title}
-        </div>
+      {/* Icon "portrait" */}
+      <div
+        className="relative flex items-center justify-center py-4 sm:py-5"
+        style={{
+          background: `radial-gradient(ellipse at center, color-mix(in oklch, ${cat.accent} 18%, transparent), transparent 70%)`,
+        }}
+      >
+        <span
+          className="inline-flex size-14 sm:size-16 items-center justify-center rounded-full ring-2 ring-white/70 shadow-inner"
+          style={{
+            background: `conic-gradient(from 180deg, ${cat.accent}, color-mix(in oklch, ${cat.accent} 50%, white), ${cat.accent})`,
+            color: "white",
+          }}
+        >
+          <Icon className="size-6 sm:size-7 drop-shadow-sm" />
+        </span>
       </div>
 
-      {/* Tagline that reveals on hover */}
-      <div className="pointer-events-none absolute top-full mt-1 w-[130px] sm:w-[150px] opacity-0 -translate-y-1 transition duration-200 group-hover:opacity-100 group-hover:translate-y-0 group-focus:opacity-100 group-focus:translate-y-0 z-20">
-        <div className="rounded-lg bg-background/95 backdrop-blur px-2 py-1.5 shadow-lg border border-border">
-          <p className="text-[10px] text-muted-foreground leading-snug text-center">
-            {tile.desc}
-          </p>
+      {/* Body */}
+      <div className="px-3 pb-3">
+        <div className="font-display text-sm sm:text-base font-bold text-foreground leading-tight">
+          {tile.title}
         </div>
+        <p className="mt-1 text-[10px] sm:text-[11px] text-muted-foreground leading-snug line-clamp-3">
+          {tile.desc}
+        </p>
       </div>
+
+      {/* Card serial — bottom-right corner flourish */}
+      <span
+        aria-hidden
+        className="absolute bottom-1.5 right-2 text-[8px] font-mono font-semibold tracking-wider text-muted-foreground/70"
+      >
+        №{String(SCIENCE_TILES.indexOf(tile) + 1).padStart(2, "0")}/13
+      </span>
     </motion.button>
   );
 }
