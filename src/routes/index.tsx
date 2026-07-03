@@ -95,16 +95,16 @@ function Home() {
         </div>
       </section>
 
-      {/* SCIENCE CATEGORIES — hex honeycomb */}
+      {/* SCIENCE CATEGORIES — stumps & bails timeline */}
       <section className="bg-surface border-y border-border">
         <div className="mx-auto max-w-6xl px-6 py-16">
           <div className="text-center max-w-2xl mx-auto">
             <span className="inline-block rounded-full bg-[color:var(--brand-orange)]/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">Science</span>
             <h2 className="mt-3 font-display text-3xl md:text-4xl font-bold text-foreground">Thirteen sciences of cricket</h2>
-            <p className="mt-2 text-muted-foreground">A periodic table of the game — tap any cell to dive in.</p>
+            <p className="mt-2 text-muted-foreground">Three stumps. Every science hangs from one — pick a bail to open.</p>
           </div>
 
-          <HexHoneycomb />
+          <StumpsTimeline />
         </div>
       </section>
 
@@ -112,99 +112,120 @@ function Home() {
   );
 }
 
-/** Hex honeycomb: 3-4-3-3 rows = 13 sciences. No overlaps, fully responsive. */
-function HexHoneycomb() {
-  const rows: (typeof SCIENCE_TILES[number])[][] = [
-    SCIENCE_TILES.slice(0, 3),
-    SCIENCE_TILES.slice(3, 7),
-    SCIENCE_TILES.slice(7, 10),
-    SCIENCE_TILES.slice(10, 13),
-  ];
+/** Stumps & bails: 3 vertical stump columns with sciences hanging as bail-cards. */
+const STUMP_GROUPS = [
+  {
+    label: "Play",
+    caption: "What happens on the field",
+    slugs: ["bowling-science", "batting-science", "fielding-science", "wicketkeeping-science", "mental-science"],
+  },
+  {
+    label: "Body & Forces",
+    caption: "Why the body & ball behave",
+    slugs: ["physics-science", "biomechanics-science", "fitness-science", "environment-science"],
+  },
+  {
+    label: "Gear & Rules",
+    caption: "The stage and the laws",
+    slugs: ["pitch-science", "ball-science", "equipment-science", "umpiring-science"],
+  },
+] as const;
 
-  // Flat-top hex: width : height = 2 : sqrt(3). Rows overlap vertically by 25%.
+const TILE_BY_SLUG = Object.fromEntries(SCIENCE_TILES.map((t) => [t.slug, t]));
+
+function StumpsTimeline() {
   return (
-    <div className="mt-10 flex flex-col items-center" style={{ rowGap: "clamp(-14px, -3vw, -8px)" }}>
-      {rows.map((row, rowIdx) => (
-        <div
-          key={rowIdx}
-          className="flex justify-center"
-          style={{
-            columnGap: "clamp(6px, 1.2vw, 12px)",
-            marginTop: rowIdx === 0 ? 0 : "calc(clamp(80px, 14vw, 128px) * -0.24)",
-          }}
-        >
-          {row.map((s, i) => (
-            <HexCell key={s.slug} tile={s} delay={rowIdx * 0.05 + i * 0.04} />
-          ))}
-        </div>
-      ))}
+    <div className="mx-auto mt-12 max-w-5xl">
+      {/* Bails across the top */}
+      <div className="relative mx-auto flex h-8 max-w-4xl items-end justify-around px-6">
+        <div className="absolute left-[16%] right-[50%] top-1 h-2.5 rounded-full bg-gradient-to-r from-[oklch(0.7_0.08_60)] to-[oklch(0.55_0.1_50)] shadow-md" />
+        <div className="absolute left-[50%] right-[16%] top-1 h-2.5 rounded-full bg-gradient-to-r from-[oklch(0.55_0.1_50)] to-[oklch(0.7_0.08_60)] shadow-md" />
+      </div>
+
+      <div className="grid grid-cols-3 gap-3 sm:gap-8">
+        {STUMP_GROUPS.map((group, gIdx) => (
+          <StumpColumn key={group.label} group={group} colorIdx={gIdx} />
+        ))}
+      </div>
+
+      {/* Ground line */}
+      <div className="mx-auto mt-4 h-2 max-w-4xl rounded-full bg-gradient-to-r from-transparent via-[color:var(--brand-green)]/60 to-transparent" />
+      <div className="mx-auto h-6 max-w-4xl bg-[radial-gradient(ellipse_at_top,color-mix(in_oklch,var(--brand-green)_25%,transparent),transparent_70%)]" />
     </div>
   );
 }
 
-function HexCell({ tile, delay }: { tile: typeof SCIENCE_TILES[number]; delay: number }) {
-  const [hover, setHover] = useState(false);
+function StumpColumn({ group, colorIdx }: { group: typeof STUMP_GROUPS[number]; colorIdx: number }) {
+  return (
+    <div className="relative flex flex-col items-center">
+      {/* The stump — vertical wooden bar behind the cards */}
+      <div className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 h-full w-3 sm:w-4 rounded-b-md bg-gradient-to-b from-[oklch(0.7_0.08_60)] via-[oklch(0.5_0.1_50)] to-[oklch(0.35_0.08_50)] shadow-[inset_-2px_0_3px_rgba(0,0,0,0.25),inset_2px_0_2px_rgba(255,255,255,0.15)]" />
+      {/* Stump tip pointing into ground */}
+      <div className="pointer-events-none absolute left-1/2 -bottom-3 -translate-x-1/2 size-0 border-x-[6px] border-x-transparent border-t-[10px] border-t-[oklch(0.35_0.08_50)]" />
+
+      {/* Label header */}
+      <div className="relative z-10 mb-4 mt-2 text-center">
+        <div className="inline-block rounded-full bg-background/95 backdrop-blur px-3 py-1 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-primary border border-border shadow-sm">
+          {group.label}
+        </div>
+        <p className="mt-1 text-[10px] sm:text-xs text-muted-foreground max-w-[10rem] mx-auto leading-tight">
+          {group.caption}
+        </p>
+      </div>
+
+      {/* Bail cards hanging on the stump */}
+      <div className="relative z-10 flex w-full flex-col items-center gap-3">
+        {group.slugs.map((slug, i) => {
+          const tile = TILE_BY_SLUG[slug];
+          if (!tile) return null;
+          return <BailCard key={slug} tile={tile} delay={colorIdx * 0.05 + i * 0.06} side={i % 2 === 0 ? "left" : "right"} />;
+        })}
+      </div>
+    </div>
+  );
+}
+
+function BailCard({
+  tile,
+  delay,
+  side,
+}: {
+  tile: typeof SCIENCE_TILES[number];
+  delay: number;
+  side: "left" | "right";
+}) {
   const navigate = useNavigate();
   const Icon = tile.icon;
-  const clip = "polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%)";
   return (
     <motion.button
       type="button"
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      onFocus={() => setHover(true)}
-      onBlur={() => setHover(false)}
       onClick={() => navigate({ to: "/explore/$module", params: { module: tile.slug } })}
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay, type: "spring", stiffness: 200, damping: 20 }}
-      whileHover={{ scale: 1.06 }}
+      initial={{ opacity: 0, y: -18, rotate: side === "left" ? -6 : 6 }}
+      animate={{ opacity: 1, y: 0, rotate: 0 }}
+      transition={{ delay, type: "spring", stiffness: 180, damping: 18 }}
+      whileHover={{ y: -3, rotate: side === "left" ? -2 : 2, scale: 1.04 }}
       whileTap={{ scale: 0.97 }}
-      className="relative shrink-0 focus:outline-none"
-      style={{
-        width: "clamp(96px, 15vw, 148px)",
-        aspectRatio: "1 / 0.866",
-      }}
+      className="group relative w-full max-w-[220px] focus:outline-none"
       aria-label={tile.title}
     >
-      {/* Outer border hex */}
-      <span
-        className={`absolute inset-0 transition-colors ${
-          hover ? "bg-[color:var(--brand-orange)]" : "bg-border"
-        }`}
-        style={{ clipPath: clip }}
-      />
-      {/* Inner fill hex */}
-      <span
-        className={`absolute transition-colors ${
-          hover
-            ? "bg-gradient-to-br from-[color:var(--brand-orange)] to-[oklch(0.55_0.18_35)]"
-            : "bg-card"
-        }`}
-        style={{ clipPath: clip, inset: "3px" }}
-      />
-      {/* Content */}
-      <span className="relative z-10 flex h-full w-full flex-col items-center justify-center gap-1 px-2">
-        <Icon
-          className={`size-5 sm:size-6 transition-colors ${
-            hover ? "text-white" : "text-primary"
-          }`}
-        />
-        <span
-          className={`text-center text-[10px] sm:text-xs font-semibold uppercase tracking-wide leading-tight transition-colors ${
-            hover ? "text-white" : "text-foreground"
-          }`}
-        >
-          {tile.title}
-        </span>
-        <span
-          className={`hidden sm:block text-center text-[9px] leading-tight px-1 transition-colors ${
-            hover ? "text-white/85" : "text-muted-foreground"
-          }`}
-        >
-          {tile.desc}
-        </span>
-      </span>
+      {/* Little peg/screw holding the bail to the stump */}
+      <span className="absolute left-1/2 -top-1.5 -translate-x-1/2 size-2 rounded-full bg-[color:var(--brand-orange)] shadow ring-2 ring-background" />
+
+      <div className="rounded-xl border border-border bg-card px-3 py-2.5 shadow-sm transition-colors group-hover:border-[color:var(--brand-orange)] group-hover:shadow-md">
+        <div className="flex items-center gap-2">
+          <span className="inline-flex size-8 items-center justify-center rounded-lg bg-[color:var(--brand-orange)]/12 text-[color:var(--brand-orange)] group-hover:bg-[color:var(--brand-orange)] group-hover:text-white transition-colors">
+            <Icon className="size-4" />
+          </span>
+          <div className="min-w-0 flex-1 text-left">
+            <div className="text-[11px] sm:text-xs font-bold uppercase tracking-wide text-foreground truncate">
+              {tile.title}
+            </div>
+            <div className="hidden sm:block text-[10px] text-muted-foreground truncate">
+              {tile.desc}
+            </div>
+          </div>
+        </div>
+      </div>
     </motion.button>
   );
 }
