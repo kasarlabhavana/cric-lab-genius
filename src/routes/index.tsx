@@ -161,9 +161,9 @@ function ScienceCard({ tile, delay }: { tile: typeof SCIENCE_TILES[number]; dela
     <Link
       to="/explore/$module/"
       params={{ module: tile.slug }}
-      className="group relative overflow-hidden rounded-2xl border-2 bg-card text-left shadow-md hover:shadow-xl transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--brand-orange)]"
+      className="group relative overflow-hidden rounded-2xl border-2 bg-card text-left shadow-md hover:shadow-xl transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--brand-orange)] focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       style={{ borderColor: cat.ring, aspectRatio: "3 / 4" }}
-      aria-label={`${tile.title} — ${lessonCount} lessons`}
+      aria-label={`${tile.title} science — ${tile.desc} ${lessonCount} lessons`}
     >
       <motion.div
         initial={{ opacity: 0, y: 18, rotate: -2 }}
@@ -171,11 +171,13 @@ function ScienceCard({ tile, delay }: { tile: typeof SCIENCE_TILES[number]; dela
         transition={{ delay, type: "spring", stiffness: 200, damping: 20 }}
         whileHover={{ y: -6, rotate: 0.5, scale: 1.03 }}
         whileTap={{ scale: 0.97 }}
+        whileFocus={{ y: -6, rotate: 0.5, scale: 1.03 }}
         className="h-full w-full"
+        tabIndex={-1}
       >
       {/* Foil sheen */}
       <span
-        aria-hidden
+        aria-hidden="true"
         className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         style={{
           background:
@@ -194,7 +196,7 @@ function ScienceCard({ tile, delay }: { tile: typeof SCIENCE_TILES[number]; dela
           {cat.label}
         </span>
         <span className="inline-flex items-center gap-1 rounded-full bg-white/25 px-1.5 py-0.5 text-[9px] font-bold text-white backdrop-blur">
-          <BookOpen className="size-2.5" /> {lessonCount}
+          <BookOpen className="size-2.5" aria-hidden="true" /> {lessonCount}
         </span>
       </div>
 
@@ -212,7 +214,7 @@ function ScienceCard({ tile, delay }: { tile: typeof SCIENCE_TILES[number]; dela
             color: "white",
           }}
         >
-          <Icon className="size-6 sm:size-7 drop-shadow-sm" />
+          <Icon className="size-6 sm:size-7 drop-shadow-sm" aria-hidden="true" />
         </span>
       </div>
 
@@ -228,7 +230,7 @@ function ScienceCard({ tile, delay }: { tile: typeof SCIENCE_TILES[number]; dela
 
       {/* Card serial — bottom-right corner flourish */}
       <span
-        aria-hidden
+        aria-hidden="true"
         className="absolute bottom-1.5 right-2 text-[8px] font-mono font-semibold tracking-wider text-muted-foreground/70"
       >
         №{String(SCIENCE_TILES.indexOf(tile) + 1).padStart(2, "0")}/13
