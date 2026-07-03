@@ -131,10 +131,21 @@ const CATEGORY: Record<string, { label: string; accent: string; ring: string }> 
 };
 
 function CardDeck() {
+  // 13 cards (a prime) → use flex-wrap + justify-center so any orphan row is
+  // centered rather than left-aligned or clipped. Card widths use calc() with
+  // a shared --gap so each breakpoint locks to a fixed column count
+  // (2 / 3 / 4 / 5) without wrapping mid-card.
   return (
-    <div className="mx-auto mt-10 grid max-w-6xl grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
+    <div
+      className="mx-auto mt-10 flex max-w-6xl flex-wrap justify-center gap-[var(--deck-gap)] [--deck-gap:0.75rem] sm:[--deck-gap:1rem]"
+    >
       {SCIENCE_TILES.map((tile, i) => (
-        <ScienceCard key={tile.slug} tile={tile} delay={i * 0.04} />
+        <div
+          key={tile.slug}
+          className="basis-[calc((100%-var(--deck-gap))/2)] sm:basis-[calc((100%-2*var(--deck-gap))/3)] md:basis-[calc((100%-3*var(--deck-gap))/4)] lg:basis-[calc((100%-4*var(--deck-gap))/5)]"
+        >
+          <ScienceCard tile={tile} delay={i * 0.04} />
+        </div>
       ))}
     </div>
   );
