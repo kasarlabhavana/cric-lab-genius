@@ -130,21 +130,25 @@ const CATEGORY_COLOR: Record<string, string> = {
 };
 
 function HelmetDugout() {
-  // 2 shelves: 7 helmets up top, 6 down below. Fits mobile as 3/3/3/4.
-  const shelves = [SCIENCE_TILES.slice(0, 7), SCIENCE_TILES.slice(7, 13)];
+  // 4 shelves, always fully filled: 4 / 3 / 3 / 3 = 13.
+  const shelves = [
+    SCIENCE_TILES.slice(0, 4),
+    SCIENCE_TILES.slice(4, 7),
+    SCIENCE_TILES.slice(7, 10),
+    SCIENCE_TILES.slice(10, 13),
+  ];
   return (
-    <div className="mx-auto mt-12 max-w-5xl">
+    <div className="mx-auto mt-12 max-w-4xl space-y-8">
       {shelves.map((row, rIdx) => (
-        <div key={rIdx} className="relative mt-6 first:mt-0">
+        <div key={rIdx} className="relative">
           {/* Helmets */}
-          <div className="relative z-10 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-x-2 gap-y-6 justify-items-center px-3">
+          <div className="relative z-10 flex flex-wrap justify-center gap-x-4 gap-y-6 sm:gap-x-8 px-3">
             {row.map((tile, i) => (
-              <Helmet key={tile.slug} tile={tile} delay={rIdx * 0.15 + i * 0.05} />
+              <Helmet key={tile.slug} tile={tile} delay={rIdx * 0.1 + i * 0.05} />
             ))}
           </div>
           {/* Wooden shelf */}
           <div className="relative -mt-2 h-4 rounded-sm bg-gradient-to-b from-[oklch(0.55_0.09_55)] via-[oklch(0.42_0.08_50)] to-[oklch(0.3_0.06_45)] shadow-[0_6px_10px_-4px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.15)]">
-            {/* Wood grain */}
             <div
               className="absolute inset-0 opacity-25 rounded-sm"
               style={{
@@ -153,7 +157,6 @@ function HelmetDugout() {
               }}
             />
           </div>
-          {/* Shelf shadow on wall */}
           <div className="mx-auto h-4 max-w-[95%] bg-[radial-gradient(ellipse_at_top,rgba(0,0,0,0.18),transparent_70%)]" />
         </div>
       ))}
