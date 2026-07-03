@@ -261,7 +261,6 @@ function Helmet({ tile, delay }: { tile: typeof SCIENCE_TILES[number]; delay: nu
     </motion.button>
   );
 }
-}
 
 
 
