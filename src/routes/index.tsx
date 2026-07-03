@@ -95,17 +95,16 @@ function Home() {
         </div>
       </section>
 
-      {/* SCIENCE CATEGORIES — compact tile view */}
+      {/* SCIENCE CATEGORIES — hex honeycomb */}
       <section className="bg-surface border-y border-border">
         <div className="mx-auto max-w-6xl px-6 py-16">
           <div className="text-center max-w-2xl mx-auto">
             <span className="inline-block rounded-full bg-[color:var(--brand-orange)]/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">Science</span>
             <h2 className="mt-3 font-display text-3xl md:text-4xl font-bold text-foreground">Thirteen sciences of cricket</h2>
-            <p className="mt-2 text-muted-foreground">Hover a planet to preview — tap to dive in.</p>
+            <p className="mt-2 text-muted-foreground">A periodic table of the game — tap any cell to dive in.</p>
           </div>
 
-          <InteractiveBall />
-
+          <HexHoneycomb />
         </div>
       </section>
 
@@ -113,110 +112,100 @@ function Home() {
   );
 }
 
+/** Hex honeycomb: 3-4-3-3 rows = 13 sciences. No overlaps, fully responsive. */
+function HexHoneycomb() {
+  const rows: (typeof SCIENCE_TILES[number])[][] = [
+    SCIENCE_TILES.slice(0, 3),
+    SCIENCE_TILES.slice(3, 7),
+    SCIENCE_TILES.slice(7, 10),
+    SCIENCE_TILES.slice(10, 13),
+  ];
 
-/** Interactive cricket ball — science "planets" orbit a spinning red ball on two rings
- *  so 13 tiles fit without overlap. Hover/tap to preview, click to open. */
-function InteractiveBall() {
-  const [active, setActive] = useState<number | null>(null);
-  const navigate = useNavigate();
-
-  const current = active != null ? SCIENCE_TILES[active] : null;
-
-  // Split into two rings so labels don't collide.
-  const outer = SCIENCE_TILES.slice(0, 8);   // 8 planets on the outer ring
-  const inner = SCIENCE_TILES.slice(8);      // 5 planets on the inner ring
-
+  // Flat-top hex: width : height = 2 : sqrt(3). Rows overlap vertically by 25%.
   return (
-    <div className="relative mx-auto mt-10 aspect-square w-full max-w-[620px]">
-      {/* Orbit rings */}
-      <div className="absolute inset-[4%] rounded-full border border-dashed border-border" />
-      <div className="absolute inset-[26%] rounded-full border border-dashed border-border/60" />
-
-      {/* Spinning cricket ball (smaller so inner ring has room) */}
-      <motion.div
-        animate={{ rotate: 360 }}
-        transition={{ duration: 28, ease: "linear", repeat: Infinity }}
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[24%] h-[24%]"
-      >
-        <svg viewBox="0 0 220 220" className="w-full h-full">
-          <defs>
-            <radialGradient id="leather" cx="35%" cy="35%" r="70%">
-              <stop offset="0%" stopColor="#d65a4a" />
-              <stop offset="55%" stopColor="#9b1c1c" />
-              <stop offset="100%" stopColor="#4a0a0a" />
-            </radialGradient>
-          </defs>
-          <circle cx="110" cy="110" r="100" fill="url(#leather)" />
-          <ellipse cx="110" cy="110" rx="100" ry="30" fill="none" stroke="#f5e6c8" strokeWidth="2.5" />
-          {[...Array(28)].map((_, i) => (
-            <line key={i}
-              x1={110 + 98 * Math.cos((i / 28) * Math.PI * 2)}
-              y1={110 + 28 * Math.sin((i / 28) * Math.PI * 2)}
-              x2={110 + 102 * Math.cos((i / 28) * Math.PI * 2)}
-              y2={110 + 32 * Math.sin((i / 28) * Math.PI * 2)}
-              stroke="#f5e6c8" strokeWidth="2" />
+    <div className="mt-10 flex flex-col items-center" style={{ rowGap: "clamp(-14px, -3vw, -8px)" }}>
+      {rows.map((row, rowIdx) => (
+        <div
+          key={rowIdx}
+          className="flex justify-center"
+          style={{
+            columnGap: "clamp(6px, 1.2vw, 12px)",
+            marginTop: rowIdx === 0 ? 0 : "calc(clamp(80px, 14vw, 128px) * -0.24)",
+          }}
+        >
+          {row.map((s, i) => (
+            <HexCell key={s.slug} tile={s} delay={rowIdx * 0.05 + i * 0.04} />
           ))}
-          <ellipse cx="80" cy="75" rx="28" ry="14" fill="white" fillOpacity="0.18" />
-        </svg>
-      </motion.div>
-
-      {/* Centre label */}
-      <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center z-10">
-        {current && (
-          <motion.div
-            key={current.slug}
-            initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
-            className="rounded-2xl bg-background/90 backdrop-blur px-4 py-3 shadow-lg border border-border max-w-[180px]"
-          >
-            <div className="font-display text-base font-bold text-foreground">{current.title}</div>
-            <div className="mt-0.5 text-[11px] text-muted-foreground leading-snug">{current.desc}</div>
-            <div className="mt-1.5 text-[10px] font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">Tap to open →</div>
-          </motion.div>
-        )}
-      </div>
-
-      {/* Ring renderer */}
-      {[
-        { items: outer, radius: 46, offset: -Math.PI / 2 },
-        { items: inner, radius: 20, offset: -Math.PI / 2 + Math.PI / inner.length },
-      ].map(({ items, radius, offset }, ringIdx) =>
-        items.map((s, i) => {
-          const globalIdx = ringIdx === 0 ? i : outer.length + i;
-          const angle = (i / items.length) * Math.PI * 2 + offset;
-          const xPct = 50 + Math.cos(angle) * radius;
-          const yPct = 50 + Math.sin(angle) * radius;
-          const Icon = s.icon;
-          const isActive = active === globalIdx;
-          return (
-            <motion.button
-              key={s.slug}
-              type="button"
-              onMouseEnter={() => setActive(globalIdx)}
-              onFocus={() => setActive(globalIdx)}
-              onClick={() => navigate({ to: "/explore/$module", params: { module: s.slug } })}
-              initial={{ opacity: 0, scale: 0.6 }}
-              animate={{ opacity: 1, scale: isActive ? 1.15 : 1 }}
-              transition={{ delay: 0.04 * globalIdx, type: "spring", stiffness: 220, damping: 18 }}
-              whileHover={{ scale: 1.18 }}
-              className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1 group focus:outline-none"
-              style={{ left: `${xPct}%`, top: `${yPct}%` }}
-              aria-label={s.title}
-            >
-              <span className={`inline-flex size-9 sm:size-11 items-center justify-center rounded-full border-2 shadow-md transition-colors ${
-                isActive
-                  ? "bg-[color:var(--brand-orange)] border-[color:var(--brand-orange)] text-white"
-                  : "bg-card border-border text-primary group-hover:border-[color:var(--brand-orange)]"
-              }`}>
-                <Icon className="size-4 sm:size-5" />
-              </span>
-              <span className={`whitespace-nowrap text-[9px] sm:text-[10px] font-semibold uppercase tracking-wide ${isActive ? "text-[color:var(--brand-orange)]" : "text-muted-foreground"}`}>
-                {s.title}
-              </span>
-            </motion.button>
-          );
-        })
-      )}
+        </div>
+      ))}
     </div>
+  );
+}
+
+function HexCell({ tile, delay }: { tile: typeof SCIENCE_TILES[number]; delay: number }) {
+  const [hover, setHover] = useState(false);
+  const navigate = useNavigate();
+  const Icon = tile.icon;
+  const clip = "polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%)";
+  return (
+    <motion.button
+      type="button"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      onFocus={() => setHover(true)}
+      onBlur={() => setHover(false)}
+      onClick={() => navigate({ to: "/explore/$module", params: { module: tile.slug } })}
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay, type: "spring", stiffness: 200, damping: 20 }}
+      whileHover={{ scale: 1.06 }}
+      whileTap={{ scale: 0.97 }}
+      className="relative shrink-0 focus:outline-none"
+      style={{
+        width: "clamp(96px, 15vw, 148px)",
+        aspectRatio: "1 / 0.866",
+      }}
+      aria-label={tile.title}
+    >
+      {/* Outer border hex */}
+      <span
+        className={`absolute inset-0 transition-colors ${
+          hover ? "bg-[color:var(--brand-orange)]" : "bg-border"
+        }`}
+        style={{ clipPath: clip }}
+      />
+      {/* Inner fill hex */}
+      <span
+        className={`absolute transition-colors ${
+          hover
+            ? "bg-gradient-to-br from-[color:var(--brand-orange)] to-[oklch(0.55_0.18_35)]"
+            : "bg-card"
+        }`}
+        style={{ clipPath: clip, inset: "3px" }}
+      />
+      {/* Content */}
+      <span className="relative z-10 flex h-full w-full flex-col items-center justify-center gap-1 px-2">
+        <Icon
+          className={`size-5 sm:size-6 transition-colors ${
+            hover ? "text-white" : "text-primary"
+          }`}
+        />
+        <span
+          className={`text-center text-[10px] sm:text-xs font-semibold uppercase tracking-wide leading-tight transition-colors ${
+            hover ? "text-white" : "text-foreground"
+          }`}
+        >
+          {tile.title}
+        </span>
+        <span
+          className={`hidden sm:block text-center text-[9px] leading-tight px-1 transition-colors ${
+            hover ? "text-white/85" : "text-muted-foreground"
+          }`}
+        >
+          {tile.desc}
+        </span>
+      </span>
+    </motion.button>
   );
 }
 
