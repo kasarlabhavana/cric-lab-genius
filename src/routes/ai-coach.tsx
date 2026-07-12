@@ -463,6 +463,8 @@ function AICoachPage() {
     if (mediaUrl) URL.revokeObjectURL(mediaUrl);
     setMediaUrl(null); setMediaType(null); setMediaName(null); setMediaSeed(0);
     setAnalysis(null); setTitle(""); setFocusRole(null);
+    setRolesPresent({ bowler: false, batsman: false, fielder: false });
+    setRolesConfirmed(false);
     if (fileRef.current) fileRef.current.value = "";
   };
 
