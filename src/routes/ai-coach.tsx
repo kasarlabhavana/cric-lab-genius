@@ -458,7 +458,11 @@ function AICoachPage() {
             className="hidden"
             onChange={e => onPickFile(e.target.files?.[0] ?? null)}
           />
+          {mediaUrl && (
+            <FocusPicker value={focusRole} onChange={setFocusRole} disabled={analyzing} />
+          )}
         </section>
+
 
         {/* Right — summary + save */}
         <section className="space-y-4">
