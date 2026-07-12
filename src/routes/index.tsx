@@ -1,14 +1,15 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
 
 import {
-  ArrowRight, Network, BookOpen,
+  ArrowRight, Network,
   Target, Swords, Hand, Shield, Wrench, LayoutGrid, CircleDot, CloudSun, Dumbbell, Scale,
   Atom, Activity, Brain,
 } from "lucide-react";
 
 import logoUrl from "@/assets/logo.png";
 import { MODULE_BY_SLUG } from "@/lib/modules";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -96,16 +97,22 @@ function Home() {
         </div>
       </section>
 
-      {/* SCIENCE CATEGORIES — trading-card deck */}
+      {/* CRICKET FIELD — sciences pinned to real field positions */}
       <section className="bg-surface border-y border-border">
-        <div className="mx-auto max-w-6xl px-6 py-16">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 py-12 sm:py-16">
           <div className="text-center max-w-2xl mx-auto">
-            <span className="inline-block rounded-full bg-[color:var(--brand-orange)]/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">Science</span>
-            <h2 className="mt-3 font-display text-3xl md:text-4xl font-bold text-foreground">Collect all thirteen</h2>
-            <p className="mt-2 text-muted-foreground">A deck of science player-cards — flip through and pick your specialism.</p>
+            <span className="inline-block rounded-full bg-[color:var(--brand-orange)]/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">
+              The field
+            </span>
+            <h2 className="mt-3 font-display text-3xl md:text-4xl font-bold text-foreground">
+              Every science, in its position
+            </h2>
+            <p className="mt-2 text-muted-foreground">
+              Tap a role on the field — bowler, batter, fielders, keeper, pitch, environment or the pavilion — to open its lessons.
+            </p>
           </div>
 
-          <CardDeck />
+          <FieldMap />
         </div>
       </section>
 
@@ -113,123 +120,191 @@ function Home() {
   );
 }
 
-/** Trading-card deck: 13 science cards laid out 5-4-4 on desktop. */
-const CATEGORY: Record<string, { label: string; accent: string; ring: string }> = {
-  "bowling-science":       { label: "Play",   accent: "var(--brand-orange)",  ring: "oklch(0.55 0.18 35)" },
-  "batting-science":       { label: "Play",   accent: "var(--brand-orange)",  ring: "oklch(0.55 0.18 35)" },
-  "fielding-science":      { label: "Play",   accent: "var(--brand-orange)",  ring: "oklch(0.55 0.18 35)" },
-  "wicketkeeping-science": { label: "Play",   accent: "var(--brand-orange)",  ring: "oklch(0.55 0.18 35)" },
-  "mental-science":        { label: "Play",   accent: "var(--brand-orange)",  ring: "oklch(0.55 0.18 35)" },
-  "physics-science":       { label: "Body",   accent: "var(--brand-green)",   ring: "oklch(0.45 0.14 150)" },
-  "biomechanics-science":  { label: "Body",   accent: "var(--brand-green)",   ring: "oklch(0.45 0.14 150)" },
-  "fitness-science":       { label: "Body",   accent: "var(--brand-green)",   ring: "oklch(0.45 0.14 150)" },
-  "environment-science":   { label: "Body",   accent: "var(--brand-green)",   ring: "oklch(0.45 0.14 150)" },
-  "pitch-science":         { label: "Gear",   accent: "oklch(0.55 0.14 258)", ring: "oklch(0.45 0.16 258)" },
-  "ball-science":          { label: "Gear",   accent: "oklch(0.55 0.14 258)", ring: "oklch(0.45 0.16 258)" },
-  "equipment-science":     { label: "Gear",   accent: "oklch(0.55 0.14 258)", ring: "oklch(0.45 0.16 258)" },
-  "umpiring-science":      { label: "Gear",   accent: "oklch(0.55 0.14 258)", ring: "oklch(0.45 0.16 258)" },
+/* ---------------------------------------------------------------- */
+/*                     CRICKET FIELD RADIAL MAP                      */
+/* ---------------------------------------------------------------- */
+
+type Pin = {
+  slug: (typeof SCIENCE_TILES)[number]["slug"];
+  // percent coords relative to the whole panel (0-100)
+  x: number;
+  y: number;
+  // category for coloring
+  cat: "play" | "body" | "gear";
 };
 
-function CardDeck() {
+// Field layout on a 3:4 panel (portrait). The oval spans y=8%..88%, x=6%..94%.
+// (0,0) = top-left of the panel; batter's end at bottom, bowler's end near top.
+const PINS: Pin[] = [
+  // SKY: environment sciences above the boundary
+  { slug: "environment-science", x: 20, y: 4, cat: "body" },
+  { slug: "physics-science",     x: 80, y: 4, cat: "body" },
+
+  // BOWLER'S END (top of pitch)
+  { slug: "bowling-science",     x: 50, y: 20, cat: "play" },
+
+  // UMPIRE — just off-side of bowler
+  { slug: "umpiring-science",    x: 68, y: 22, cat: "gear" },
+
+  // PITCH strip
+  { slug: "pitch-science",       x: 50, y: 44, cat: "gear" },
+
+  // BALL — slip cordon (off side of keeper)
+  { slug: "ball-science",        x: 66, y: 66, cat: "gear" },
+
+  // INNER RING FIELDERS (off / leg)
+  { slug: "fielding-science",    x: 22, y: 52, cat: "play" }, // cover
+  { slug: "mental-science",      x: 78, y: 52, cat: "play" }, // point/gully
+  { slug: "biomechanics-science",x: 12, y: 66, cat: "body" }, // mid-off deep
+  { slug: "fitness-science",     x: 88, y: 66, cat: "body" }, // deep midwicket
+
+  // BATTER'S END (bottom of pitch)
+  { slug: "batting-science",     x: 50, y: 72, cat: "play" },
+
+  // KEEPER (just behind batter)
+  { slug: "wicketkeeping-science", x: 50, y: 84, cat: "gear" },
+
+  // PAVILION: equipment
+  { slug: "equipment-science",   x: 50, y: 96, cat: "gear" },
+];
+
+const CAT_COLORS: Record<Pin["cat"], { bg: string; ring: string }> = {
+  play: { bg: "var(--brand-orange)",   ring: "oklch(0.55 0.18 35)" },
+  body: { bg: "var(--brand-green)",    ring: "oklch(0.45 0.14 150)" },
+  gear: { bg: "oklch(0.55 0.14 258)",  ring: "oklch(0.45 0.16 258)" },
+};
+
+function FieldMap() {
   return (
-    <div className="mx-auto mt-10 grid max-w-6xl grid-cols-2 gap-5 sm:grid-cols-3 sm:gap-6 md:grid-cols-4 lg:grid-cols-5">
-      {SCIENCE_TILES.map((tile, i) => (
-        <div key={tile.slug} className="relative" style={{ aspectRatio: "3 / 4" }}>
-          <ScienceCard tile={tile} delay={i * 0.04} />
+    <div className="mx-auto mt-8 max-w-3xl">
+      <div
+        className="relative w-full overflow-hidden rounded-3xl border border-border shadow-lg"
+        style={{ aspectRatio: "3 / 4" }}
+      >
+        {/* Sky gradient */}
+        <div
+          className="absolute inset-x-0 top-0 h-[14%]"
+          style={{
+            background:
+              "linear-gradient(180deg, oklch(0.72 0.09 240) 0%, oklch(0.85 0.06 220) 100%)",
+          }}
+          aria-hidden
+        />
+        {/* Pavilion strip at bottom */}
+        <div
+          className="absolute inset-x-0 bottom-0 h-[10%]"
+          style={{
+            background:
+              "linear-gradient(180deg, oklch(0.35 0.05 40) 0%, oklch(0.28 0.06 40) 100%)",
+          }}
+          aria-hidden
+        >
+          <div className="absolute inset-x-0 top-1 text-center text-[10px] font-semibold uppercase tracking-widest text-white/70">
+            Pavilion
+          </div>
         </div>
-      ))}
+
+        {/* Ground SVG */}
+        <svg
+          className="absolute inset-0 h-full w-full"
+          viewBox="0 0 300 400"
+          preserveAspectRatio="xMidYMid meet"
+          aria-hidden
+        >
+          <defs>
+            <radialGradient id="fieldGrass" cx="50%" cy="55%" r="60%">
+              <stop offset="0%" stopColor="oklch(0.72 0.15 145)" />
+              <stop offset="60%" stopColor="oklch(0.58 0.16 145)" />
+              <stop offset="100%" stopColor="oklch(0.42 0.13 145)" />
+            </radialGradient>
+            <pattern id="mow" width="24" height="24" patternUnits="userSpaceOnUse">
+              <rect width="24" height="24" fill="transparent" />
+              <rect y="12" width="24" height="12" fill="oklch(0.5 0.14 145 / 0.35)" />
+            </pattern>
+          </defs>
+
+          {/* Outfield oval */}
+          <ellipse cx="150" cy="220" rx="140" ry="160" fill="url(#fieldGrass)" />
+          <ellipse cx="150" cy="220" rx="140" ry="160" fill="url(#mow)" opacity="0.35" />
+          {/* Boundary rope */}
+          <ellipse cx="150" cy="220" rx="140" ry="160" fill="none" stroke="white" strokeOpacity="0.9" strokeWidth="1.6" />
+          {/* 30-yard inner circle */}
+          <ellipse cx="150" cy="220" rx="82" ry="94" fill="none" stroke="white" strokeOpacity="0.55" strokeWidth="1.2" strokeDasharray="4 5" />
+
+          {/* Pitch strip */}
+          <rect x="138" y="120" width="24" height="200" fill="oklch(0.78 0.08 70)" stroke="white" strokeOpacity="0.6" strokeWidth="0.5" rx="1" />
+          {/* Creases */}
+          <line x1="132" y1="140" x2="168" y2="140" stroke="white" strokeOpacity="0.7" strokeWidth="1" />
+          <line x1="132" y1="300" x2="168" y2="300" stroke="white" strokeOpacity="0.7" strokeWidth="1" />
+          {/* Stumps */}
+          <g stroke="oklch(0.35 0.05 60)" strokeWidth="1.6">
+            <line x1="146" y1="140" x2="146" y2="130" />
+            <line x1="150" y1="140" x2="150" y2="130" />
+            <line x1="154" y1="140" x2="154" y2="130" />
+            <line x1="146" y1="300" x2="146" y2="310" />
+            <line x1="150" y1="300" x2="150" y2="310" />
+            <line x1="154" y1="300" x2="154" y2="310" />
+          </g>
+        </svg>
+
+        {/* Pins */}
+        {PINS.map((p, i) => (
+          <FieldPin key={p.slug} pin={p} delay={i * 0.05} />
+        ))}
+      </div>
+
+      <p className="mt-4 text-center text-xs text-muted-foreground">
+        Bowler's end at top · batter's end at bottom · pavilion below · sky above. Each pin opens that science.
+      </p>
     </div>
   );
 }
 
-function ScienceCard({ tile, delay }: { tile: typeof SCIENCE_TILES[number]; delay: number }) {
+function FieldPin({ pin, delay }: { pin: Pin; delay: number }) {
+  const tile = SCIENCE_TILES.find((t) => t.slug === pin.slug)!;
   const Icon = tile.icon;
-  const cat = CATEGORY[tile.slug];
-  const mod = MODULE_BY_SLUG[tile.slug];
+  const c = CAT_COLORS[pin.cat];
+  const mod = MODULE_BY_SLUG[pin.slug];
   const lessonCount = mod?.lessons?.length ?? 0;
 
   return (
-    <Link
-      to="/explore/$module/"
-      params={{ module: tile.slug }}
-      className="group absolute inset-0 overflow-hidden rounded-2xl border-2 bg-card text-left shadow-md hover:shadow-xl transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--brand-orange)] focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-      style={{ borderColor: cat.ring }}
-      aria-label={`${tile.title} science — ${tile.desc} ${lessonCount} lessons`}
+    <motion.div
+      initial={{ opacity: 0, scale: 0.6 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay, type: "spring", stiffness: 240, damping: 18 }}
+      style={{
+        position: "absolute",
+        left: `${pin.x}%`,
+        top: `${pin.y}%`,
+        transform: "translate(-50%, -50%)",
+      }}
     >
-      <motion.div
-        initial={{ opacity: 0, y: 18, rotate: -2 }}
-        animate={{ opacity: 1, y: 0, rotate: 0 }}
-        transition={{ delay, type: "spring", stiffness: 200, damping: 20 }}
-        whileHover={{ y: -6, rotate: 0.5, scale: 1.03 }}
-        whileTap={{ scale: 0.97 }}
-        whileFocus={{ y: -6, rotate: 0.5, scale: 1.03 }}
-        className="h-full w-full"
-        tabIndex={-1}
-      >
-      {/* Foil sheen */}
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-        style={{
-          background:
-            "linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.28) 50%, transparent 70%)",
-        }}
-      />
-
-      {/* Color band header */}
-      <div
-        className="relative flex items-center justify-between px-4 py-2.5"
-        style={{
-          background: `linear-gradient(135deg, ${cat.accent}, color-mix(in oklch, ${cat.accent} 60%, black))`,
-        }}
-      >
-        <span className="text-[9px] font-bold uppercase tracking-widest text-white/95">
-          {cat.label}
-        </span>
-        <span className="inline-flex items-center gap-1 rounded-full bg-white/25 px-1.5 py-0.5 text-[9px] font-bold text-white backdrop-blur">
-          <BookOpen className="size-2.5" aria-hidden="true" /> {lessonCount}
-        </span>
-      </div>
-
-      {/* Icon "portrait" */}
-      <div
-        className="relative flex items-center justify-center py-5 sm:py-6"
-        style={{
-          background: `radial-gradient(ellipse at center, color-mix(in oklch, ${cat.accent} 18%, transparent), transparent 70%)`,
-        }}
+      <Link
+        to="/explore/$module/"
+        params={{ module: pin.slug }}
+        aria-label={`${tile.title} science — ${tile.desc} ${lessonCount} lessons`}
+        className="group flex flex-col items-center focus:outline-none"
       >
         <span
-          className="inline-flex size-14 sm:size-16 items-center justify-center rounded-full ring-2 ring-white/70 shadow-inner"
+          className="inline-flex size-10 sm:size-12 items-center justify-center rounded-full ring-2 ring-white shadow-lg transition group-hover:scale-110 group-focus-visible:ring-4 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-background"
           style={{
-            background: `conic-gradient(from 180deg, ${cat.accent}, color-mix(in oklch, ${cat.accent} 50%, white), ${cat.accent})`,
+            background: `radial-gradient(circle at 30% 30%, color-mix(in oklch, ${c.bg} 60%, white), ${c.bg})`,
+            borderColor: c.ring,
             color: "white",
           }}
         >
-          <Icon className="size-6 sm:size-7 drop-shadow-sm" aria-hidden="true" />
+          <Icon className="size-4 sm:size-5 drop-shadow" aria-hidden />
         </span>
-      </div>
-
-      {/* Body */}
-      <div className="px-4 pb-4">
-        <div className="font-display text-sm sm:text-base font-bold text-foreground leading-tight">
+        <span
+          className="mt-1 rounded-md bg-black/70 px-1.5 py-0.5 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-white whitespace-nowrap backdrop-blur"
+        >
           {tile.title}
-        </div>
-        <p className="mt-1 text-[10px] sm:text-[11px] text-muted-foreground leading-snug line-clamp-3">
-          {tile.desc}
-        </p>
-      </div>
-
-      {/* Card serial — bottom-right corner flourish */}
-      <span
-        aria-hidden="true"
-        className="absolute bottom-1.5 right-2 text-[8px] font-mono font-semibold tracking-wider text-muted-foreground/70"
-      >
-        №{String(SCIENCE_TILES.indexOf(tile) + 1).padStart(2, "0")}/13
-      </span>
-      </motion.div>
-    </Link>
+        </span>
+      </Link>
+    </motion.div>
   );
 }
+
 
 
 

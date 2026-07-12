@@ -4,18 +4,20 @@ import { useState } from "react";
 import { useUser, deriveLevel } from "@/lib/user-state";
 import { useTheme } from "@/lib/theme";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { GlobalSearch } from "@/components/global-search";
 import logoUrl from "@/assets/logo.png";
 
 const NAV = [
   { to: "/", label: "Home", icon: Home },
   { to: "/explore", label: "Explore", icon: BookOpen },
   { to: "/knowledge-graph", label: "Graph", icon: Network },
-  { to: "/ai-coach", label: "AI Coach", icon: Bot },
+  { to: "/ai-coach", label: "Intelli Coach", icon: Bot },
   { to: "/quiz", label: "Quiz Zone", icon: ListChecks },
   { to: "/glossary", label: "Glossary", icon: BookA },
   { to: "/progress", label: "Progress", icon: TrendingUp },
   { to: "/community", label: "Community", icon: Users },
 ] as const;
+
 
 
 export function AppHeader() {
@@ -55,6 +57,8 @@ export function AppHeader() {
         </nav>
 
         <div className="ml-auto flex items-center gap-2">
+          <GlobalSearch />
+
           {state.user && (
             <div className="hidden sm:flex items-center gap-3 rounded-full border border-border bg-surface px-3 py-1.5">
               <div className="flex items-center gap-1 text-xs font-semibold text-[color:var(--brand-orange)]">
@@ -146,7 +150,7 @@ export function AppFooter() {
           <ul className="space-y-1.5 text-muted-foreground">
             <li><Link to="/explore" className="hover:text-foreground">Explore Topics</Link></li>
             <li><Link to="/quiz" className="hover:text-foreground">Quiz Zone</Link></li>
-            <li><Link to="/ai-coach" className="hover:text-foreground">AI Coach</Link></li>
+            <li><Link to="/ai-coach" className="hover:text-foreground">Intelli Coach</Link></li>
             <li><Link to="/glossary" className="hover:text-foreground">Glossary A–Z</Link></li>
           </ul>
 

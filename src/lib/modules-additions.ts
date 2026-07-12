@@ -316,7 +316,17 @@ export const ENVIRONMENT_ADD: Lesson[] = [
       "Definition: A clear, contrasting sightscreen and an unbroken background behind the bowler's arm are essential for the batter's release-point pickup.",
       "Tactical Use: Late-afternoon shadows across the pitch reduce reaction time by 15-20 ms; play often pauses for shadow lines.",
     ]),
+  L("overcast-conditions", "Overcast Conditions", 5, "Grey skies, live seam, cautious batting.",
+    [
+      "Definition: 'Overcast' means heavy cloud cover with no direct sun — the classic English or Kiwi Test-morning condition that has produced more than half of the great swing spells in history.",
+      "Physics: Cloud keeps the pitch and ball 3-6°C cooler, preserves surface moisture on the ball, and slows the drying of any dew or damp grass. The result is a livelier seam and longer-lasting lacquer.",
+      "Tactical Use: Bowling first is usually correct — Nasser Hussain's decision to bowl at Brisbane 2002 is the famous cautionary tale in the OTHER direction (sunny morning), but under genuine overcast every modern captain bowls.",
+      "Batting Response: Play late, leave more, target only clear scoring options. Cheteshwar Pujara and Alastair Cook built careers on surviving overcast sessions.",
+      "DLS Angle: Under thick cloud, watch the DLS par score — a lost session in the afternoon can flip the match; batters must weigh survival vs raising the par score.",
+      "Common Mistakes & Drills: Reading 'overcast' as 'will help swing all day' — a mid-morning sun burst often kills swing within 20 minutes. Track cloud cover in real time.",
+    ]),
 ];
+
 
 // ---------------------------------------------------------------------------
 // FITNESS SCIENCE
@@ -398,7 +408,41 @@ export const UMPIRING_ADD: Lesson[] = [
       "Tactical Use: Non-strikers must hold the crease until the ball leaves the bowler's hand; teams now use warnings sparingly.",
       "Common Mistakes & Drills: Non-strikers stealing ground after warning; coaches teach 'back-foot anchor' drills.",
     ]),
+  L("mankading-explained", "Mankading — The Full Rule & History", 5, "From Vinoo Mankad to Deepti Sharma.",
+    [
+      "Definition: The bowler dismissing the non-striker who backs up out of the crease before the ball is released. Renamed simply 'run out' by the MCC in 2022 to remove the stigma.",
+      "History: Named after Indian all-rounder Vinoo Mankad, who ran out Bill Brown twice on the 1947-48 tour of Australia. Recent high-profile cases include Ravichandran Ashwin (vs Jos Buttler, IPL 2019) and Deepti Sharma (vs Charlie Dean, England 2022 ODI).",
+      "Rule Detail: Under Law 38.3, the bowler may run the non-striker out at any time from when they start their run-up until the moment the ball would normally be released. No warning is required in the Laws (though 'spirit of cricket' custom often includes one).",
+      "Tactical Use: A single successful mankad in a series stops opposition non-strikers backing up early — worth 2-4 runs per innings in tight chases.",
+      "Common Mistakes & Drills: Non-strikers should keep the bat grounded inside the crease until they see the ball leave the bowler's hand; junior coaches drill this as a 'reset each ball' habit.",
+    ]),
+  L("drs-deep-dive", "DRS Deep Dive — Every Stage Explained", 7, "Player review, third umpire, protocols.",
+    [
+      "Definition: The Decision Review System (DRS) lets a fielding captain or dismissed batter challenge an on-field umpire's out/not-out call using video and tracking technology.",
+      "Player Review: Signalled with a T sign within 15 seconds of the decision. Each side has a set number of unsuccessful reviews per innings (currently 3 in Tests, 2 in white-ball formats).",
+      "Third Umpire Sequence: (1) Front-foot no-ball check, (2) Genuine attempt to play the shot (for LBW), (3) UltraEdge / Snicko + Hot Spot for bat contact, (4) Hawk-Eye ball-tracking for LBW projection.",
+      "Umpire's Call: If the ball-tracking margin shows less than ~50% of the ball hitting the wicket zone, the on-field decision stands. This preserves the umpire's authority within the technology's known error band.",
+      "Tactical Use: Captains protect reviews for high-confidence LBWs and edges; wasting one early can cost a wicket later. Pat Cummins and Joe Root sit at ~40% review success — the elite baseline.",
+      "Common Mistakes & Drills: Reviewing on hope instead of evidence; a keeper-plus-slip 5-second consultation window is the coached standard.",
+    ]),
+  L("ultraedge-explained", "UltraEdge — How It Works", 5, "Sound spikes synced to slow-motion video.",
+    [
+      "Definition: UltraEdge (also called Real-Time Snicko) is the audio-visual system that shows whether the ball touched the bat, glove, pad or body during a delivery.",
+      "How It Works: Directional stump microphones pick up any impact sound. The system aligns the amplitude spike frame-by-frame with the ultra-slow-motion (>300 fps) video of the ball passing the bat.",
+      "Reading The Trace: A spike EXACTLY as the ball passes the bat = edge; a spike before or after = pad, ground, or shoe contact. The waveform's shape (sharp vs soft) helps distinguish bat from pad.",
+      "Limits: Wind, crowd noise and thigh-pad slaps produce ambiguous traces; that's why UltraEdge is usually paired with Hot Spot for the finest edges.",
+      "Tactical Use: Batters must trust the technology — walking after a clear UltraEdge is now standard etiquette even before the umpire raises the finger.",
+    ]),
+  L("snickometer-explained", "Snickometer — Classic Snicko", 4, "The original edge-detection tool.",
+    [
+      "Definition: The Snickometer ('Snicko') is the original oscilloscope-style graphic developed by Allan Plaskett and introduced by Channel 4 in 1999, showing a real-time sound waveform alongside slow-motion video.",
+      "How It Works: A single stump-microphone feed is displayed as a rolling waveform. When the ball passes the bat, viewers see whether a sharp audio spike coincides with the video frame.",
+      "Snicko vs UltraEdge: Snicko is a broadcast-only graphic; UltraEdge is the DRS-approved, calibrated evolution that's synchronised to sub-frame accuracy and used for match decisions.",
+      "Limits: Not accepted for third-umpire decisions in most competitions — its waveform is not calibrated tightly enough to time to the frame of ball-passing-bat.",
+      "Tactical Use: Commentators use Snicko to explain marginal calls to viewers; in-match decisions still rely on UltraEdge + Hot Spot.",
+    ]),
 ];
+
 
 // ---------------------------------------------------------------------------
 // EQUIPMENT SCIENCE

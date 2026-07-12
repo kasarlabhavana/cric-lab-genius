@@ -16,6 +16,8 @@ import { AppHeader, AppFooter } from "../components/app-layout";
 import { Toaster } from "../components/ui/sonner";
 import { ThemeProvider } from "../lib/theme";
 import { ReadingLevelProvider } from "../lib/reading-level";
+import { DailyQuizModal } from "../components/daily-quiz-modal";
+
 
 function NotFoundComponent() {
   return (
@@ -133,7 +135,9 @@ function RootComponent() {
               <AppFooter />
             </div>
             <Toaster />
+            <DailyQuizModal />
           </UserProvider>
+
         </ReadingLevelProvider>
       </ThemeProvider>
     </QueryClientProvider>
