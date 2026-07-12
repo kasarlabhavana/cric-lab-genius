@@ -347,12 +347,14 @@ function AICoachPage() {
 
   const runAnalysis = () => {
     if (!mediaUrl) return;
+    if (!focusRole) {
+      toast.error("Pick who the coach should focus on first (bowler, batsman or fielder).");
+      return;
+    }
     setAnalyzing(true);
     setAnalysis(null);
-    // Deterministic pose-estimation placeholder: seeded PRNG ensures the
-    // same uploaded file always produces the same metrics.
     setTimeout(() => {
-      const rand = mulberry32(mediaSeed || 1);
+      const rand = mulberry32((mediaSeed || 1) ^ hashSeed(focusRole));
       const seeded = METRICS.reduce<Record<MetricKey, number>>((acc, m) => {
         const spread = (m.max - m.min) * 0.18;
         const noise = (rand() - 0.5) * spread * 2;
@@ -365,6 +367,7 @@ function AICoachPage() {
       setAnalyzing(false);
     }, 1100);
   };
+
 
 
   const overallScore = useMemo(() => {
