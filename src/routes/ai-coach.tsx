@@ -526,8 +526,12 @@ function AICoachPage() {
               );
             })}
           </div>
+          {focusRole && (
+            <ProComparisonCard role={focusRole} analysis={analysis} />
+          )}
         </section>
       )}
+
 
       {/* Saved reports */}
       {signedIn && reports.length > 0 && (
