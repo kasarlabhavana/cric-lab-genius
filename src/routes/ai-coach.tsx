@@ -291,6 +291,8 @@ function AICoachPage() {
   const [mediaName, setMediaName] = useState<string | null>(null);
   const [mediaSeed, setMediaSeed] = useState<number>(0);
   const [focusRole, setFocusRole] = useState<FocusRole | null>(null);
+  const [rolesPresent, setRolesPresent] = useState<Record<FocusRole, boolean>>({ bowler: false, batsman: false, fielder: false });
+  const [rolesConfirmed, setRolesConfirmed] = useState(false);
   const [analysis, setAnalysis] = useState<Record<MetricKey, number> | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
   const [saving, setSaving] = useState(false);
