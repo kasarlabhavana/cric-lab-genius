@@ -99,7 +99,7 @@ function Home() {
 
       {/* CRICKET FIELD — sciences pinned to real field positions */}
       <section className="bg-surface border-y border-border">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 py-12 sm:py-16">
+        <div className="mx-auto max-w-6xl px-2 sm:px-6 py-12 sm:py-16">
           <div className="text-center max-w-2xl mx-auto">
             <span className="inline-block rounded-full bg-[color:var(--brand-orange)]/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">
               The field
@@ -176,7 +176,7 @@ const CAT_COLORS: Record<Pin["cat"], { bg: string; ring: string }> = {
 
 function FieldMap() {
   return (
-    <div className="mx-auto mt-8 max-w-3xl">
+    <div className="mx-auto mt-8 w-full max-w-5xl">
       <div
         className="relative w-full overflow-hidden rounded-3xl border border-border shadow-lg"
         style={{ aspectRatio: "3 / 4" }}
