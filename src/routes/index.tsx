@@ -155,8 +155,8 @@ const PINS: Pin[] = [
   // INNER RING FIELDERS (off / leg)
   { slug: "fielding-science",    x: 22, y: 52, cat: "play" }, // cover
   { slug: "mental-science",      x: 78, y: 52, cat: "play" }, // point/gully
-  { slug: "biomechanics-science",x: 12, y: 66, cat: "body" }, // mid-off deep
-  { slug: "fitness-science",     x: 88, y: 66, cat: "body" }, // deep midwicket
+  { slug: "biomechanics-science",x: 18, y: 66, cat: "body" }, // mid-off deep
+  { slug: "fitness-science",     x: 82, y: 66, cat: "body" }, // deep midwicket
 
   // BATTER'S END (bottom of pitch)
   { slug: "batting-science",     x: 50, y: 72, cat: "play" },
