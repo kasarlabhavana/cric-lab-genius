@@ -418,9 +418,10 @@ function AICoachPage() {
   const reset = () => {
     if (mediaUrl) URL.revokeObjectURL(mediaUrl);
     setMediaUrl(null); setMediaType(null); setMediaName(null); setMediaSeed(0);
-    setAnalysis(null); setTitle("");
+    setAnalysis(null); setTitle(""); setFocusRole(null);
     if (fileRef.current) fileRef.current.value = "";
   };
+
 
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8">
