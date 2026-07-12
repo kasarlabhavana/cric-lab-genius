@@ -176,7 +176,7 @@ const CAT_COLORS: Record<Pin["cat"], { bg: string; ring: string }> = {
 
 function FieldMap() {
   return (
-    <div className="mx-auto mt-8 max-w-3xl">
+    <div className="mx-auto mt-8 w-full max-w-5xl">
       <div
         className="relative w-full overflow-hidden rounded-3xl border border-border shadow-lg"
         style={{ aspectRatio: "3 / 4" }}
