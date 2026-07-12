@@ -795,3 +795,134 @@ function MetricCard({ def, value, verdict }: { def: MetricDef; value: number; ve
     </article>
   );
 }
+
+/* =========================================================================
+   Focus picker + Pro comparison
+   ========================================================================= */
+
+function FocusPicker({
+  value, onChange, disabled,
+}: {
+  value: FocusRole | null;
+  onChange: (v: FocusRole) => void;
+  disabled?: boolean;
+}) {
+  const options: { key: FocusRole; label: string; hint: string }[] = [
+    { key: "bowler", label: "Bowler", hint: "Action, brace, release" },
+    { key: "batsman", label: "Batsman", hint: "Stance, head, footwork" },
+    { key: "fielder", label: "Fielder", hint: "Pickup, throw, angles" },
+  ];
+  return (
+    <div className="rounded-2xl border border-border bg-card p-4">
+      <div className="flex items-center gap-2 mb-2">
+        <Sparkles className="size-4 text-[color:var(--brand-orange)]" />
+        <div className="text-sm font-semibold text-foreground">Who should the coach focus on?</div>
+      </div>
+      <p className="text-xs text-muted-foreground mb-3">
+        Videos often contain more than one player. Pick a role so the analysis and pro comparison stay accurate.
+      </p>
+      <div className="grid grid-cols-3 gap-2">
+        {options.map((o) => {
+          const active = value === o.key;
+          return (
+            <button
+              key={o.key}
+              type="button"
+              disabled={disabled}
+              onClick={() => onChange(o.key)}
+              className={`rounded-xl border px-3 py-3 text-left text-sm transition ${
+                active
+                  ? "border-primary bg-primary/10 text-primary"
+                  : "border-border bg-surface hover:bg-muted text-foreground"
+              } disabled:opacity-60`}
+              aria-pressed={active}
+            >
+              <div className="font-semibold">{o.label}</div>
+              <div className="text-[11px] text-muted-foreground">{o.hint}</div>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function ProComparisonCard({
+  role, analysis,
+}: {
+  role: FocusRole;
+  analysis: Record<MetricKey, number>;
+}) {
+  const pro = PRO_BENCHMARKS[role];
+  // Pick the two metrics with highest deviation as "biggest gap"
+  const gaps = METRICS
+    .map((m) => {
+      if (m.key === "release_timing") {
+        return { m, dev: Math.abs(analysis[m.key]) };
+      }
+      return { m, dev: Math.abs((analysis[m.key] - m.ideal) / m.ideal) * 100 };
+    })
+    .sort((a, b) => b.dev - a.dev)
+    .slice(0, 3);
+
+  return (
+    <section className="mt-8 rounded-3xl border border-border bg-gradient-to-br from-[color:var(--brand-orange)]/8 via-transparent to-[color:var(--brand-green)]/8 p-5 md:p-6">
+      <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
+        <div>
+          <div className="text-[11px] font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">
+            Pro comparison
+          </div>
+          <h3 className="mt-0.5 font-display text-lg md:text-xl font-bold text-foreground">
+            You vs {pro.name}
+          </h3>
+          <p className="text-xs text-muted-foreground">{pro.discipline}</p>
+        </div>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="rounded-2xl border border-border bg-card p-4">
+          <div className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+            Where {pro.name} sets the standard
+          </div>
+          <ul className="space-y-1.5 text-sm text-foreground/90">
+            {pro.points.map((p, i) => (
+              <li key={i} className="flex gap-2">
+                <span className="text-[color:var(--brand-green)] mt-0.5">✓</span>
+                <span>{p}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="rounded-2xl border border-border bg-card p-4">
+          <div className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+            Your biggest gaps
+          </div>
+          <ul className="space-y-2 text-sm">
+            {gaps.map(({ m, dev }) => {
+              const value = analysis[m.key];
+              const diff = m.key === "release_timing"
+                ? `${value > 0 ? "+" : ""}${value}${m.unit} vs ideal 0${m.unit}`
+                : `${value}${m.unit} vs ideal ${m.ideal}${m.unit}`;
+              return (
+                <li key={m.key} className="rounded-lg bg-surface p-2.5">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-semibold text-foreground">{m.label}</span>
+                    <span className="text-xs text-muted-foreground tabular-nums">
+                      Δ {dev.toFixed(1)}
+                      {m.key === "release_timing" ? "ms" : "%"}
+                    </span>
+                  </div>
+                  <div className="text-xs text-muted-foreground mt-0.5">{diff}</div>
+                </li>
+              );
+            })}
+          </ul>
+          <p className="mt-3 text-[11px] text-muted-foreground italic">
+            Benchmarks are illustrative — {pro.name} is a role reference, not a scoring target.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
