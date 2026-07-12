@@ -384,17 +384,28 @@ for (const m of MODULES) {
 
 export const MODULE_BY_SLUG: Record<string, Module> = Object.fromEntries(MODULES.map(m => [m.slug, m]));
 
+import { ADDITIONAL_QUESTIONS_BY_MODULE, GK_QUESTIONS } from "@/lib/quiz-additions";
+
 const MODULE_QUIZZES: Quiz[] = MODULES.map(m => ({
   id: `${m.slug}-starter`,
   moduleSlug: m.slug,
   title: `${m.title} — Tile Quiz`,
   xp: 60,
-  questions: starterQuestionsFor(m.slug),
+  questions: [
+    ...starterQuestionsFor(m.slug),
+    ...(ADDITIONAL_QUESTIONS_BY_MODULE[m.slug] ?? []),
+  ],
 }));
 
 export const QUIZZES: Quiz[] = [...MODULE_QUIZZES];
 
 export const QUIZ_BY_ID: Record<string, Quiz> = Object.fromEntries(QUIZZES.map(q => [q.id, q]));
+
+export { GK_QUESTIONS };
+export function totalQuestionCount(): number {
+  return QUIZZES.reduce((n, q) => n + q.questions.length, 0) + GK_QUESTIONS.length;
+}
+
 
 function starterQuestionsFor(slug: string): QuizQuestion[] {
   const bank: Record<string, QuizQuestion[]> = {
