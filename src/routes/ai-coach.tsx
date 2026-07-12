@@ -337,20 +337,62 @@ function AICoachPage() {
       toast.error("Max file size is 50 MB.");
       return;
     }
-    if (mediaUrl) URL.revokeObjectURL(mediaUrl);
-    setMediaUrl(URL.createObjectURL(file));
-    setMediaType(isVideo ? "video" : "image");
-    setMediaName(file.name);
-    // Deterministic seed from file identity — same file → same analysis.
-    setMediaSeed(hashSeed(`${file.name}|${file.size}|${file.lastModified}`));
-    setAnalysis(null);
-    setTitle(file.name.replace(/\.[^.]+$/, ""));
+    const nextUrl = URL.createObjectURL(file);
+
+    const commit = () => {
+      if (mediaUrl) URL.revokeObjectURL(mediaUrl);
+      setMediaUrl(nextUrl);
+      setMediaType(isVideo ? "video" : "image");
+      setMediaName(file.name);
+      setMediaSeed(hashSeed(`${file.name}|${file.size}|${file.lastModified}`));
+      setAnalysis(null);
+      setTitle(file.name.replace(/\.[^.]+$/, ""));
+      setRolesPresent({ bowler: false, batsman: false, fielder: false });
+      setRolesConfirmed(false);
+      setFocusRole(null);
+    };
+
+    if (isVideo) {
+      // Validate video: readable + reasonable duration (2s – 3min).
+      const probe = document.createElement("video");
+      probe.preload = "metadata";
+      probe.muted = true;
+      probe.src = nextUrl;
+      probe.onloadedmetadata = () => {
+        const d = probe.duration;
+        if (!isFinite(d) || d < 2) {
+          toast.error("Video is too short — upload at least a 2-second clip.");
+          URL.revokeObjectURL(nextUrl);
+          return;
+        }
+        if (d > 180) {
+          toast.error("Video is longer than 3 minutes — please trim it.");
+          URL.revokeObjectURL(nextUrl);
+          return;
+        }
+        commit();
+      };
+      probe.onerror = () => {
+        toast.error("Could not read that video file. Try a different format (MP4/MOV/WebM).");
+        URL.revokeObjectURL(nextUrl);
+      };
+    } else {
+      commit();
+    }
   };
 
   const runAnalysis = () => {
     if (!mediaUrl) return;
+    if (mediaType === "video" && !rolesConfirmed) {
+      toast.error("Confirm which players are in the clip before generating an assessment.");
+      return;
+    }
     if (!focusRole) {
       toast.error("Pick who the coach should focus on first (bowler, batsman or fielder).");
+      return;
+    }
+    if (mediaType === "video" && !rolesPresent[focusRole]) {
+      toast.error("Focus role must be one of the players you confirmed in the clip.");
       return;
     }
     setAnalyzing(true);
