@@ -57,6 +57,8 @@ export function AppHeader() {
         </nav>
 
         <div className="ml-auto flex items-center gap-2">
+          <GlobalSearch />
+
           {state.user && (
             <div className="hidden sm:flex items-center gap-3 rounded-full border border-border bg-surface px-3 py-1.5">
               <div className="flex items-center gap-1 text-xs font-semibold text-[color:var(--brand-orange)]">
