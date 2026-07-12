@@ -137,8 +137,8 @@ type Pin = {
 // (0,0) = top-left of the panel; batter's end at bottom, bowler's end near top.
 const PINS: Pin[] = [
   // SKY: environment sciences above the boundary
-  { slug: "environment-science", x: 20, y: 4, cat: "body" },
-  { slug: "physics-science",     x: 80, y: 4, cat: "body" },
+  { slug: "environment-science", x: 22, y: 7, cat: "body" },
+  { slug: "physics-science",     x: 78, y: 7, cat: "body" },
 
   // BOWLER'S END (top of pitch)
   { slug: "bowling-science",     x: 50, y: 20, cat: "play" },
