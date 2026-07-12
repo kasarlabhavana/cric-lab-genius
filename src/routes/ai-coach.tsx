@@ -245,6 +245,51 @@ type Report = {
   created_at: string;
 };
 
+type FocusRole = "bowler" | "batsman" | "fielder";
+
+const PRO_BENCHMARKS: Record<FocusRole, { name: string; discipline: string; points: string[] }> = {
+  bowler: {
+    name: "Jasprit Bumrah",
+    discipline: "Fast bowling — pace & yorker control",
+    points: [
+      "Arm angle: near-vertical (~185°) at release, hyper-extension without side strain.",
+      "Front-foot brace: fully locked knee, returning 9–10× bodyweight into the release.",
+      "Wrist snap: crisp 90° flick — signature late movement even off scrambled seam.",
+      "Release timing: consistently within ±5 ms of front-foot contact frame.",
+    ],
+  },
+  batsman: {
+    name: "Virat Kohli",
+    discipline: "Top-order batting — front-foot mastery",
+    points: [
+      "Head stability: 98%+ over front knee — the still-head template.",
+      "Stride length: controlled half-stride, keeps trunk stacked over hips.",
+      "Hip rotation: 55–60° at contact — power comes from torso, not arms.",
+      "Balance through release: bat swing exits straight down the ground.",
+    ],
+  },
+  fielder: {
+    name: "Jonty Rhodes",
+    discipline: "Fielding — direct hits & anticipation",
+    points: [
+      "Head stability: still eyes through the pickup and release.",
+      "Stride length: attacking angle into the ball, cutting angles by 3–5°.",
+      "Hip rotation: quick side-on plant for the throw at the stumps.",
+      "Release timing: pickup-to-release under 1.2 s from full sprint.",
+    ],
+  },
+};
+
+type Report = {
+  id: string;
+  title: string;
+  media_type: "video" | "image";
+  media_name: string | null;
+  metrics: Record<MetricKey, number>;
+  overall_score: number | null;
+  created_at: string;
+};
+
 function AICoachPage() {
   const { state } = useUser();
   const signedIn = !!state.user && state.user.method !== "guest";
@@ -253,6 +298,7 @@ function AICoachPage() {
   const [mediaType, setMediaType] = useState<"video" | "image" | null>(null);
   const [mediaName, setMediaName] = useState<string | null>(null);
   const [mediaSeed, setMediaSeed] = useState<number>(0);
+  const [focusRole, setFocusRole] = useState<FocusRole | null>(null);
   const [analysis, setAnalysis] = useState<Record<MetricKey, number> | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -260,6 +306,8 @@ function AICoachPage() {
 
   const [reports, setReports] = useState<Report[]>([]);
   const fileRef = useRef<HTMLInputElement>(null);
+
+
 
 
   // Load saved reports
