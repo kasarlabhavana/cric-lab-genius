@@ -504,8 +504,28 @@ function AICoachPage() {
             className="hidden"
             onChange={e => onPickFile(e.target.files?.[0] ?? null)}
           />
-          {mediaUrl && (
-            <FocusPicker value={focusRole} onChange={setFocusRole} disabled={analyzing} />
+          {mediaUrl && mediaType === "video" && !rolesConfirmed && (
+            <RolesConfirmCard
+              value={rolesPresent}
+              onChange={setRolesPresent}
+              onConfirm={() => {
+                const any = rolesPresent.bowler || rolesPresent.batsman || rolesPresent.fielder;
+                if (!any) {
+                  toast.error("Tick at least one role that appears in the clip.");
+                  return;
+                }
+                setRolesConfirmed(true);
+              }}
+            />
+          )}
+          {mediaUrl && (mediaType !== "video" || rolesConfirmed) && (
+            <FocusPicker
+              value={focusRole}
+              onChange={setFocusRole}
+              disabled={analyzing}
+              allowed={mediaType === "video" ? rolesPresent : { bowler: true, batsman: true, fielder: true }}
+              onEdit={mediaType === "video" ? () => setRolesConfirmed(false) : undefined}
+            />
           )}
         </section>
 
