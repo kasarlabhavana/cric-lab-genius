@@ -135,7 +135,9 @@ function RootComponent() {
               <AppFooter />
             </div>
             <Toaster />
+            <DailyQuizModal />
           </UserProvider>
+
         </ReadingLevelProvider>
       </ThemeProvider>
     </QueryClientProvider>
