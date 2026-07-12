@@ -867,11 +867,13 @@ function MetricCard({ def, value, verdict }: { def: MetricDef; value: number; ve
    ========================================================================= */
 
 function FocusPicker({
-  value, onChange, disabled,
+  value, onChange, disabled, allowed, onEdit,
 }: {
   value: FocusRole | null;
   onChange: (v: FocusRole) => void;
   disabled?: boolean;
+  allowed?: Record<FocusRole, boolean>;
+  onEdit?: () => void;
 }) {
   const options: { key: FocusRole; label: string; hint: string }[] = [
     { key: "bowler", label: "Bowler", hint: "Action, brace, release" },
@@ -880,35 +882,113 @@ function FocusPicker({
   ];
   return (
     <div className="rounded-2xl border border-border bg-card p-4">
-      <div className="flex items-center gap-2 mb-2">
-        <Sparkles className="size-4 text-[color:var(--brand-orange)]" />
-        <div className="text-sm font-semibold text-foreground">Who should the coach focus on?</div>
+      <div className="flex items-center justify-between gap-2 mb-2">
+        <div className="flex items-center gap-2">
+          <Sparkles className="size-4 text-[color:var(--brand-orange)]" />
+          <div className="text-sm font-semibold text-foreground">Who should the coach focus on?</div>
+        </div>
+        {onEdit && (
+          <button
+            type="button"
+            onClick={onEdit}
+            className="text-[11px] font-semibold text-primary hover:underline"
+          >
+            Edit roles
+          </button>
+        )}
       </div>
       <p className="text-xs text-muted-foreground mb-3">
-        Videos often contain more than one player. Pick a role so the analysis and pro comparison stay accurate.
+        Pick a role you confirmed is in the clip so the analysis and pro comparison stay accurate.
       </p>
       <div className="grid grid-cols-3 gap-2">
         {options.map((o) => {
           const active = value === o.key;
+          const isAllowed = allowed ? allowed[o.key] : true;
           return (
             <button
               key={o.key}
               type="button"
-              disabled={disabled}
+              disabled={disabled || !isAllowed}
               onClick={() => onChange(o.key)}
               className={`rounded-xl border px-3 py-3 text-left text-sm transition ${
                 active
                   ? "border-primary bg-primary/10 text-primary"
                   : "border-border bg-surface hover:bg-muted text-foreground"
-              } disabled:opacity-60`}
+              } disabled:opacity-40 disabled:cursor-not-allowed`}
               aria-pressed={active}
+              title={!isAllowed ? "Not marked as present in the clip" : undefined}
             >
               <div className="font-semibold">{o.label}</div>
-              <div className="text-[11px] text-muted-foreground">{o.hint}</div>
+              <div className="text-[11px] text-muted-foreground">
+                {isAllowed ? o.hint : "Not in clip"}
+              </div>
             </button>
           );
         })}
       </div>
+    </div>
+  );
+}
+
+function RolesConfirmCard({
+  value, onChange, onConfirm,
+}: {
+  value: Record<FocusRole, boolean>;
+  onChange: (v: Record<FocusRole, boolean>) => void;
+  onConfirm: () => void;
+}) {
+  const options: { key: FocusRole; label: string; hint: string }[] = [
+    { key: "bowler", label: "Bowler", hint: "Runs in and delivers" },
+    { key: "batsman", label: "Batsman", hint: "At the crease with bat" },
+    { key: "fielder", label: "Fielder", hint: "Chasing, catching, throwing" },
+  ];
+  const anyChecked = value.bowler || value.batsman || value.fielder;
+  return (
+    <div className="rounded-2xl border-2 border-dashed border-primary/40 bg-primary/5 p-4">
+      <div className="flex items-center gap-2 mb-2">
+        <CheckCircle2 className="size-4 text-primary" />
+        <div className="text-sm font-semibold text-foreground">Confirm what's in the clip</div>
+      </div>
+      <p className="text-xs text-muted-foreground mb-3">
+        We need to know which players appear before generating an assessment. Tick every role visible in the video.
+      </p>
+      <div className="grid grid-cols-3 gap-2 mb-3">
+        {options.map((o) => {
+          const checked = value[o.key];
+          return (
+            <label
+              key={o.key}
+              className={`cursor-pointer rounded-xl border px-3 py-3 text-left text-sm transition ${
+                checked
+                  ? "border-primary bg-primary/10 text-primary"
+                  : "border-border bg-surface hover:bg-muted text-foreground"
+              }`}
+            >
+              <input
+                type="checkbox"
+                className="sr-only"
+                checked={checked}
+                onChange={(e) => onChange({ ...value, [o.key]: e.target.checked })}
+              />
+              <div className="flex items-center gap-1.5 font-semibold">
+                <span className={`inline-flex size-4 items-center justify-center rounded border ${checked ? "border-primary bg-primary text-primary-foreground" : "border-border bg-background"}`}>
+                  {checked && <CheckCircle2 className="size-3" />}
+                </span>
+                {o.label}
+              </div>
+              <div className="text-[11px] text-muted-foreground mt-1">{o.hint}</div>
+            </label>
+          );
+        })}
+      </div>
+      <button
+        type="button"
+        onClick={onConfirm}
+        disabled={!anyChecked}
+        className="w-full rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Confirm & continue
+      </button>
     </div>
   );
 }
