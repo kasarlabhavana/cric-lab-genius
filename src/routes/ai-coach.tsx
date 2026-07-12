@@ -430,13 +430,14 @@ function AICoachPage() {
           <Bot className="size-6" />
         </span>
         <div>
-          <h1 className="font-display text-3xl md:text-4xl font-bold text-primary">AI Coach</h1>
+          <h1 className="font-display text-3xl md:text-4xl font-bold text-primary">Intelli Coach</h1>
           <p className="mt-1 text-sm text-muted-foreground max-w-2xl">
             <Sparkles className="inline size-3 mb-0.5" />{" "}
-            Upload a video or photo of your action — the coach scores nine biomechanics metrics against elite benchmarks.
+            Upload a video of your action, tell the coach who to focus on, and get a biomechanics breakdown compared to a top international.
           </p>
         </div>
       </header>
+
 
       <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr]">
         {/* Left — media + uploader */}
