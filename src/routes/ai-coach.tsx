@@ -23,21 +23,22 @@ import { useUser } from "@/lib/user-state";
 export const Route = createFileRoute("/ai-coach")({
   head: () => ({
     meta: [
-      { title: "AI Coach — Video Analysis | CricScience" },
+      { title: "Intelli Coach — Video Analysis | CricScience" },
       {
         name: "description",
         content:
-          "Upload a video or photo of your cricket action. The AI Coach scores arm angle, release height, hip rotation, wrist snap, stride length, jump height, knee flexion, head stability and release timing against elite benchmarks.",
+          "Upload a video of your action. Intelli Coach scores your technique on nine biomechanics metrics and compares you against a role-appropriate international benchmark.",
       },
-      { property: "og:title", content: "AI Coach — CricScience" },
+      { property: "og:title", content: "Intelli Coach — CricScience" },
       {
         property: "og:description",
-        content: "Pose-estimation-style biomechanics analysis for cricketers.",
+        content: "Pose-estimation-style biomechanics analysis with pro comparison for cricketers.",
       },
     ],
   }),
   component: AICoachPage,
 });
+
 
 /* =========================================================================
    Metric definitions — ideal values & tolerance bands per metric
