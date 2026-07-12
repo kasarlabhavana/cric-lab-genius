@@ -296,7 +296,7 @@ function FieldPin({ pin, delay }: { pin: Pin; delay: number }) {
           <Icon className="size-4 sm:size-5 drop-shadow" aria-hidden />
         </span>
         <span
-          className="mt-1 rounded-md bg-black/70 px-1.5 py-0.5 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-white whitespace-nowrap backdrop-blur"
+          className="mt-1 max-w-[16vw] sm:max-w-none truncate rounded-md bg-black/70 px-1.5 py-0.5 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur"
         >
           {tile.title}
         </span>
