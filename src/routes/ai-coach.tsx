@@ -235,15 +235,7 @@ function exportReportPdf(opts: {
 
 
 
-type Report = {
-  id: string;
-  title: string;
-  media_type: "video" | "image";
-  media_name: string | null;
-  metrics: Record<MetricKey, number>;
-  overall_score: number | null;
-  created_at: string;
-};
+
 
 type FocusRole = "bowler" | "batsman" | "fielder";
 
