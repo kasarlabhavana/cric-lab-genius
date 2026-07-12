@@ -291,6 +291,8 @@ function AICoachPage() {
   const [mediaName, setMediaName] = useState<string | null>(null);
   const [mediaSeed, setMediaSeed] = useState<number>(0);
   const [focusRole, setFocusRole] = useState<FocusRole | null>(null);
+  const [rolesPresent, setRolesPresent] = useState<Record<FocusRole, boolean>>({ bowler: false, batsman: false, fielder: false });
+  const [rolesConfirmed, setRolesConfirmed] = useState(false);
   const [analysis, setAnalysis] = useState<Record<MetricKey, number> | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -335,20 +337,62 @@ function AICoachPage() {
       toast.error("Max file size is 50 MB.");
       return;
     }
-    if (mediaUrl) URL.revokeObjectURL(mediaUrl);
-    setMediaUrl(URL.createObjectURL(file));
-    setMediaType(isVideo ? "video" : "image");
-    setMediaName(file.name);
-    // Deterministic seed from file identity — same file → same analysis.
-    setMediaSeed(hashSeed(`${file.name}|${file.size}|${file.lastModified}`));
-    setAnalysis(null);
-    setTitle(file.name.replace(/\.[^.]+$/, ""));
+    const nextUrl = URL.createObjectURL(file);
+
+    const commit = () => {
+      if (mediaUrl) URL.revokeObjectURL(mediaUrl);
+      setMediaUrl(nextUrl);
+      setMediaType(isVideo ? "video" : "image");
+      setMediaName(file.name);
+      setMediaSeed(hashSeed(`${file.name}|${file.size}|${file.lastModified}`));
+      setAnalysis(null);
+      setTitle(file.name.replace(/\.[^.]+$/, ""));
+      setRolesPresent({ bowler: false, batsman: false, fielder: false });
+      setRolesConfirmed(false);
+      setFocusRole(null);
+    };
+
+    if (isVideo) {
+      // Validate video: readable + reasonable duration (2s – 3min).
+      const probe = document.createElement("video");
+      probe.preload = "metadata";
+      probe.muted = true;
+      probe.src = nextUrl;
+      probe.onloadedmetadata = () => {
+        const d = probe.duration;
+        if (!isFinite(d) || d < 2) {
+          toast.error("Video is too short — upload at least a 2-second clip.");
+          URL.revokeObjectURL(nextUrl);
+          return;
+        }
+        if (d > 180) {
+          toast.error("Video is longer than 3 minutes — please trim it.");
+          URL.revokeObjectURL(nextUrl);
+          return;
+        }
+        commit();
+      };
+      probe.onerror = () => {
+        toast.error("Could not read that video file. Try a different format (MP4/MOV/WebM).");
+        URL.revokeObjectURL(nextUrl);
+      };
+    } else {
+      commit();
+    }
   };
 
   const runAnalysis = () => {
     if (!mediaUrl) return;
+    if (mediaType === "video" && !rolesConfirmed) {
+      toast.error("Confirm which players are in the clip before generating an assessment.");
+      return;
+    }
     if (!focusRole) {
       toast.error("Pick who the coach should focus on first (bowler, batsman or fielder).");
+      return;
+    }
+    if (mediaType === "video" && !rolesPresent[focusRole]) {
+      toast.error("Focus role must be one of the players you confirmed in the clip.");
       return;
     }
     setAnalyzing(true);
@@ -419,6 +463,8 @@ function AICoachPage() {
     if (mediaUrl) URL.revokeObjectURL(mediaUrl);
     setMediaUrl(null); setMediaType(null); setMediaName(null); setMediaSeed(0);
     setAnalysis(null); setTitle(""); setFocusRole(null);
+    setRolesPresent({ bowler: false, batsman: false, fielder: false });
+    setRolesConfirmed(false);
     if (fileRef.current) fileRef.current.value = "";
   };
 
@@ -458,8 +504,28 @@ function AICoachPage() {
             className="hidden"
             onChange={e => onPickFile(e.target.files?.[0] ?? null)}
           />
-          {mediaUrl && (
-            <FocusPicker value={focusRole} onChange={setFocusRole} disabled={analyzing} />
+          {mediaUrl && mediaType === "video" && !rolesConfirmed && (
+            <RolesConfirmCard
+              value={rolesPresent}
+              onChange={setRolesPresent}
+              onConfirm={() => {
+                const any = rolesPresent.bowler || rolesPresent.batsman || rolesPresent.fielder;
+                if (!any) {
+                  toast.error("Tick at least one role that appears in the clip.");
+                  return;
+                }
+                setRolesConfirmed(true);
+              }}
+            />
+          )}
+          {mediaUrl && (mediaType !== "video" || rolesConfirmed) && (
+            <FocusPicker
+              value={focusRole}
+              onChange={setFocusRole}
+              disabled={analyzing}
+              allowed={mediaType === "video" ? rolesPresent : { bowler: true, batsman: true, fielder: true }}
+              onEdit={mediaType === "video" ? () => setRolesConfirmed(false) : undefined}
+            />
           )}
         </section>
 
@@ -801,11 +867,13 @@ function MetricCard({ def, value, verdict }: { def: MetricDef; value: number; ve
    ========================================================================= */
 
 function FocusPicker({
-  value, onChange, disabled,
+  value, onChange, disabled, allowed, onEdit,
 }: {
   value: FocusRole | null;
   onChange: (v: FocusRole) => void;
   disabled?: boolean;
+  allowed?: Record<FocusRole, boolean>;
+  onEdit?: () => void;
 }) {
   const options: { key: FocusRole; label: string; hint: string }[] = [
     { key: "bowler", label: "Bowler", hint: "Action, brace, release" },
@@ -814,35 +882,113 @@ function FocusPicker({
   ];
   return (
     <div className="rounded-2xl border border-border bg-card p-4">
-      <div className="flex items-center gap-2 mb-2">
-        <Sparkles className="size-4 text-[color:var(--brand-orange)]" />
-        <div className="text-sm font-semibold text-foreground">Who should the coach focus on?</div>
+      <div className="flex items-center justify-between gap-2 mb-2">
+        <div className="flex items-center gap-2">
+          <Sparkles className="size-4 text-[color:var(--brand-orange)]" />
+          <div className="text-sm font-semibold text-foreground">Who should the coach focus on?</div>
+        </div>
+        {onEdit && (
+          <button
+            type="button"
+            onClick={onEdit}
+            className="text-[11px] font-semibold text-primary hover:underline"
+          >
+            Edit roles
+          </button>
+        )}
       </div>
       <p className="text-xs text-muted-foreground mb-3">
-        Videos often contain more than one player. Pick a role so the analysis and pro comparison stay accurate.
+        Pick a role you confirmed is in the clip so the analysis and pro comparison stay accurate.
       </p>
       <div className="grid grid-cols-3 gap-2">
         {options.map((o) => {
           const active = value === o.key;
+          const isAllowed = allowed ? allowed[o.key] : true;
           return (
             <button
               key={o.key}
               type="button"
-              disabled={disabled}
+              disabled={disabled || !isAllowed}
               onClick={() => onChange(o.key)}
               className={`rounded-xl border px-3 py-3 text-left text-sm transition ${
                 active
                   ? "border-primary bg-primary/10 text-primary"
                   : "border-border bg-surface hover:bg-muted text-foreground"
-              } disabled:opacity-60`}
+              } disabled:opacity-40 disabled:cursor-not-allowed`}
               aria-pressed={active}
+              title={!isAllowed ? "Not marked as present in the clip" : undefined}
             >
               <div className="font-semibold">{o.label}</div>
-              <div className="text-[11px] text-muted-foreground">{o.hint}</div>
+              <div className="text-[11px] text-muted-foreground">
+                {isAllowed ? o.hint : "Not in clip"}
+              </div>
             </button>
           );
         })}
       </div>
+    </div>
+  );
+}
+
+function RolesConfirmCard({
+  value, onChange, onConfirm,
+}: {
+  value: Record<FocusRole, boolean>;
+  onChange: (v: Record<FocusRole, boolean>) => void;
+  onConfirm: () => void;
+}) {
+  const options: { key: FocusRole; label: string; hint: string }[] = [
+    { key: "bowler", label: "Bowler", hint: "Runs in and delivers" },
+    { key: "batsman", label: "Batsman", hint: "At the crease with bat" },
+    { key: "fielder", label: "Fielder", hint: "Chasing, catching, throwing" },
+  ];
+  const anyChecked = value.bowler || value.batsman || value.fielder;
+  return (
+    <div className="rounded-2xl border-2 border-dashed border-primary/40 bg-primary/5 p-4">
+      <div className="flex items-center gap-2 mb-2">
+        <CheckCircle2 className="size-4 text-primary" />
+        <div className="text-sm font-semibold text-foreground">Confirm what's in the clip</div>
+      </div>
+      <p className="text-xs text-muted-foreground mb-3">
+        We need to know which players appear before generating an assessment. Tick every role visible in the video.
+      </p>
+      <div className="grid grid-cols-3 gap-2 mb-3">
+        {options.map((o) => {
+          const checked = value[o.key];
+          return (
+            <label
+              key={o.key}
+              className={`cursor-pointer rounded-xl border px-3 py-3 text-left text-sm transition ${
+                checked
+                  ? "border-primary bg-primary/10 text-primary"
+                  : "border-border bg-surface hover:bg-muted text-foreground"
+              }`}
+            >
+              <input
+                type="checkbox"
+                className="sr-only"
+                checked={checked}
+                onChange={(e) => onChange({ ...value, [o.key]: e.target.checked })}
+              />
+              <div className="flex items-center gap-1.5 font-semibold">
+                <span className={`inline-flex size-4 items-center justify-center rounded border ${checked ? "border-primary bg-primary text-primary-foreground" : "border-border bg-background"}`}>
+                  {checked && <CheckCircle2 className="size-3" />}
+                </span>
+                {o.label}
+              </div>
+              <div className="text-[11px] text-muted-foreground mt-1">{o.hint}</div>
+            </label>
+          );
+        })}
+      </div>
+      <button
+        type="button"
+        onClick={onConfirm}
+        disabled={!anyChecked}
+        className="w-full rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Confirm & continue
+      </button>
     </div>
   );
 }

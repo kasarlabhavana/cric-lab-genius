@@ -137,8 +137,8 @@ type Pin = {
 // (0,0) = top-left of the panel; batter's end at bottom, bowler's end near top.
 const PINS: Pin[] = [
   // SKY: environment sciences above the boundary
-  { slug: "environment-science", x: 20, y: 4, cat: "body" },
-  { slug: "physics-science",     x: 80, y: 4, cat: "body" },
+  { slug: "environment-science", x: 22, y: 7, cat: "body" },
+  { slug: "physics-science",     x: 78, y: 7, cat: "body" },
 
   // BOWLER'S END (top of pitch)
   { slug: "bowling-science",     x: 50, y: 20, cat: "play" },
@@ -155,8 +155,8 @@ const PINS: Pin[] = [
   // INNER RING FIELDERS (off / leg)
   { slug: "fielding-science",    x: 22, y: 52, cat: "play" }, // cover
   { slug: "mental-science",      x: 78, y: 52, cat: "play" }, // point/gully
-  { slug: "biomechanics-science",x: 12, y: 66, cat: "body" }, // mid-off deep
-  { slug: "fitness-science",     x: 88, y: 66, cat: "body" }, // deep midwicket
+  { slug: "biomechanics-science",x: 18, y: 66, cat: "body" }, // mid-off deep
+  { slug: "fitness-science",     x: 82, y: 66, cat: "body" }, // deep midwicket
 
   // BATTER'S END (bottom of pitch)
   { slug: "batting-science",     x: 50, y: 72, cat: "play" },
@@ -165,7 +165,7 @@ const PINS: Pin[] = [
   { slug: "wicketkeeping-science", x: 50, y: 84, cat: "gear" },
 
   // PAVILION: equipment
-  { slug: "equipment-science",   x: 50, y: 96, cat: "gear" },
+  { slug: "equipment-science",   x: 50, y: 93, cat: "gear" },
 ];
 
 const CAT_COLORS: Record<Pin["cat"], { bg: string; ring: string }> = {
@@ -296,7 +296,7 @@ function FieldPin({ pin, delay }: { pin: Pin; delay: number }) {
           <Icon className="size-4 sm:size-5 drop-shadow" aria-hidden />
         </span>
         <span
-          className="mt-1 rounded-md bg-black/70 px-1.5 py-0.5 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-white whitespace-nowrap backdrop-blur"
+          className="mt-1 max-w-[16vw] sm:max-w-none truncate rounded-md bg-black/70 px-1.5 py-0.5 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur"
         >
           {tile.title}
         </span>
