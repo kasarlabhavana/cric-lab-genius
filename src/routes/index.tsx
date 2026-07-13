@@ -283,24 +283,25 @@ function FieldPin({ pin, delay }: { pin: Pin; delay: number }) {
         to="/explore/$module/"
         params={{ module: pin.slug }}
         aria-label={`${tile.title} science — ${tile.desc} ${lessonCount} lessons`}
-        className="group flex flex-col items-center focus:outline-none"
+        className="group flex flex-col items-center focus:outline-none touch-manipulation"
       >
         <span
-          className="inline-flex size-10 sm:size-12 items-center justify-center rounded-full ring-2 ring-white shadow-lg transition group-hover:scale-110 group-focus-visible:ring-4 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-background"
+          className="inline-flex size-11 sm:size-12 items-center justify-center rounded-full ring-2 ring-white shadow-lg transition group-hover:scale-110 group-active:scale-95 group-focus-visible:ring-4 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-background"
           style={{
             background: `radial-gradient(circle at 30% 30%, color-mix(in oklch, ${c.bg} 60%, white), ${c.bg})`,
             borderColor: c.ring,
             color: "white",
           }}
         >
-          <Icon className="size-4 sm:size-5 drop-shadow" aria-hidden />
+          <Icon className="size-5 drop-shadow" aria-hidden />
         </span>
         <span
-          className="mt-1 max-w-[16vw] sm:max-w-none truncate rounded-md bg-black/70 px-1.5 py-0.5 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur"
+          className="mt-1 w-[68px] sm:w-auto sm:max-w-none rounded-md bg-black/75 px-1.5 py-0.5 text-center text-[10px] leading-tight font-bold uppercase tracking-wider text-white backdrop-blur"
         >
           {tile.title}
         </span>
       </Link>
+
     </motion.div>
   );
 }
