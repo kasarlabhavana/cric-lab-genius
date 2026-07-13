@@ -137,35 +137,35 @@ type Pin = {
 // (0,0) = top-left of the panel; batter's end at bottom, bowler's end near top.
 const PINS: Pin[] = [
   // SKY: environment sciences above the boundary
-  { slug: "environment-science", x: 22, y: 7, cat: "body" },
-  { slug: "physics-science",     x: 78, y: 7, cat: "body" },
+  { slug: "environment-science", x: 26, y: 7, cat: "body" },
+  { slug: "physics-science",     x: 74, y: 7, cat: "body" },
 
   // BOWLER'S END (top of pitch)
-  { slug: "bowling-science",     x: 50, y: 20, cat: "play" },
+  { slug: "bowling-science",     x: 50, y: 21, cat: "play" },
 
   // UMPIRE — just off-side of bowler
-  { slug: "umpiring-science",    x: 68, y: 22, cat: "gear" },
+  { slug: "umpiring-science",    x: 70, y: 30, cat: "gear" },
 
-  // PITCH strip
-  { slug: "pitch-science",       x: 50, y: 44, cat: "gear" },
+  // PITCH strip (off to the side so it doesn't clash with bowler/batter)
+  { slug: "pitch-science",       x: 32, y: 44, cat: "gear" },
 
   // BALL — slip cordon (off side of keeper)
-  { slug: "ball-science",        x: 66, y: 66, cat: "gear" },
+  { slug: "ball-science",        x: 68, y: 60, cat: "gear" },
 
   // INNER RING FIELDERS (off / leg)
-  { slug: "fielding-science",    x: 22, y: 52, cat: "play" }, // cover
-  { slug: "mental-science",      x: 78, y: 52, cat: "play" }, // point/gully
-  { slug: "biomechanics-science",x: 18, y: 66, cat: "body" }, // mid-off deep
-  { slug: "fitness-science",     x: 82, y: 66, cat: "body" }, // deep midwicket
+  { slug: "fielding-science",    x: 26, y: 56, cat: "play" }, // cover
+  { slug: "mental-science",      x: 74, y: 46, cat: "play" }, // point/gully
+  { slug: "biomechanics-science",x: 26, y: 70, cat: "body" }, // mid-off deep
+  { slug: "fitness-science",     x: 74, y: 72, cat: "body" }, // deep midwicket
 
   // BATTER'S END (bottom of pitch)
   { slug: "batting-science",     x: 50, y: 72, cat: "play" },
 
   // KEEPER (just behind batter)
-  { slug: "wicketkeeping-science", x: 50, y: 84, cat: "gear" },
+  { slug: "wicketkeeping-science", x: 32, y: 86, cat: "gear" },
 
   // PAVILION: equipment
-  { slug: "equipment-science",   x: 50, y: 93, cat: "gear" },
+  { slug: "equipment-science",   x: 68, y: 86, cat: "gear" },
 ];
 
 const CAT_COLORS: Record<Pin["cat"], { bg: string; ring: string }> = {
@@ -178,9 +178,9 @@ function FieldMap() {
   return (
     <div className="mx-auto mt-8 w-full max-w-5xl">
       <div
-        className="relative w-full overflow-hidden rounded-3xl border border-border shadow-lg"
-        style={{ aspectRatio: "3 / 4" }}
+        className="field-map-panel relative w-full overflow-hidden rounded-3xl border border-border shadow-lg"
       >
+
         {/* Sky gradient */}
         <div
           className="absolute inset-x-0 top-0 h-[14%]"
@@ -283,24 +283,25 @@ function FieldPin({ pin, delay }: { pin: Pin; delay: number }) {
         to="/explore/$module/"
         params={{ module: pin.slug }}
         aria-label={`${tile.title} science — ${tile.desc} ${lessonCount} lessons`}
-        className="group flex flex-col items-center focus:outline-none"
+        className="group flex flex-col items-center focus:outline-none touch-manipulation"
       >
         <span
-          className="inline-flex size-10 sm:size-12 items-center justify-center rounded-full ring-2 ring-white shadow-lg transition group-hover:scale-110 group-focus-visible:ring-4 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-background"
+          className="inline-flex size-11 sm:size-12 items-center justify-center rounded-full ring-2 ring-white shadow-lg transition group-hover:scale-110 group-active:scale-95 group-focus-visible:ring-4 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-background"
           style={{
             background: `radial-gradient(circle at 30% 30%, color-mix(in oklch, ${c.bg} 60%, white), ${c.bg})`,
             borderColor: c.ring,
             color: "white",
           }}
         >
-          <Icon className="size-4 sm:size-5 drop-shadow" aria-hidden />
+          <Icon className="size-5 drop-shadow" aria-hidden />
         </span>
         <span
-          className="mt-1 max-w-[16vw] sm:max-w-none truncate rounded-md bg-black/70 px-1.5 py-0.5 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur"
+          className="mt-1 w-[68px] sm:w-auto sm:max-w-none rounded-md bg-black/75 px-1.5 py-0.5 text-center text-[10px] leading-tight font-bold uppercase tracking-wider text-white backdrop-blur"
         >
           {tile.title}
         </span>
       </Link>
+
     </motion.div>
   );
 }
