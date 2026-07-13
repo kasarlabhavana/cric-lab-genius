@@ -133,22 +133,23 @@ type Pin = {
   cat: "play" | "body" | "gear";
 };
 
-// Pins arranged on the boundary of the oval, clockwise from bowler's end (top).
-// Ellipse center (50, 50), rx=38, ry=32 keeps labels clear of sky & pavilion.
+// Pins sit ON the boundary rope. The outfield ellipse is centered at (50%, 55%)
+// with rx=46.67%, ry=40% in the SVG; we use a hair inside (rx=42, ry=36) so
+// icons + labels stay within the panel while visually hugging the rope.
 const PINS: Pin[] = [
-  { slug: "bowling-science",       x: 50.0, y: 18.0, cat: "play" }, // 12 o'clock — bowler
-  { slug: "physics-science",       x: 67.7, y: 21.8, cat: "body" },
-  { slug: "umpiring-science",      x: 81.3, y: 31.8, cat: "gear" },
-  { slug: "ball-science",          x: 87.7, y: 46.2, cat: "gear" },
-  { slug: "mental-science",        x: 85.5, y: 61.6, cat: "play" },
-  { slug: "fitness-science",       x: 75.4, y: 74.0, cat: "body" },
-  { slug: "equipment-science",     x: 59.1, y: 82.1, cat: "gear" },
-  { slug: "batting-science",       x: 40.9, y: 82.1, cat: "play" }, // near 6 o'clock — batter
-  { slug: "wicketkeeping-science", x: 24.6, y: 74.0, cat: "gear" },
-  { slug: "biomechanics-science",  x: 14.5, y: 61.6, cat: "body" },
-  { slug: "fielding-science",      x: 12.3, y: 46.2, cat: "play" },
-  { slug: "pitch-science",         x: 19.2, y: 31.8, cat: "gear" },
-  { slug: "environment-science",   x: 32.3, y: 21.8, cat: "body" },
+  { slug: "bowling-science",       x: 50.0, y: 19.0, cat: "play" }, // 12 o'clock — bowler
+  { slug: "physics-science",       x: 69.5, y: 23.1, cat: "body" },
+  { slug: "umpiring-science",      x: 84.6, y: 34.5, cat: "gear" },
+  { slug: "ball-science",          x: 91.7, y: 50.7, cat: "gear" },
+  { slug: "mental-science",        x: 89.3, y: 67.8, cat: "play" },
+  { slug: "fitness-science",       x: 77.8, y: 81.9, cat: "body" },
+  { slug: "equipment-science",     x: 60.0, y: 90.0, cat: "gear" },
+  { slug: "batting-science",       x: 40.0, y: 90.0, cat: "play" }, // 6 o'clock — batter
+  { slug: "wicketkeeping-science", x: 22.3, y: 81.9, cat: "gear" },
+  { slug: "biomechanics-science",  x: 10.7, y: 67.8, cat: "body" },
+  { slug: "fielding-science",      x: 8.3,  y: 50.7, cat: "play" },
+  { slug: "pitch-science",         x: 15.4, y: 34.5, cat: "gear" },
+  { slug: "environment-science",   x: 30.5, y: 23.1, cat: "body" },
 ];
 
 const CAT_COLORS: Record<Pin["cat"], { bg: string; ring: string }> = {
