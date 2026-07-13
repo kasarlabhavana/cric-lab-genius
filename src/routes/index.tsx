@@ -133,39 +133,22 @@ type Pin = {
   cat: "play" | "body" | "gear";
 };
 
-// Field layout on a 3:4 panel (portrait). The oval spans y=8%..88%, x=6%..94%.
-// (0,0) = top-left of the panel; batter's end at bottom, bowler's end near top.
+// Pins arranged on the boundary of the oval, clockwise from bowler's end (top).
+// Ellipse center (50, 50), rx=38, ry=32 keeps labels clear of sky & pavilion.
 const PINS: Pin[] = [
-  // SKY: environment sciences above the boundary
-  { slug: "environment-science", x: 26, y: 7, cat: "body" },
-  { slug: "physics-science",     x: 74, y: 7, cat: "body" },
-
-  // BOWLER'S END (top of pitch)
-  { slug: "bowling-science",     x: 50, y: 21, cat: "play" },
-
-  // UMPIRE — just off-side of bowler
-  { slug: "umpiring-science",    x: 70, y: 30, cat: "gear" },
-
-  // PITCH strip (off to the side so it doesn't clash with bowler/batter)
-  { slug: "pitch-science",       x: 32, y: 44, cat: "gear" },
-
-  // BALL — slip cordon (off side of keeper)
-  { slug: "ball-science",        x: 68, y: 60, cat: "gear" },
-
-  // INNER RING FIELDERS (off / leg)
-  { slug: "fielding-science",    x: 26, y: 56, cat: "play" }, // cover
-  { slug: "mental-science",      x: 74, y: 46, cat: "play" }, // point/gully
-  { slug: "biomechanics-science",x: 26, y: 70, cat: "body" }, // mid-off deep
-  { slug: "fitness-science",     x: 74, y: 72, cat: "body" }, // deep midwicket
-
-  // BATTER'S END (bottom of pitch)
-  { slug: "batting-science",     x: 50, y: 72, cat: "play" },
-
-  // KEEPER (just behind batter)
-  { slug: "wicketkeeping-science", x: 32, y: 86, cat: "gear" },
-
-  // PAVILION: equipment
-  { slug: "equipment-science",   x: 68, y: 86, cat: "gear" },
+  { slug: "bowling-science",       x: 50.0, y: 18.0, cat: "play" }, // 12 o'clock — bowler
+  { slug: "physics-science",       x: 67.7, y: 21.8, cat: "body" },
+  { slug: "umpiring-science",      x: 81.3, y: 31.8, cat: "gear" },
+  { slug: "ball-science",          x: 87.7, y: 46.2, cat: "gear" },
+  { slug: "mental-science",        x: 85.5, y: 61.6, cat: "play" },
+  { slug: "fitness-science",       x: 75.4, y: 74.0, cat: "body" },
+  { slug: "equipment-science",     x: 59.1, y: 82.1, cat: "gear" },
+  { slug: "batting-science",       x: 40.9, y: 82.1, cat: "play" }, // near 6 o'clock — batter
+  { slug: "wicketkeeping-science", x: 24.6, y: 74.0, cat: "gear" },
+  { slug: "biomechanics-science",  x: 14.5, y: 61.6, cat: "body" },
+  { slug: "fielding-science",      x: 12.3, y: 46.2, cat: "play" },
+  { slug: "pitch-science",         x: 19.2, y: 31.8, cat: "gear" },
+  { slug: "environment-science",   x: 32.3, y: 21.8, cat: "body" },
 ];
 
 const CAT_COLORS: Record<Pin["cat"], { bg: string; ring: string }> = {
@@ -286,17 +269,17 @@ function FieldPin({ pin, delay }: { pin: Pin; delay: number }) {
         className="group flex flex-col items-center focus:outline-none touch-manipulation"
       >
         <span
-          className="inline-flex size-11 sm:size-12 items-center justify-center rounded-full ring-2 ring-white shadow-lg transition group-hover:scale-110 group-active:scale-95 group-focus-visible:ring-4 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-background"
+          className="inline-flex size-9 sm:size-11 items-center justify-center rounded-full ring-2 ring-white shadow-lg transition group-hover:scale-110 group-active:scale-95 group-focus-visible:ring-4 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-background"
           style={{
             background: `radial-gradient(circle at 30% 30%, color-mix(in oklch, ${c.bg} 60%, white), ${c.bg})`,
             borderColor: c.ring,
             color: "white",
           }}
         >
-          <Icon className="size-5 drop-shadow" aria-hidden />
+          <Icon className="size-4 sm:size-5 drop-shadow" aria-hidden />
         </span>
         <span
-          className="mt-1 w-[68px] sm:w-auto sm:max-w-none rounded-md bg-black/75 px-1.5 py-0.5 text-center text-[10px] leading-tight font-bold uppercase tracking-wider text-white backdrop-blur"
+          className="mt-1 w-[58px] sm:w-auto sm:max-w-none rounded-md bg-black/75 px-1 py-0.5 text-center text-[9px] sm:text-[11px] leading-tight font-bold uppercase tracking-wide text-white backdrop-blur"
         >
           {tile.title}
         </span>
