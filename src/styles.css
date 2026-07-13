@@ -179,8 +179,5 @@
 }
 
 @utility field-map-panel {
-  aspect-ratio: 4 / 5;
-  @media (min-width: 640px) {
-    aspect-ratio: 3 / 4;
-  }
+  aspect-ratio: 3 / 4;
 }
