@@ -162,10 +162,10 @@ const PINS: Pin[] = [
   { slug: "batting-science",     x: 50, y: 72, cat: "play" },
 
   // KEEPER (just behind batter)
-  { slug: "wicketkeeping-science", x: 50, y: 84, cat: "gear" },
+  { slug: "wicketkeeping-science", x: 32, y: 86, cat: "gear" },
 
   // PAVILION: equipment
-  { slug: "equipment-science",   x: 50, y: 94, cat: "gear" },
+  { slug: "equipment-science",   x: 68, y: 86, cat: "gear" },
 ];
 
 const CAT_COLORS: Record<Pin["cat"], { bg: string; ring: string }> = {
