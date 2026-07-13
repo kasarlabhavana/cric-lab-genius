@@ -137,26 +137,26 @@ type Pin = {
 // (0,0) = top-left of the panel; batter's end at bottom, bowler's end near top.
 const PINS: Pin[] = [
   // SKY: environment sciences above the boundary
-  { slug: "environment-science", x: 22, y: 7, cat: "body" },
-  { slug: "physics-science",     x: 78, y: 7, cat: "body" },
+  { slug: "environment-science", x: 26, y: 7, cat: "body" },
+  { slug: "physics-science",     x: 74, y: 7, cat: "body" },
 
   // BOWLER'S END (top of pitch)
-  { slug: "bowling-science",     x: 50, y: 20, cat: "play" },
+  { slug: "bowling-science",     x: 50, y: 21, cat: "play" },
 
   // UMPIRE — just off-side of bowler
-  { slug: "umpiring-science",    x: 68, y: 22, cat: "gear" },
+  { slug: "umpiring-science",    x: 70, y: 30, cat: "gear" },
 
-  // PITCH strip
-  { slug: "pitch-science",       x: 50, y: 44, cat: "gear" },
+  // PITCH strip (off to the side so it doesn't clash with bowler/batter)
+  { slug: "pitch-science",       x: 32, y: 44, cat: "gear" },
 
   // BALL — slip cordon (off side of keeper)
-  { slug: "ball-science",        x: 66, y: 66, cat: "gear" },
+  { slug: "ball-science",        x: 68, y: 60, cat: "gear" },
 
   // INNER RING FIELDERS (off / leg)
-  { slug: "fielding-science",    x: 22, y: 52, cat: "play" }, // cover
-  { slug: "mental-science",      x: 78, y: 52, cat: "play" }, // point/gully
-  { slug: "biomechanics-science",x: 18, y: 66, cat: "body" }, // mid-off deep
-  { slug: "fitness-science",     x: 82, y: 66, cat: "body" }, // deep midwicket
+  { slug: "fielding-science",    x: 26, y: 56, cat: "play" }, // cover
+  { slug: "mental-science",      x: 74, y: 46, cat: "play" }, // point/gully
+  { slug: "biomechanics-science",x: 26, y: 70, cat: "body" }, // mid-off deep
+  { slug: "fitness-science",     x: 74, y: 72, cat: "body" }, // deep midwicket
 
   // BATTER'S END (bottom of pitch)
   { slug: "batting-science",     x: 50, y: 72, cat: "play" },
@@ -165,7 +165,7 @@ const PINS: Pin[] = [
   { slug: "wicketkeeping-science", x: 50, y: 84, cat: "gear" },
 
   // PAVILION: equipment
-  { slug: "equipment-science",   x: 50, y: 93, cat: "gear" },
+  { slug: "equipment-science",   x: 50, y: 94, cat: "gear" },
 ];
 
 const CAT_COLORS: Record<Pin["cat"], { bg: string; ring: string }> = {
