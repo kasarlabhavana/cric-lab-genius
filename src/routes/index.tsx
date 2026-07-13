@@ -178,9 +178,9 @@ function FieldMap() {
   return (
     <div className="mx-auto mt-8 w-full max-w-5xl">
       <div
-        className="relative w-full overflow-hidden rounded-3xl border border-border shadow-lg"
-        style={{ aspectRatio: "3 / 4" }}
+        className="field-map-panel relative w-full overflow-hidden rounded-3xl border border-border shadow-lg"
       >
+
         {/* Sky gradient */}
         <div
           className="absolute inset-x-0 top-0 h-[14%]"
