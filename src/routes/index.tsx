@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
-
+import type { LucideIcon } from "lucide-react";
 import {
   ArrowRight, Network,
   Target, Swords, Hand, Shield, Wrench, LayoutGrid, CircleDot, CloudSun, Dumbbell, Scale,
@@ -8,7 +8,8 @@ import {
 } from "lucide-react";
 
 import logoUrl from "@/assets/logo.png";
-import { MODULE_BY_SLUG } from "@/lib/modules";
+import { MODULES, MODULE_BY_SLUG } from "@/lib/modules";
+import { useUser, type UserState } from "@/lib/user-state";
 
 
 export const Route = createFileRoute("/")({
@@ -23,23 +24,40 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const SCIENCE_TILES = [
-  { slug: "bowling-science",  title: "Bowling",     icon: Target,     desc: "Pace, spin & seam physics." },
-  { slug: "batting-science",  title: "Batting",     icon: Swords,     desc: "Timing, geometry, power." },
-  { slug: "fielding-science", title: "Fielding",    icon: Hand,       desc: "Angles, catching, throws." },
-  { slug: "wicketkeeping-science", title: "Keeping", icon: Shield,    desc: "Gloves, stumping, leadership." },
-  { slug: "pitch-science",    title: "Pitch",       icon: LayoutGrid, desc: "Soil, moisture, behavior." },
-  { slug: "ball-science",     title: "Ball",        icon: CircleDot,  desc: "Leather, seam, lacquer." },
-  { slug: "equipment-science", title: "Equipment",  icon: Wrench,     desc: "Bats, helmets, pads, gear." },
-  { slug: "environment-science", title: "Environment", icon: CloudSun, desc: "Wind, dew, altitude." },
-  { slug: "fitness-science",  title: "Fitness",     icon: Dumbbell,   desc: "Strength & longevity." },
-  { slug: "umpiring-science", title: "Umpiring",    icon: Scale,      desc: "Decisions & DRS tech." },
-  { slug: "physics-science",  title: "Physics",     icon: Atom,       desc: "Magnus, drag & forces." },
-  { slug: "biomechanics-science", title: "Biomechanics", icon: Activity, desc: "Body, joints & load." },
-  { slug: "mental-science",   title: "Mental",      icon: Brain,      desc: "Focus, flow, pressure." },
-] as const;
+const ICON_BY_NAME: Record<string, LucideIcon> = {
+  Target, Swords, Hand, Shield, LayoutGrid, CircleDot, Wrench, CloudSun, Dumbbell, Scale,
+  Atom, Activity, Brain,
+};
 
+const CATEGORY: Record<string, "play" | "body" | "gear"> = {
+  "bowling-science": "play",
+  "batting-science": "play",
+  "fielding-science": "play",
+  "mental-science": "play",
+  "physics-science": "body",
+  "biomechanics-science": "body",
+  "fitness-science": "body",
+  "environment-science": "body",
+  "wicketkeeping-science": "gear",
+  "pitch-science": "gear",
+  "ball-science": "gear",
+  "equipment-science": "gear",
+  "umpiring-science": "gear",
+};
 
+const CAT_STYLE: Record<"play" | "body" | "gear", { bg: string; text: string }> = {
+  play: { bg: "bg-[color:var(--brand-orange)]/10", text: "text-[color:var(--brand-orange)]" },
+  body: { bg: "bg-[color:var(--brand-green)]/10", text: "text-[color:var(--brand-green)]" },
+  gear: { bg: "bg-[color:var(--chart-4)]/10", text: "text-[color:var(--chart-4)]" },
+};
+
+function deriveModuleXp(slug: string, state: UserState) {
+  const quizId = `${slug}-starter`;
+  const quizCorrect = Object.keys(state.correctQuestions).filter((k) => k.startsWith(`${quizId}#`)).length;
+  const mod = MODULE_BY_SLUG[slug];
+  const lessonsDone = mod ? mod.lessons.filter((l) => state.completedLessons[`${slug}/${l.slug}`]).length : 0;
+  return (quizCorrect + lessonsDone) * 10;
+}
 
 
 function Home() {
@@ -97,198 +115,109 @@ function Home() {
         </div>
       </section>
 
-      {/* CRICKET FIELD — sciences pinned to real field positions */}
-      <section className="bg-surface border-y border-border">
-        <div className="mx-auto max-w-6xl px-2 sm:px-6 py-12 sm:py-16">
-          <div className="text-center max-w-2xl mx-auto">
-            <span className="inline-block rounded-full bg-[color:var(--brand-orange)]/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-orange)]">
-              The field
-            </span>
-            <h2 className="mt-3 font-display text-3xl md:text-4xl font-bold text-foreground">
-              Every science, in its position
-            </h2>
-            <p className="mt-2 text-muted-foreground">
-              Tap a role on the field — bowler, batter, fielders, keeper, pitch, environment or the pavilion — to open its lessons.
-            </p>
-          </div>
-
-          <FieldMap />
-        </div>
-      </section>
+      <ScorecardSection />
 
     </div>
   );
 }
 
 /* ---------------------------------------------------------------- */
-/*                     CRICKET FIELD RADIAL MAP                      */
+/*                     SCIENCE SCORECARD TABLE                      */
 /* ---------------------------------------------------------------- */
 
-type Pin = {
-  slug: (typeof SCIENCE_TILES)[number]["slug"];
-  // percent coords relative to the whole panel (0-100)
-  x: number;
-  y: number;
-  // category for coloring
-  cat: "play" | "body" | "gear";
-};
+function ScorecardSection() {
+  const { state } = useUser();
 
-// Pins sit ON the boundary rope. The outfield ellipse is centered at (50%, 55%)
-// with rx=46.67%, ry=40% in the SVG; we use a hair inside (rx=42, ry=36) so
-// icons + labels stay within the panel while visually hugging the rope.
-const PINS: Pin[] = [
-  { slug: "bowling-science",       x: 50.0, y: 19.0, cat: "play" }, // 12 o'clock — bowler
-  { slug: "physics-science",       x: 69.5, y: 23.1, cat: "body" },
-  { slug: "umpiring-science",      x: 84.6, y: 34.5, cat: "gear" },
-  { slug: "ball-science",          x: 91.7, y: 50.7, cat: "gear" },
-  { slug: "mental-science",        x: 89.3, y: 67.8, cat: "play" },
-  { slug: "fitness-science",       x: 77.8, y: 81.9, cat: "body" },
-  { slug: "equipment-science",     x: 60.0, y: 90.0, cat: "gear" },
-  { slug: "batting-science",       x: 40.0, y: 90.0, cat: "play" }, // 6 o'clock — batter
-  { slug: "wicketkeeping-science", x: 22.3, y: 81.9, cat: "gear" },
-  { slug: "biomechanics-science",  x: 10.7, y: 67.8, cat: "body" },
-  { slug: "fielding-science",      x: 8.3,  y: 50.7, cat: "play" },
-  { slug: "pitch-science",         x: 15.4, y: 34.5, cat: "gear" },
-  { slug: "environment-science",   x: 30.5, y: 23.1, cat: "body" },
-];
+  const totalLessons = MODULES.reduce((n, m) => n + m.lessons.length, 0);
+  const totalXp = MODULES.reduce((n, m) => n + deriveModuleXp(m.slug, state), 0);
 
-const CAT_COLORS: Record<Pin["cat"], { bg: string; ring: string }> = {
-  play: { bg: "var(--brand-orange)",   ring: "oklch(0.55 0.18 35)" },
-  body: { bg: "var(--brand-green)",    ring: "oklch(0.45 0.14 150)" },
-  gear: { bg: "oklch(0.55 0.14 258)",  ring: "oklch(0.45 0.16 258)" },
-};
-
-function FieldMap() {
   return (
-    <div className="mx-auto mt-8 w-full max-w-5xl">
-      <div
-        className="field-map-panel relative w-full overflow-hidden rounded-3xl border border-border shadow-lg"
-      >
-
-        {/* Sky gradient */}
-        <div
-          className="absolute inset-x-0 top-0 h-[14%]"
-          style={{
-            background:
-              "linear-gradient(180deg, oklch(0.72 0.09 240) 0%, oklch(0.85 0.06 220) 100%)",
-          }}
-          aria-hidden
-        />
-        {/* Pavilion strip at bottom */}
-        <div
-          className="absolute inset-x-0 bottom-0 h-[10%]"
-          style={{
-            background:
-              "linear-gradient(180deg, oklch(0.35 0.05 40) 0%, oklch(0.28 0.06 40) 100%)",
-          }}
-          aria-hidden
-        >
-          <div className="absolute inset-x-0 top-1 text-center text-[10px] font-semibold uppercase tracking-widest text-white/70">
-            Pavilion
-          </div>
+    <section className="bg-surface border-y border-border">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 py-12 sm:py-16">
+        <div className="text-center max-w-2xl mx-auto">
+          <span className="inline-block rounded-full bg-[color:var(--brand-green)]/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[color:var(--brand-green)]">
+            Scorecard
+          </span>
+          <h2 className="mt-3 font-display text-3xl md:text-4xl font-bold text-foreground">
+            Thirteen sciences of cricket
+          </h2>
+          <p className="mt-2 text-muted-foreground">
+            Every row is a science you can master. Tap a science to open its lessons and quiz.
+          </p>
         </div>
 
-        {/* Ground SVG */}
-        <svg
-          className="absolute inset-0 h-full w-full"
-          viewBox="0 0 300 400"
-          preserveAspectRatio="xMidYMid meet"
-          aria-hidden
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.5 }}
+          className="mt-8 rounded-2xl border border-border bg-card overflow-hidden shadow-md"
         >
-          <defs>
-            <radialGradient id="fieldGrass" cx="50%" cy="55%" r="60%">
-              <stop offset="0%" stopColor="oklch(0.72 0.15 145)" />
-              <stop offset="60%" stopColor="oklch(0.58 0.16 145)" />
-              <stop offset="100%" stopColor="oklch(0.42 0.13 145)" />
-            </radialGradient>
-            <pattern id="mow" width="24" height="24" patternUnits="userSpaceOnUse">
-              <rect width="24" height="24" fill="transparent" />
-              <rect y="12" width="24" height="12" fill="oklch(0.5 0.14 145 / 0.35)" />
-            </pattern>
-          </defs>
+          <div role="table" aria-label="Science scorecard" className="w-full text-sm">
+            {/* Header */}
+            <div
+              role="row"
+              className="grid grid-cols-[minmax(0,1fr)_auto_auto] sm:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)_auto_auto] bg-[color:var(--primary)] text-primary-foreground"
+            >
+              <div role="columnheader" className="px-4 py-3 text-left font-semibold">Science</div>
+              <div role="columnheader" className="hidden sm:block px-4 py-3 text-left font-semibold">Focus</div>
+              <div role="columnheader" className="px-4 py-3 text-center font-semibold tabular-nums">Lessons</div>
+              <div role="columnheader" className="px-4 py-3 text-right font-semibold tabular-nums">XP</div>
+            </div>
 
-          {/* Outfield oval */}
-          <ellipse cx="150" cy="220" rx="140" ry="160" fill="url(#fieldGrass)" />
-          <ellipse cx="150" cy="220" rx="140" ry="160" fill="url(#mow)" opacity="0.35" />
-          {/* Boundary rope */}
-          <ellipse cx="150" cy="220" rx="140" ry="160" fill="none" stroke="white" strokeOpacity="0.9" strokeWidth="1.6" />
-          {/* 30-yard inner circle */}
-          <ellipse cx="150" cy="220" rx="82" ry="94" fill="none" stroke="white" strokeOpacity="0.55" strokeWidth="1.2" strokeDasharray="4 5" />
+            {/* Rows */}
+            {MODULES.map((m, i) => {
+              const Icon = ICON_BY_NAME[m.icon];
+              const cat = CATEGORY[m.slug] ?? "play";
+              const style = CAT_STYLE[cat];
+              const xp = deriveModuleXp(m.slug, state);
+              return (
+                <Link
+                  key={m.slug}
+                  role="row"
+                  to="/explore/$module/"
+                  params={{ module: m.slug }}
+                  aria-label={`${m.title}. ${m.tagline}. ${m.lessons.length} lessons. ${xp} XP earned.`}
+                  className={`grid grid-cols-[minmax(0,1fr)_auto_auto] sm:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)_auto_auto] items-center transition hover:bg-muted/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring ${i % 2 === 1 ? "bg-muted/30" : "bg-card"}`}
+                >
+                  <div role="cell" className="px-4 py-3.5">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <span className={`inline-flex shrink-0 size-9 items-center justify-center rounded-full ${style.bg} ${style.text}`}>
+                        {Icon ? <Icon className="size-4" aria-hidden="true" /> : <span className="size-4" />}
+                      </span>
+                      <span className="font-semibold text-foreground truncate">{m.title}</span>
+                    </div>
+                  </div>
+                  <div role="cell" className="hidden sm:block px-4 py-3.5 text-muted-foreground truncate">
+                    {m.tagline}
+                  </div>
+                  <div role="cell" className="px-4 py-3.5 text-center tabular-nums text-foreground">
+                    {m.lessons.length}
+                  </div>
+                  <div role="cell" className="px-4 py-3.5 text-right tabular-nums font-semibold text-[color:var(--brand-orange)]">
+                    {xp}
+                  </div>
+                </Link>
+              );
+            })}
 
-          {/* Pitch strip */}
-          <rect x="138" y="120" width="24" height="200" fill="oklch(0.78 0.08 70)" stroke="white" strokeOpacity="0.6" strokeWidth="0.5" rx="1" />
-          {/* Creases */}
-          <line x1="132" y1="140" x2="168" y2="140" stroke="white" strokeOpacity="0.7" strokeWidth="1" />
-          <line x1="132" y1="300" x2="168" y2="300" stroke="white" strokeOpacity="0.7" strokeWidth="1" />
-          {/* Stumps */}
-          <g stroke="oklch(0.35 0.05 60)" strokeWidth="1.6">
-            <line x1="146" y1="140" x2="146" y2="130" />
-            <line x1="150" y1="140" x2="150" y2="130" />
-            <line x1="154" y1="140" x2="154" y2="130" />
-            <line x1="146" y1="300" x2="146" y2="310" />
-            <line x1="150" y1="300" x2="150" y2="310" />
-            <line x1="154" y1="300" x2="154" y2="310" />
-          </g>
-        </svg>
-
-        {/* Pins */}
-        {PINS.map((p, i) => (
-          <FieldPin key={p.slug} pin={p} delay={i * 0.05} />
-        ))}
+            {/* Total */}
+            <div
+              role="row"
+              className="grid grid-cols-[minmax(0,1fr)_auto_auto] sm:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)_auto_auto] bg-muted/70 font-semibold text-foreground border-t border-border"
+            >
+              <div role="cell" className="px-4 py-3">Total</div>
+              <div role="cell" className="hidden sm:block px-4 py-3" />
+              <div role="cell" className="px-4 py-3 text-center tabular-nums">{totalLessons}</div>
+              <div role="cell" className="px-4 py-3 text-right tabular-nums">{totalXp}</div>
+            </div>
+          </div>
+        </motion.div>
       </div>
-
-      <p className="mt-4 text-center text-xs text-muted-foreground">
-        Bowler's end at top · batter's end at bottom · pavilion below · sky above. Each pin opens that science.
-      </p>
-    </div>
+    </section>
   );
 }
 
-function FieldPin({ pin, delay }: { pin: Pin; delay: number }) {
-  const tile = SCIENCE_TILES.find((t) => t.slug === pin.slug)!;
-  const Icon = tile.icon;
-  const c = CAT_COLORS[pin.cat];
-  const mod = MODULE_BY_SLUG[pin.slug];
-  const lessonCount = mod?.lessons?.length ?? 0;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.6 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay, type: "spring", stiffness: 240, damping: 18 }}
-      style={{
-        position: "absolute",
-        left: `${pin.x}%`,
-        top: `${pin.y}%`,
-        transform: "translate(-50%, -50%)",
-      }}
-    >
-      <Link
-        to="/explore/$module/"
-        params={{ module: pin.slug }}
-        aria-label={`${tile.title} science — ${tile.desc} ${lessonCount} lessons`}
-        className="group flex flex-col items-center focus:outline-none touch-manipulation"
-      >
-        <span
-          className="inline-flex size-9 sm:size-11 items-center justify-center rounded-full ring-2 ring-white shadow-lg transition group-hover:scale-110 group-active:scale-95 group-focus-visible:ring-4 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-background"
-          style={{
-            background: `radial-gradient(circle at 30% 30%, color-mix(in oklch, ${c.bg} 60%, white), ${c.bg})`,
-            borderColor: c.ring,
-            color: "white",
-          }}
-        >
-          <Icon className="size-4 sm:size-5 drop-shadow" aria-hidden />
-        </span>
-        <span
-          className="mt-1 w-[58px] sm:w-auto sm:max-w-none rounded-md bg-black/75 px-1 py-0.5 text-center text-[9px] sm:text-[11px] leading-tight font-bold uppercase tracking-wide text-white backdrop-blur"
-        >
-          {tile.title}
-        </span>
-      </Link>
-
-    </motion.div>
-  );
-}
 
 
 
