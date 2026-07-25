@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { YouTubeEmbed } from "@/components/youtube-embed";
+import { getLessonVideos } from "@/lib/lesson-videos";
 import { toast } from "sonner";
 import { MODULE_BY_SLUG } from "@/lib/modules";
 import { useUser } from "@/lib/user-state";
@@ -157,23 +158,30 @@ function LessonPage() {
         </div>
       )}
 
-      {lesson.videos && lesson.videos.length > 0 && (
-        <section className="mt-8">
-          <div className="mb-3 flex items-baseline justify-between">
-            <h2 className="font-display text-xl font-semibold text-primary">
-              Watch
-            </h2>
-            <span className="text-xs text-muted-foreground">
-              {lesson.videos.length} video{lesson.videos.length > 1 ? "s" : ""}
-            </span>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {lesson.videos.map((v: { url: string; title?: string }, i: number) => (
-              <YouTubeEmbed key={i} url={v.url} title={v.title} />
-            ))}
-          </div>
-        </section>
-      )}
+      {(() => {
+        const videos = [
+          ...(lesson.videos ?? []),
+          ...getLessonVideos(mod.slug, lesson.slug),
+        ];
+        if (videos.length === 0) return null;
+        return (
+          <section className="mt-8">
+            <div className="mb-3 flex items-baseline justify-between">
+              <h2 className="font-display text-xl font-semibold text-primary">
+                Watch
+              </h2>
+              <span className="text-xs text-muted-foreground">
+                {videos.length} video{videos.length > 1 ? "s" : ""}
+              </span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {videos.map((v, i) => (
+                <YouTubeEmbed key={i} url={v.url} title={v.title} />
+              ))}
+            </div>
+          </section>
+        );
+      })()}
 
       {/* 17-section schema */}
       <section className="mt-10">
