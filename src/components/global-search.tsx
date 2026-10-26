@@ -117,7 +117,7 @@ export function GlobalSearch() {
     setQ("");
     switch (r.kind) {
       case "module":
-        navigate({ to: "/explore/$module/", params: { module: r.moduleSlug } });
+        navigate({ to: "/explore/$module", params: { module: r.moduleSlug } });
         break;
       case "lesson":
         navigate({

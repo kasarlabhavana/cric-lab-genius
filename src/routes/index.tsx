@@ -175,8 +175,8 @@ function ScorecardSection() {
                 <Link
                   key={m.slug}
                   role="row"
-                  to="/explore/$module/"
-                  params={{ module: m.slug }}
+                  to="/explore/$module"
+                    params={{ module: m.slug }}
                   aria-label={`${m.title}. ${m.tagline}. ${m.lessons.length} lessons. ${xp} XP earned.`}
                   className={`grid grid-cols-[minmax(0,1fr)_auto_auto] sm:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)_auto_auto] items-center transition hover:bg-muted/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring ${i % 2 === 1 ? "bg-muted/30" : "bg-card"}`}
                 >
