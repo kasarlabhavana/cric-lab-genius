@@ -16,6 +16,7 @@ import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as LaboratoryRouteImport } from './routes/laboratory'
 import { Route as KnowledgeGraphRouteImport } from './routes/knowledge-graph'
+import { Route as IntelliCoachRouteImport } from './routes/intelli-coach'
 import { Route as GlossaryRouteImport } from './routes/glossary'
 import { Route as ExploreRouteImport } from './routes/explore'
 import { Route as DisclaimerRouteImport } from './routes/disclaimer'
@@ -69,6 +70,11 @@ const LaboratoryRoute = LaboratoryRouteImport.update({
 const KnowledgeGraphRoute = KnowledgeGraphRouteImport.update({
   id: '/knowledge-graph',
   path: '/knowledge-graph',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IntelliCoachRoute = IntelliCoachRouteImport.update({
+  id: '/intelli-coach',
+  path: '/intelli-coach',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GlossaryRoute = GlossaryRouteImport.update({
@@ -177,6 +183,7 @@ export interface FileRoutesByFullPath {
   '/disclaimer': typeof DisclaimerRoute
   '/explore': typeof ExploreRouteWithChildren
   '/glossary': typeof GlossaryRoute
+  '/intelli-coach': typeof IntelliCoachRoute
   '/knowledge-graph': typeof KnowledgeGraphRoute
   '/laboratory': typeof LaboratoryRouteWithChildren
   '/privacy': typeof PrivacyRoute
@@ -204,6 +211,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/disclaimer': typeof DisclaimerRoute
   '/glossary': typeof GlossaryRoute
+  '/intelli-coach': typeof IntelliCoachRoute
   '/knowledge-graph': typeof KnowledgeGraphRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
@@ -230,6 +238,7 @@ export interface FileRoutesById {
   '/disclaimer': typeof DisclaimerRoute
   '/explore': typeof ExploreRouteWithChildren
   '/glossary': typeof GlossaryRoute
+  '/intelli-coach': typeof IntelliCoachRoute
   '/knowledge-graph': typeof KnowledgeGraphRoute
   '/laboratory': typeof LaboratoryRouteWithChildren
   '/privacy': typeof PrivacyRoute
@@ -260,6 +269,7 @@ export interface FileRouteTypes {
     | '/disclaimer'
     | '/explore'
     | '/glossary'
+    | '/intelli-coach'
     | '/knowledge-graph'
     | '/laboratory'
     | '/privacy'
@@ -287,6 +297,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/disclaimer'
     | '/glossary'
+    | '/intelli-coach'
     | '/knowledge-graph'
     | '/privacy'
     | '/profile'
@@ -312,6 +323,7 @@ export interface FileRouteTypes {
     | '/disclaimer'
     | '/explore'
     | '/glossary'
+    | '/intelli-coach'
     | '/knowledge-graph'
     | '/laboratory'
     | '/privacy'
@@ -341,6 +353,7 @@ export interface RootRouteChildren {
   DisclaimerRoute: typeof DisclaimerRoute
   ExploreRoute: typeof ExploreRouteWithChildren
   GlossaryRoute: typeof GlossaryRoute
+  IntelliCoachRoute: typeof IntelliCoachRoute
   KnowledgeGraphRoute: typeof KnowledgeGraphRoute
   LaboratoryRoute: typeof LaboratoryRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
@@ -401,6 +414,13 @@ declare module '@tanstack/react-router' {
       path: '/knowledge-graph'
       fullPath: '/knowledge-graph'
       preLoaderRoute: typeof KnowledgeGraphRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/intelli-coach': {
+      id: '/intelli-coach'
+      path: '/intelli-coach'
+      fullPath: '/intelli-coach'
+      preLoaderRoute: typeof IntelliCoachRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/glossary': {
@@ -602,6 +622,7 @@ const rootRouteChildren: RootRouteChildren = {
   DisclaimerRoute: DisclaimerRoute,
   ExploreRoute: ExploreRouteWithChildren,
   GlossaryRoute: GlossaryRoute,
+  IntelliCoachRoute: IntelliCoachRoute,
   KnowledgeGraphRoute: KnowledgeGraphRoute,
   LaboratoryRoute: LaboratoryRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
