@@ -425,10 +425,50 @@ export function extractFamousPlayers(lesson: Lesson): FamousPlayerCard[] {
   return [...cards.values()].slice(0, 8);
 }
 
+const PLAYER_ALIASES: Record<string, string> = {
+  "Murali": "Muttiah Muralitharan",
+  "Ashwin": "Ravichandran Ashwin",
+  "Warne": "Shane Warne",
+  "Kumble": "Anil Kumble",
+  "Chahal": "Yuzvendra Chahal",
+  "Jadeja": "Ravindra Jadeja",
+  "Vettori": "Daniel Vettori",
+  "Anderson": "James Anderson",
+  "McGrath": "Glenn McGrath",
+  "Bumrah": "Jasprit Bumrah",
+  "Malinga": "Lasith Malinga",
+  "Boult": "Trent Boult",
+  "Hazlewood": "Josh Hazlewood",
+  "Sachin": "Sachin Tendulkar",
+  "Tendulkar": "Sachin Tendulkar",
+  "Dravid": "Rahul Dravid",
+  "Kohli": "Virat Kohli",
+  "Dhoni": "MS Dhoni",
+  "Buttler": "Jos Buttler",
+  "Pollard": "Kieron Pollard",
+  "Russell": "Andre Russell",
+  "Maxwell": "Glenn Maxwell",
+  "Pujara": "Cheteshwar Pujara",
+  "Cook": "Alastair Cook",
+  "Williamson": "Kane Williamson",
+  "Smith": "Steve Smith",
+  "Root": "Joe Root",
+  "Ponting": "Ricky Ponting",
+  "Cummins": "Pat Cummins",
+  "Starc": "Mitchell Starc",
+  "Shami": "Mohammed Shami",
+  "Akram": "Wasim Akram",
+  "Steyn": "Dale Steyn",
+  "Broad": "Stuart Broad",
+  "Lyon": "Nathan Lyon",
+  "Archer": "Jofra Archer",
+  "Philander": "Vernon Philander",
+  "Flintoff": "Andrew Flintoff",
+  "Bravo": "Dwayne Bravo",
+  "Pandya": "Hardik Pandya",
+};
+
 function canonicalName(name: string): string {
-  const longer = PLAYER_NAMES.find(
-    (other) => other !== name && other.length > name.length && other.includes(name),
-  );
-  return longer ?? name;
+  return PLAYER_ALIASES[name] ?? name;
 }
 
