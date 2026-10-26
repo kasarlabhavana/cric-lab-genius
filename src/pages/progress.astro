@@ -1,0 +1,171 @@
+---
+import Base from "../layouts/Base.astro";
+import { MODULES } from "../data/modules";
+import { lessonsByModule } from "../lib/content";
+const map = await lessonsByModule();
+const mods = MODULES.map((m) => ({
+  slug: m.slug,
+  title: m.title,
+  lessons: map.get(m.slug)!.length,
+  questions: map.get(m.slug)!.reduce((a, l) => a + l.data.quiz.length, 0),
+}));
+---
+<Base title="Your progress" description="Lessons completed, questions mastered and your review queue. Stored only in this browser.">
+  <div class="wrap prog" data-progress data-mods={JSON.stringify(mods)}>
+    <header class="head">
+      <h1>Your progress</h1>
+      <p class="lede">Saved in this browser only. Nothing is sent anywhere, so it won't follow you to another device.</p>
+    </header>
+
+    <div class="stats">
+      <div><span class="v num" data-s="lessons">0</span><span class="l">lessons completed</span></div>
+      <div><span class="v num" data-s="mastered">0</span><span class="l">questions answered correctly</span></div>
+      <div><span class="v num" data-s="streak">0</span><span class="l">day streak</span></div>
+    </div>
+
+    <section aria-labelledby="by-sci">
+      <h2 id="by-sci">By science</h2>
+      <table class="scorecard">
+        <thead><tr><th scope="col">Science</th><th scope="col" class="n">Lessons</th><th scope="col" class="n">Questions right</th></tr></thead>
+        <tbody>
+          {mods.map((m) => (
+            <tr>
+              <td><a class="row-link" href={`/explore/${m.slug}`}>{m.title}</a></td>
+              <td class="n"><span class="meter"><span class="meter-bar"><span data-bar-l={m.slug}></span></span><span class="num" data-c-l={m.slug}>0/{m.lessons}</span></span></td>
+              <td class="n"><span class="meter"><span class="meter-bar"><span data-bar-q={m.slug}></span></span><span class="num" data-c-q={m.slug}>0/{m.questions}</span></span></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+
+    <section id="review" class="review" aria-labelledby="rev-title">
+      <h2 id="rev-title">Review</h2>
+      <p class="muted" data-rev-status>Checking for questions due…</p>
+      <div class="rev-card" data-rev-card hidden>
+        <p class="rev-from muted" data-rev-from></p>
+        <p class="rev-q" data-rev-q></p>
+        <div class="rev-opts" data-rev-opts></div>
+        <p class="rev-ex" data-rev-ex hidden></p>
+        <button type="button" class="btn btn-primary" data-rev-next hidden>Next question</button>
+      </div>
+    </section>
+
+    <section class="reset">
+      <h2>Start again</h2>
+      <p class="muted">Clears every lesson, answer and streak saved in this browser.</p>
+      <button type="button" class="btn btn-quiet" data-reset>Clear my progress</button>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .head { padding: 40px 0 24px; max-width: 46rem; }
+  .head .lede { margin-top: 16px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--rule); padding: 24px 0; margin-bottom: 56px; }
+  .stats > div { display: grid; gap: 4px; }
+  .v { font-weight: 800; font-variation-settings: "wdth" 125; font-size: clamp(2.2rem, 7vw, 4rem); line-height: 1; }
+  .l { color: var(--ink-2); font-size: var(--s-1); }
+  section h2 { margin-bottom: 16px; }
+  .review { margin-top: 64px; max-width: var(--read); }
+  .rev-card { border: 1px solid var(--rule); border-radius: 10px; padding: 24px; background: var(--raised); display: grid; gap: 12px; }
+  .rev-from { margin: 0; font-size: var(--s-1); }
+  .rev-q { font-family: var(--serif); font-size: var(--s2); margin: 0; }
+  .rev-opts { display: grid; gap: 8px; }
+  .rev-opts :global(button) { text-align: left; padding: 11px 14px; border: 1px solid var(--rule); border-radius: 6px; background: var(--bg); cursor: pointer; }
+  .rev-opts :global(button.right) { border-color: var(--good); box-shadow: inset 4px 0 0 var(--good); font-weight: 650; }
+  .rev-opts :global(button.wrong) { border-color: var(--bad); box-shadow: inset 4px 0 0 var(--bad); }
+  .rev-ex { font-family: var(--serif); color: var(--ink-2); margin: 0; }
+  .rev-card .btn { justify-self: start; }
+  .reset { margin-top: 64px; }
+  .reset h2 { font-size: var(--s2); }
+</style>
+
+<script>
+  import { asset, page } from "../scripts/paths";
+  import { load, dueQuestions, recordAnswer, currentStreak, resetAll } from "../scripts/store";
+  type Q = { id: string; module: string; q: string; options: string[]; answer: number; explain: string; lessonTitle: string; url: string };
+  type M = { slug: string; title: string; lessons: number; questions: number };
+
+  const root = document.querySelector<HTMLElement>("[data-progress]")!;
+  const mods = JSON.parse(root.dataset.mods!) as M[];
+  const q$ = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+
+  function stats() {
+    const s = load();
+    const ids = Object.keys(s.lessons);
+    const right = Object.entries(s.answers).filter(([, r]) => r.ever);
+    q$("[data-s=lessons]").textContent = String(ids.length);
+    q$("[data-s=mastered]").textContent = String(right.length);
+    q$("[data-s=streak]").textContent = String(currentStreak());
+    for (const m of mods) {
+      const l = ids.filter((i) => i.startsWith(m.slug + "/")).length;
+      const r = right.filter(([id]) => id.startsWith(m.slug + "/")).length;
+      q$(`[data-c-l="${m.slug}"]`).textContent = `${l}/${m.lessons}`;
+      q$(`[data-c-q="${m.slug}"]`).textContent = `${r}/${m.questions}`;
+      q$<HTMLElement>(`[data-bar-l="${m.slug}"]`).style.width = `${(l / m.lessons) * 100}%`;
+      q$<HTMLElement>(`[data-bar-q="${m.slug}"]`).style.width = `${(r / m.questions) * 100}%`;
+    }
+  }
+
+  let bank: Q[] = [];
+  let queue: Q[] = [];
+
+  function showNext() {
+    const status = q$<HTMLElement>("[data-rev-status]");
+    const card = q$<HTMLElement>("[data-rev-card]");
+    const q = queue.shift();
+    if (!q) {
+      card.hidden = true;
+      const total = Object.values(load().answers).filter((r) => r.due !== null).length;
+      status.innerHTML = total
+        ? `Nothing due right now. ${total} question${total > 1 ? "s are" : " is"} scheduled for later review.`
+        : `Nothing to review yet. Questions you miss in a lesson quiz appear here a day later. <a href="${page("/explore")}">Find a lesson</a>.`;
+      return;
+    }
+    status.textContent = `${queue.length + 1} due now.`;
+    card.hidden = false;
+    q$("[data-rev-from]").textContent = `From: ${q.lessonTitle}`;
+    q$("[data-rev-q]").textContent = q.q;
+    const opts = q$<HTMLElement>("[data-rev-opts]");
+    const ex = q$<HTMLElement>("[data-rev-ex]");
+    const next = q$<HTMLButtonElement>("[data-rev-next]");
+    opts.replaceChildren(); ex.hidden = true; next.hidden = true;
+    q.options.forEach((o, i) => {
+      const b = document.createElement("button");
+      b.type = "button"; b.textContent = o;
+      b.addEventListener("click", () => {
+        const ok = i === q.answer;
+        const rec = recordAnswer(q.id, ok, true);
+        [...opts.children].forEach((c) => ((c as HTMLButtonElement).disabled = true));
+        (opts.children[q.answer] as HTMLElement).classList.add("right");
+        if (!ok) b.classList.add("wrong");
+        const when = rec.due === null ? "Mastered — it won't come back." : `Next review in ${Math.round((rec.due - Date.now()) / 86_400_000)} day(s).`;
+        ex.textContent = `${ok ? "Correct." : "Not this one."} ${q.explain} ${when}`;
+        ex.hidden = false;
+        next.hidden = false;
+        next.textContent = queue.length ? "Next question" : "Finish review";
+        next.focus();
+        stats();
+      });
+      opts.append(b);
+    });
+  }
+
+  q$<HTMLButtonElement>("[data-rev-next]").addEventListener("click", showNext);
+
+  const reset = q$<HTMLButtonElement>("[data-reset]");
+  let armed = false;
+  reset.addEventListener("click", () => {
+    if (!armed) { armed = true; reset.textContent = "Click again to clear everything"; setTimeout(() => { armed = false; reset.textContent = "Clear my progress"; }, 4000); return; }
+    resetAll(); armed = false; reset.textContent = "Progress cleared"; stats(); queue = []; showNext();
+  });
+
+  (async () => {
+    stats();
+    try { bank = await (await fetch(asset("/questions.json"))).json(); } catch { bank = []; }
+    const due = new Set(dueQuestions());
+    queue = bank.filter((q) => due.has(q.id));
+    showNext();
+  })();
+</script>

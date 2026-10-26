@@ -1,0 +1,80 @@
+---
+interface Props {
+  lessonId: string;
+  questions: { q: string; options: string[]; answer: number; explain: string }[];
+}
+const { lessonId, questions } = Astro.props;
+---
+<section class="quiz" data-quiz data-lesson={lessonId} aria-labelledby="quiz-title">
+  <h2 id="quiz-title">Check your understanding</h2>
+  <p class="muted quiz-note">Questions you miss come back for review after a day, then three, then seven.</p>
+  <ol class="qs">
+    {questions.map((q, i) => (
+      <li class="q" data-qid={`${lessonId}#${i}`} data-answer={q.answer}>
+        <p class="q-text">{q.q}</p>
+        <div class="opts" role="group" aria-label={`Answers for question ${i + 1}`}>
+          {q.options.map((o, j) => (
+            <button type="button" class="opt" data-i={j}>{o}</button>
+          ))}
+        </div>
+        <p class="explain" hidden><strong class="verdict"></strong> {q.explain}</p>
+      </li>
+    ))}
+  </ol>
+  <p class="quiz-score" aria-live="polite"></p>
+</section>
+
+<style>
+  .quiz { margin-top: 64px; padding-top: 32px; border-top: 2px solid var(--ink); max-width: var(--read); }
+  .quiz h2 { font-size: var(--s3); }
+  .quiz-note { margin: 8px 0 24px; font-size: var(--s-1); }
+  .qs { margin: 0; padding-left: 1.4em; display: grid; gap: 28px; }
+  .q::marker { font-weight: 700; color: var(--ink-3); }
+  .q-text { font-family: var(--serif); font-size: 1.125rem; margin: 0 0 12px; }
+  .opts { display: grid; gap: 8px; }
+  .opt { text-align: left; padding: 11px 14px; border: 1px solid var(--rule); border-radius: 6px; background: var(--raised); cursor: pointer; font-weight: 500; }
+  .opt:hover:not(:disabled) { border-color: var(--ink-3); }
+  .opt:disabled { cursor: default; }
+  .opt.right { border-color: var(--good); box-shadow: inset 4px 0 0 var(--good); font-weight: 650; }
+  .opt.wrong { border-color: var(--bad); box-shadow: inset 4px 0 0 var(--bad); text-decoration: line-through; text-decoration-color: var(--bad); }
+  .explain { font-family: var(--serif); margin: 12px 0 0; color: var(--ink-2); }
+  .verdict { font-family: var(--sans); }
+  .quiz-score { font-weight: 650; margin-top: 24px; }
+</style>
+
+<script>
+  import { recordAnswer, completeLesson } from "../scripts/store";
+
+  document.querySelectorAll<HTMLElement>("[data-quiz]").forEach((quiz) => {
+    const lesson = quiz.dataset.lesson!;
+    const items = [...quiz.querySelectorAll<HTMLLIElement>(".q")];
+    const scoreEl = quiz.querySelector<HTMLParagraphElement>(".quiz-score")!;
+    let done = 0, right = 0;
+
+    items.forEach((li) => {
+      const answer = Number(li.dataset.answer);
+      const qid = li.dataset.qid!;
+      const buttons = [...li.querySelectorAll<HTMLButtonElement>(".opt")];
+      buttons.forEach((b) =>
+        b.addEventListener("click", () => {
+          const chosen = Number(b.dataset.i);
+          const ok = chosen === answer;
+          buttons.forEach((x) => (x.disabled = true));
+          buttons[answer].classList.add("right");
+          if (!ok) b.classList.add("wrong");
+          const ex = li.querySelector<HTMLParagraphElement>(".explain")!;
+          ex.querySelector(".verdict")!.textContent = ok ? "Correct." : "Not this one.";
+          ex.hidden = false;
+          recordAnswer(qid, ok);
+          done++; if (ok) right++;
+          if (done === items.length) {
+            completeLesson(lesson);
+            scoreEl.textContent = right === items.length
+              ? `${right} of ${items.length}. Lesson complete.`
+              : `${right} of ${items.length}. Lesson complete — the ones you missed are in your review queue on the Progress page.`;
+          }
+        }),
+      );
+    });
+  });
+</script>

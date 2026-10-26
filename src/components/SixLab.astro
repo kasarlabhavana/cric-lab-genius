@@ -1,0 +1,92 @@
+---
+---
+<div class="six" data-six-lab>
+  <div class="readout" aria-live="polite">
+    <p class="big"><span class="num" data-o="carry">78</span><span class="unit"> m carry</span></p>
+    <p class="caption">Hang time <strong class="num" data-o="hang">3.1 s</strong>, highest point <strong class="num" data-o="apex">18 m</strong>. Without air it would carry <strong class="num" data-o="vac">120 m</strong>.</p>
+  </div>
+  <svg viewBox="0 0 1000 360" role="img" aria-label="Trajectory of the hit ball with and without air drag" class="field">
+    <line x1="40" y1="320" x2="980" y2="320" stroke="var(--outfield)" stroke-width="3" />
+    <g data-ticks font-family="var(--sans)" font-size="14" fill="var(--ink-3)"></g>
+    <rect data-rope-min x="0" y="300" width="3" height="20" fill="var(--ink)" />
+    <rect data-rope-max x="0" y="300" width="3" height="20" fill="var(--ink)" />
+    <path data-vac fill="none" stroke="var(--ink-3)" stroke-width="2" stroke-dasharray="5 6" />
+    <path data-real fill="none" stroke="var(--track)" stroke-width="3.5" />
+    <circle data-land r="7" fill="var(--leather)" />
+  </svg>
+  <p class="legend muted"><span class="sw solid"></span> With air drag <span class="sw dash"></span> Without air. Black marks show the shortest (59 m) and longest (82 m) boundaries allowed in men's internationals, measured from the centre of the pitch</p>
+  <div class="controls">
+    <label class="control">Exit speed off the bat <output class="num" data-o="speed">140 km/h</output>
+      <input type="range" min="80" max="180" value="140" data-i="speed" />
+    </label>
+    <label class="control">Launch angle <output class="num" data-o="angle">32°</output>
+      <input type="range" min="5" max="70" value="32" data-i="angle" />
+    </label>
+    <p class="best">Best angle at this speed: <strong class="num" data-o="best">—</strong> with drag, 45° without. <button type="button" class="btn btn-quiet" data-use-best>Use best angle</button></p>
+  </div>
+  <p class="note muted">Model: gravity and air drag (drag coefficient 0.45, sea-level air), launched 1 m above the ground, still air, no spin lift. Distance is measured from the hitting point, which is close to the batter's end, so a ball needs to carry further than the boundary distance from the pitch's centre. Treat this as the shape of the physics, not a prediction of any real hit.</p>
+</div>
+
+<style>
+  .six { display: grid; gap: 18px; }
+  .big { font-weight: 800; font-variation-settings: "wdth" 125; font-size: clamp(3.2rem, 11vw, 7rem); line-height: 0.95; letter-spacing: -0.03em; margin: 0; }
+  .unit { font-size: 0.32em; letter-spacing: 0; color: var(--ink-3); }
+  .caption { font-family: var(--serif); font-size: var(--s1); color: var(--ink-2); margin: 10px 0 0; }
+  .caption strong { color: var(--ink); font-family: var(--sans); }
+  .field { width: 100%; height: auto; }
+  .legend { font-size: var(--s-1); margin: 0; display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; }
+  .sw { display: inline-block; width: 24px; height: 0; border-top: 3px solid var(--track); }
+  .sw.dash { border-top: 2px dashed var(--ink-3); }
+  .controls { display: grid; gap: 18px; }
+  @media (min-width: 720px) { .controls { grid-template-columns: 1fr 1fr; } .best { grid-column: 1 / -1; } }
+  .best { margin: 0; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .note { font-size: var(--s-1); margin: 0; max-width: 50em; }
+</style>
+
+<script>
+  import { hit, bestAngle } from "../scripts/physics";
+  document.querySelectorAll<HTMLElement>("[data-six-lab]").forEach((root) => {
+    const $ = <T extends Element>(s: string) => root.querySelector<T>(s)!;
+    const speed = $<HTMLInputElement>('[data-i="speed"]');
+    const angle = $<HTMLInputElement>('[data-i="angle"]');
+    const X0 = 40, Y0 = 320, MAXM = 160; // metres across the plot
+    const sx = (m: number) => X0 + (m / MAXM) * 940;
+    const sy = (m: number) => Y0 - m * 7;
+    const ticks = $<SVGGElement>("[data-ticks]");
+    for (let m = 0; m <= MAXM; m += 20) {
+      const t = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      t.setAttribute("x", String(sx(m))); t.setAttribute("y", "345"); t.setAttribute("text-anchor", "middle");
+      t.textContent = `${m} m`;
+      ticks.append(t);
+    }
+    // Boundary limits measured from the pitch centre; hitting point is ~9 m from centre.
+    $<SVGRectElement>("[data-rope-min]").setAttribute("x", String(sx(59.4 + 9)));
+    $<SVGRectElement>("[data-rope-max]").setAttribute("x", String(sx(82.3 + 9)));
+
+    const toPath = (pts: [number, number][]) =>
+      pts.filter(([x]) => x <= MAXM).map(([x, y], i) => `${i ? "L" : "M"}${sx(x).toFixed(1)} ${Math.max(10, sy(y)).toFixed(1)}`).join("");
+
+    function update() {
+      const v = Number(speed.value), a = Number(angle.value);
+      $('[data-o="speed"]').textContent = `${v} km/h`;
+      $('[data-o="angle"]').textContent = `${a}°`;
+      const real = hit(v, a), vac = hit(v, a, { drag: false });
+      $<SVGPathElement>("[data-real]").setAttribute("d", toPath(real.pts));
+      $<SVGPathElement>("[data-vac]").setAttribute("d", toPath(vac.pts));
+      const land = $<SVGCircleElement>("[data-land]");
+      land.setAttribute("cx", String(sx(Math.min(real.carry, MAXM))));
+      land.setAttribute("cy", String(Y0));
+      $('[data-o="carry"]').textContent = String(Math.round(real.carry));
+      $('[data-o="hang"]').textContent = `${real.hang.toFixed(1)} s`;
+      $('[data-o="apex"]').textContent = `${Math.round(real.maxHeight)} m`;
+      $('[data-o="vac"]').textContent = `${Math.round(vac.carry)} m`;
+      $('[data-o="best"]').textContent = `${bestAngle(v).angle.toFixed(1)}°`;
+    }
+    $<HTMLButtonElement>("[data-use-best]").addEventListener("click", () => {
+      angle.value = String(Math.round(bestAngle(Number(speed.value)).angle));
+      update();
+    });
+    [speed, angle].forEach((i) => i.addEventListener("input", update));
+    update();
+  });
+</script>

@@ -1,0 +1,97 @@
+---
+---
+<section class="daily" data-daily aria-labelledby="daily-title">
+  <div class="daily-head">
+    <h2 id="daily-title">Today's question</h2>
+    <p class="streak muted" data-streak></p>
+  </div>
+  <p class="dq" data-dq>Loading today's question…</p>
+  <div class="opts" data-opts></div>
+  <p class="ex" data-ex hidden></p>
+  <p class="due" data-due hidden></p>
+  <noscript><p class="muted">Today's question needs JavaScript. Every lesson's quiz is also on its lesson page.</p></noscript>
+</section>
+
+<style>
+  .daily { border: 1px solid var(--rule); border-radius: 10px; padding: 24px; background: var(--raised); }
+  .daily-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .daily h2 { font-size: var(--s2); }
+  .streak { margin: 0; font-size: var(--s-1); }
+  .dq { font-family: var(--serif); font-size: var(--s2); line-height: 1.35; margin: 14px 0 16px; }
+  .opts { display: grid; gap: 8px; }
+  .opts :global(button) { text-align: left; padding: 11px 14px; border: 1px solid var(--rule); border-radius: 6px; background: var(--bg); cursor: pointer; font-weight: 500; }
+  .opts :global(button:hover:not(:disabled)) { border-color: var(--ink-3); }
+  .opts :global(button.right) { border-color: var(--good); box-shadow: inset 4px 0 0 var(--good); font-weight: 650; }
+  .opts :global(button.wrong) { border-color: var(--bad); box-shadow: inset 4px 0 0 var(--bad); }
+  .ex { font-family: var(--serif); color: var(--ink-2); margin: 14px 0 0; }
+  .due { margin: 14px 0 0; font-weight: 600; }
+</style>
+
+<script>
+  import { asset, page } from "../scripts/paths";
+  import { load, recordDaily, recordAnswer, currentStreak, dueQuestions, today } from "../scripts/store";
+  type Q = { id: string; q: string; options: string[]; answer: number; explain: string; lessonTitle: string; url: string };
+
+  const root = document.querySelector<HTMLElement>("[data-daily]");
+  if (root) init(root);
+
+  function hash(s: string) { let h = 2166136261; for (const c of s) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; }
+
+  async function init(root: HTMLElement) {
+    let qs: Q[] = [];
+    try { qs = await (await fetch(asset("/questions.json"))).json(); } catch { /* offline */ }
+    const dq = root.querySelector<HTMLElement>("[data-dq]")!;
+    if (!qs.length) { dq.textContent = "Today's question couldn't load. Try again when you're online."; return; }
+    const q = qs[hash(today()) % qs.length];
+    const opts = root.querySelector<HTMLElement>("[data-opts]")!;
+    const ex = root.querySelector<HTMLElement>("[data-ex]")!;
+    const streakEl = root.querySelector<HTMLElement>("[data-streak]")!;
+    const dueEl = root.querySelector<HTMLElement>("[data-due]")!;
+    dq.textContent = q.q;
+
+    const showStreak = () => {
+      const n = currentStreak();
+      streakEl.textContent = n > 0 ? `${n}-day streak` : "Answer daily to build a streak";
+      const due = dueQuestions().length;
+      dueEl.hidden = due === 0;
+      dueEl.innerHTML = due ? `${due} question${due > 1 ? "s" : ""} due for review. <a href="${page("/progress#review")}">Review now</a>` : "";
+    };
+
+    const reveal = (chosen: number) => {
+      const buttons = [...opts.querySelectorAll("button")];
+      buttons.forEach((b) => (b.disabled = true));
+      buttons[q.answer].classList.add("right");
+      if (chosen !== q.answer && buttons[chosen]) buttons[chosen].classList.add("wrong");
+      ex.hidden = false;
+      ex.innerHTML = "";
+      const verdict = document.createElement("strong");
+      verdict.style.fontFamily = "var(--sans)";
+      verdict.textContent = chosen === q.answer ? "Correct. " : "Not this one. ";
+      const link = document.createElement("a");
+      link.href = page(q.url);
+      link.textContent = `Read: ${q.lessonTitle}`;
+      ex.append(verdict, q.explain + " ", link);
+    };
+
+    q.options.forEach((o, i) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = o;
+      b.addEventListener("click", () => {
+        const ok = i === q.answer;
+        recordDaily(q.id, ok);
+        recordAnswer(q.id, ok);
+        reveal(i);
+        showStreak();
+      });
+      opts.append(b);
+    });
+
+    const s = load();
+    if (s.daily?.date === today() && s.daily.qid === q.id) {
+      reveal(s.daily.correct ? q.answer : q.options.findIndex((_, i) => i !== q.answer));
+      ex.prepend(document.createTextNode("You've answered today's question. "));
+    }
+    showStreak();
+  }
+</script>

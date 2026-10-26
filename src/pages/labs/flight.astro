@@ -1,0 +1,26 @@
+---
+import Base from "../../layouts/Base.astro";
+import FlightLab from "../../components/FlightLab.astro";
+---
+<Base title="Flight time lab" description="How long does a delivery take to reach the batter, and how much speed does air drag remove? Change speed, reaction time, drag and altitude.">
+  <div class="wrap lab">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/labs">Labs</a></nav>
+    <h1>Flight time lab</h1>
+    <p class="lede">Set a speed and bowl it. Then try it at one-tenth speed to see what the batter is up against.</p>
+    <div class="stage"><FlightLab /></div>
+    <section class="related">
+      <h2>Read the science</h2>
+      <ul><li><a href="/explore/ball-in-flight/drag-and-the-slowing-ball">How much the air slows a delivery</a></li><li><a href="/explore/seeing-the-ball/tracking-the-ball">How batters track the ball</a></li><li><a href="/explore/technology-and-decisions/measuring-speed">How bowling speed is measured</a></li></ul>
+    </section>
+  </div>
+</Base>
+<style>
+  .lab { padding-top: 28px; }
+  .crumbs { font-size: var(--s-1); } .crumbs a { color: var(--ink-2); text-decoration: none; }
+  h1 { margin-top: 24px; }
+  .lede { margin: 14px 0 32px; }
+  .stage { border-top: 2px solid var(--ink); padding-top: 28px; }
+  .related { margin-top: 56px; }
+  .related h2 { font-size: var(--s2); margin-bottom: 12px; }
+  .related ul { padding-left: 1.2em; font-family: var(--serif); font-size: var(--s1); display: grid; gap: 6px; }
+</style>

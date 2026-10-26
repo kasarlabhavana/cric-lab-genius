@@ -1,0 +1,117 @@
+---
+import "../styles/global.css";
+import SearchDialog from "../components/SearchDialog.astro";
+import Seam from "../components/Seam.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  jsonLd?: object | object[];
+  ogType?: "website" | "article";
+}
+const { title, description, jsonLd, ogType = "website" } = Astro.props;
+const site = "https://cricscience.com";
+const path = Astro.url.pathname.replace(/\.html$/, "").replace(/\/index$/, "").replace(/\/$/, "") || "/";
+const canonical = site + (path === "/" ? "" : path);
+const fullTitle = path === "/" ? title : `${title} | CricScience`;
+const ogImage = `${site}/og-image.png`;
+const section = path.split("/")[1] ?? "";
+const nav = [
+  { href: "/explore", label: "Learn", key: "explore" },
+  { href: "/labs", label: "Labs", key: "labs" },
+  { href: "/glossary", label: "Glossary", key: "glossary" },
+  { href: "/progress", label: "Progress", key: "progress" },
+];
+---
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:site_name" content="CricScience" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="theme-color" content="#1f4d36" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  </head>
+  <body>
+    <a class="sr-only" href="#main">Skip to content</a>
+    <header class="site-head">
+      <div class="wrap">
+        <a class="brand" href="/"><Seam /> CricScience</a>
+        <nav class="nav" id="site-nav" aria-label="Main">
+          {nav.map((n) => (
+            <a href={n.href} aria-current={section === n.key ? "page" : undefined}>{n.label}</a>
+          ))}
+        </nav>
+        <button class="icon-btn search-btn" type="button" data-open-search aria-label="Search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <span>Search</span><kbd>/</kbd>
+        </button>
+        <button class="icon-btn menu-btn" type="button" aria-controls="site-nav" aria-expanded="false" data-menu>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+          <span class="sr-only">Menu</span>
+        </button>
+      </div>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="site-foot">
+      <div class="wrap">
+        <div>
+          <div class="foot-title">CricScience</div>
+          <p style="margin:0;max-width:34em">The physics, biomechanics and technology behind cricket, explained with sources. Every lesson marks what is established and what is still debated.</p>
+        </div>
+        <div>
+          <div class="foot-title">Learn</div>
+          <ul>
+            <li><a href="/explore">All lessons</a></li>
+            <li><a href="/labs">Labs</a></li>
+            <li><a href="/glossary">Glossary</a></li>
+            <li><a href="/progress">Your progress</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="foot-title">About</div>
+          <ul>
+            <li><a href="/about">About and method</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/privacy">Privacy</a></li>
+            <li><a href="/disclaimer">Disclaimer</a></li>
+          </ul>
+        </div>
+        <p style="margin:0;grid-column:1/-1">© {new Date().getFullYear()} CricScience. Laws of Cricket references are to the MCC's published Laws; MCC is not affiliated with this site.</p>
+      </div>
+    </footer>
+    <SearchDialog />
+    <script>
+      const btn = document.querySelector<HTMLButtonElement>("[data-menu]");
+      const nav = document.getElementById("site-nav");
+      btn?.addEventListener("click", () => {
+        const open = nav?.classList.toggle("open");
+        btn.setAttribute("aria-expanded", String(!!open));
+      });
+      if ("serviceWorker" in navigator && location.protocol === "https:" && location.hostname.endsWith("cricscience.com")) {
+        window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+---
+import Base from "../../layouts/Base.astro";
+import Scorecard from "../../components/Scorecard.astro";
+import { MODULES } from "../../data/modules";
+import { lessonsByModule, lessonUrl } from "../../lib/content";
+const map = await lessonsByModule();
+---
+<Base title="Learn the science of cricket" description="Seven sciences of cricket — flight, the pitch, bat and ball, the bowling body, vision, technology and equipment — in short, sourced lessons.">
+  <div class="wrap">
+    <header class="head">
+      <h1>Learn</h1>
+      <p class="lede">Seven sciences, each built around one question. Every lesson is short, cites its sources and separates what is established from what is still argued about.</p>
+    </header>
+    <Scorecard />
+
+    <section class="all" aria-labelledby="all-title">
+      <h2 id="all-title">Every lesson</h2>
+      <div class="cols">
+        {MODULES.map((m) => (
+          <div>
+            <h3><a href={`/explore/${m.slug}`}>{m.title}</a></h3>
+            <ol>
+              {map.get(m.slug)!.map((l) => <li><a href={lessonUrl(l)}>{l.data.title}</a></li>)}
+            </ol>
+          </div>
+        ))}
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .head { padding: 40px 0 32px; max-width: 46rem; }
+  .head .lede { margin-top: 16px; }
+  .all { margin-top: 72px; }
+  .all h2 { margin-bottom: 24px; }
+  .cols { display: grid; gap: 32px 40px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .cols h3 { font-size: var(--s1); margin-bottom: 10px; }
+  .cols h3 a { color: var(--ink); text-decoration: none; }
+  .cols h3 a:hover { text-decoration: underline; }
+  .cols ol { margin: 0; padding-left: 1.3em; display: grid; gap: 6px; font-family: var(--serif); }
+  .cols ol a { color: var(--ink-2); }
+</style>

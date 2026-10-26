@@ -1,0 +1,45 @@
+---
+import type { Lesson } from "../lib/content";
+import { lessonUrl } from "../lib/content";
+interface Props { lessons: Lesson[] }
+const { lessons } = Astro.props;
+---
+<ol class="lesson-list">
+  {lessons.map((l) => (
+    <li data-lesson-item={l.id}>
+      <a href={lessonUrl(l)}>
+        <span class="t">{l.data.title}</span>
+        <span class="s">{l.data.summary}</span>
+        <span class="m muted num">{l.data.minutes} min<span class="tick" hidden> · Completed</span></span>
+      </a>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .lesson-list { list-style: none; counter-reset: l; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+  .lesson-list li { counter-increment: l; border-bottom: 1px solid var(--rule); }
+  .lesson-list a { display: grid; grid-template-columns: 2.4rem 1fr; column-gap: 12px; row-gap: 4px; padding: 18px 4px; text-decoration: none; color: var(--ink); }
+  .lesson-list a::before { content: counter(l); grid-row: 1 / span 3; font-weight: 800; font-variation-settings: "wdth" 120; font-size: 1.4rem; color: var(--ink-3); font-variant-numeric: tabular-nums; line-height: 1.1; }
+  .lesson-list a:hover .t { text-decoration: underline; }
+  .lesson-list li.done a::before { color: var(--good); }
+  .t { font-weight: 700; font-variation-settings: "wdth" 110; font-size: var(--s1); }
+  .s { font-family: var(--serif); color: var(--ink-2); }
+  .m { font-size: var(--s-1); }
+  .tick { color: var(--good); }
+</style>
+
+<script>
+  import { load } from "../scripts/store";
+  const mark = () => {
+    const done = load().lessons;
+    document.querySelectorAll<HTMLElement>("[data-lesson-item]").forEach((li) => {
+      const d = !!done[li.dataset.lessonItem!];
+      li.classList.toggle("done", d);
+      const t = li.querySelector<HTMLElement>(".tick");
+      if (t) t.hidden = !d;
+    });
+  };
+  mark();
+  window.addEventListener("cs:progress", mark);
+</script>

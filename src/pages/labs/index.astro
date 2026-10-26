@@ -1,0 +1,27 @@
+---
+import Base from "../../layouts/Base.astro";
+import { LABS } from "../../lib/content";
+---
+<Base title="Labs" description="Interactive cricket physics: flight time and drag, swing regimes, and six-hitting trajectories. Simple, honest models you can play with.">
+  <div class="wrap">
+    <header class="head">
+      <h1>Labs</h1>
+      <p class="lede">Small, honest models of real cricket physics. Each one says what it includes and what it leaves out.</p>
+    </header>
+    <ul class="labs">
+      {LABS.map((l) => (
+        <li><a href={`/labs/${l.slug}`}><span class="t">{l.title}</span><span class="s">{l.line}</span></a></li>
+      ))}
+    </ul>
+  </div>
+</Base>
+<style>
+  .head { padding: 40px 0 32px; max-width: 46rem; }
+  .head .lede { margin-top: 16px; }
+  .labs { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); max-width: 52rem; }
+  .labs li { border-bottom: 1px solid var(--rule); }
+  .labs a { display: grid; gap: 4px; padding: 22px 4px; text-decoration: none; color: var(--ink); }
+  .labs a:hover .t { text-decoration: underline; }
+  .t { font-weight: 800; font-variation-settings: "wdth" 118; font-size: var(--s3); }
+  .s { font-family: var(--serif); color: var(--ink-2); font-size: var(--s1); }
+</style>

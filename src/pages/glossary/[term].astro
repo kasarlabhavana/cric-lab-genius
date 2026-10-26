@@ -1,0 +1,59 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import { MODULE_BY_SLUG } from "../../data/modules";
+
+export async function getStaticPaths() {
+  const terms = await getCollection("glossary");
+  return terms.map((t) => ({ params: { term: t.id }, props: { t, all: terms } }));
+}
+const { t, all } = Astro.props;
+const lesson = t.data.lesson ? await getEntry("lessons", t.data.lesson) : null;
+if (t.data.lesson && !lesson) throw new Error(`Glossary ${t.id} links to missing lesson ${t.data.lesson}`);
+const related = all.filter((o) => o.id !== t.id && o.data.lesson && o.data.lesson === t.data.lesson).slice(0, 6);
+const lessonHref = lesson ? `/explore/${lesson.data.module}/${lesson.id.split("/").pop()}` : null;
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "DefinedTerm",
+  name: t.data.term,
+  description: t.data.definition,
+  url: `https://cricscience.com/glossary/${t.id}`,
+  inDefinedTermSet: "https://cricscience.com/glossary",
+};
+---
+<Base title={`${t.data.term}: meaning in cricket`} description={t.data.definition} jsonLd={jsonLd}>
+  <div class="wrap term">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/glossary">Glossary</a></nav>
+    <h1>{t.data.term}</h1>
+    <p class="def">{t.data.definition}</p>
+    {lesson && lessonHref && (
+      <a class="go" href={lessonHref}>
+        <span class="k">Explained in {MODULE_BY_SLUG[lesson.data.module].title}</span>
+        <span class="tt">{lesson.data.title}</span>
+        <span class="ss">{lesson.data.summary}</span>
+      </a>
+    )}
+    {related.length > 0 && (
+      <section class="rel">
+        <h2>Related terms</h2>
+        <ul>{related.map((r) => <li><a href={`/glossary/${r.id}`}>{r.data.term}</a></li>)}</ul>
+      </section>
+    )}
+  </div>
+</Base>
+<style>
+  .term { padding-top: 28px; max-width: calc(46rem + 2 * var(--gutter)); margin-left: max(0px, calc((100vw - var(--max)) / 2)); }
+  .crumbs { font-size: var(--s-1); } .crumbs a { color: var(--ink-2); text-decoration: none; }
+  h1 { margin-top: 24px; }
+  .def { font-family: var(--serif); font-size: var(--s2); line-height: 1.5; margin: 20px 0 32px; }
+  .go { display: grid; gap: 4px; padding: 18px; background: var(--outfield-soft); border-radius: 8px; text-decoration: none; color: var(--ink); }
+  .go:hover { outline: 2px solid var(--outfield); }
+  .k { font-size: var(--s-1); color: var(--ink-2); }
+  .tt { font-weight: 750; font-variation-settings: "wdth" 112; font-size: var(--s1); }
+  .ss { font-family: var(--serif); color: var(--ink-2); }
+  .rel { margin-top: 40px; }
+  .rel h2 { font-size: var(--s1); margin-bottom: 10px; }
+  .rel ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .rel a { display: inline-block; padding: 6px 12px; border: 1px solid var(--rule); border-radius: 999px; text-decoration: none; color: var(--ink); background: var(--raised); }
+  .rel a:hover { border-color: var(--ink-3); }
+</style>

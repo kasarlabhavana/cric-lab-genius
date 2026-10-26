@@ -1,0 +1,51 @@
+---
+import { MODULES } from "../data/modules";
+import { lessonsByModule } from "../lib/content";
+const map = await lessonsByModule();
+const total = [...map.values()].reduce((a, l) => a + l.length, 0);
+---
+<table class="scorecard">
+  <thead>
+    <tr><th scope="col">Science</th><th scope="col">The question it answers</th><th scope="col" class="n">Lessons</th><th scope="col" class="n">Done</th></tr>
+  </thead>
+  <tbody>
+    {MODULES.map((m) => (
+      <tr>
+        <td><a class="row-link" href={`/explore/${m.slug}`}>{m.title}</a></td>
+        <td class="q">{m.question}</td>
+        <td class="n num">{map.get(m.slug)!.length}</td>
+        <td class="n"><span class="meter" data-meter={m.slug} data-total={map.get(m.slug)!.length}><span class="meter-bar"><span></span></span><span class="num c">0</span></span></td>
+      </tr>
+    ))}
+  </tbody>
+  <tfoot>
+    <tr><td colspan="2" class="muted">Total</td><td class="n num"><strong>{total}</strong></td><td class="n num"><strong data-meter-total>0</strong></td></tr>
+  </tfoot>
+</table>
+
+<style>
+  tfoot td { padding: 14px 12px; border-top: 2px solid var(--ink); }
+  @media (max-width: 640px) {
+    tfoot tr { display: flex !important; justify-content: space-between; }
+    tfoot td[colspan] { display: none; }
+  }
+</style>
+
+<script>
+  import { load } from "../scripts/store";
+  const update = () => {
+    const ids = Object.keys(load().lessons);
+    let sum = 0;
+    document.querySelectorAll<HTMLElement>("[data-meter]").forEach((el) => {
+      const slug = el.dataset.meter!, total = Number(el.dataset.total);
+      const n = ids.filter((id) => id.startsWith(slug + "/")).length;
+      sum += n;
+      el.querySelector<HTMLElement>(".c")!.textContent = String(n);
+      el.querySelector<HTMLElement>(".meter-bar span")!.style.width = `${total ? (n / total) * 100 : 0}%`;
+    });
+    const t = document.querySelector("[data-meter-total]");
+    if (t) t.textContent = String(sum);
+  };
+  update();
+  window.addEventListener("cs:progress", update);
+</script>

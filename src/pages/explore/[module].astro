@@ -1,0 +1,66 @@
+---
+import Base from "../../layouts/Base.astro";
+import LessonList from "../../components/LessonList.astro";
+import { MODULES } from "../../data/modules";
+import { lessonsByModule, lessonUrl } from "../../lib/content";
+
+export async function getStaticPaths() {
+  const map = await lessonsByModule();
+  return MODULES.map((m, i) => ({
+    params: { module: m.slug },
+    props: { mod: m, lessons: map.get(m.slug)!, next: MODULES[i + 1] ?? null },
+  }));
+}
+const { mod, lessons, next } = Astro.props;
+const minutes = lessons.reduce((a, l) => a + l.data.minutes, 0);
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Course",
+  name: mod.title,
+  description: mod.intro,
+  url: `https://cricscience.com/explore/${mod.slug}`,
+  provider: { "@type": "Organization", name: "CricScience", url: "https://cricscience.com" },
+  hasPart: lessons.map((l) => ({ "@type": "LearningResource", name: l.data.title, url: `https://cricscience.com${lessonUrl(l)}` })),
+};
+---
+<Base title={mod.title} description={`${mod.question} ${lessons.length} short lessons with sources and quizzes.`} jsonLd={jsonLd}>
+  <div class="wrap mod">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/explore">Learn</a></nav>
+    <header>
+      <h1>{mod.title}</h1>
+      <p class="lede">{mod.question}</p>
+      <p class="intro">{mod.intro}</p>
+      <p class="muted num facts">{lessons.length} lessons, about {minutes} minutes. <span data-mod-progress={mod.slug}>0</span> of {lessons.length} completed.</p>
+      {lessons[0] && <a class="btn btn-primary" href={lessonUrl(lessons[0])} data-start={mod.slug}>Start with lesson 1</a>}
+    </header>
+    <LessonList lessons={lessons} />
+    {next && (
+      <p class="next">Next science: <a href={`/explore/${next.slug}`}>{next.title}</a></p>
+    )}
+  </div>
+</Base>
+
+<style>
+  .mod { padding-top: 28px; }
+  .crumbs { font-size: var(--s-1); }
+  .crumbs a { color: var(--ink-2); text-decoration: none; }
+  header { margin: 28px 0 40px; max-width: 46rem; }
+  .lede { margin: 16px 0 0; }
+  .intro { font-family: var(--serif); font-size: 1.1rem; line-height: 1.6; margin: 18px 0 0; }
+  .facts { font-size: var(--s-1); margin: 18px 0 20px; }
+  .next { margin-top: 32px; }
+  .mod :global(.lesson-list) { max-width: 52rem; }
+</style>
+
+<script>
+  import { load } from "../../scripts/store";
+  const update = () => {
+    const done = load().lessons;
+    document.querySelectorAll<HTMLElement>("[data-mod-progress]").forEach((el) => {
+      const slug = el.dataset.modProgress!;
+      el.textContent = String(Object.keys(done).filter((id) => id.startsWith(slug + "/")).length);
+    });
+  };
+  update();
+  window.addEventListener("cs:progress", update);
+</script>

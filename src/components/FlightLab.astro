@@ -1,0 +1,142 @@
+---
+interface Props { compact?: boolean }
+const { compact = false } = Astro.props;
+---
+<div class:list={["flight", { compact }]} data-flight-lab>
+  <div class="readout" aria-live="polite">
+    <div class="big"><span class="num" data-out="time">0.46</span><span class="unit"> s</span></div>
+    <p class="caption">from the hand to the batter at <strong class="num" data-out="speed">145</strong> km/h. It arrives at <strong class="num" data-out="arrival">128</strong> km/h after air drag.</p>
+  </div>
+
+  <svg class="pitch" viewBox="0 0 1000 150" role="img" aria-label="Side view of the pitch from the bowler's release point to the batter">
+    <rect x="20" y="104" width="960" height="14" fill="var(--clay)" rx="2" />
+    <g stroke="var(--ink)" stroke-width="3">
+      <line x1="40" y1="104" x2="40" y2="70" /><line x1="48" y1="104" x2="48" y2="70" /><line x1="56" y1="104" x2="56" y2="70" />
+      <line x1="944" y1="104" x2="944" y2="70" /><line x1="952" y1="104" x2="952" y2="70" /><line x1="960" y1="104" x2="960" y2="70" />
+    </g>
+    <path data-track d="M80 34 Q 560 40 660 104 Q 780 70 905 62" fill="none" stroke="var(--track)" stroke-width="2.5" stroke-dasharray="6 6" />
+    <circle data-ball cx="80" cy="34" r="9" fill="var(--leather)" />
+    <text x="80" y="140" font-size="18" fill="var(--ink-3)" text-anchor="middle" font-family="var(--sans)">release</text>
+    <text x="905" y="140" font-size="18" fill="var(--ink-3)" text-anchor="middle" font-family="var(--sans)">batter</text>
+  </svg>
+
+  <div class="timeline" aria-hidden="true">
+    <div class="tl-bar"><span class="tl-react" data-react-bar></span></div>
+    <div class="tl-labels"><span>release</span><span data-out="left-label">0.26 s left after a 0.20 s reaction</span><span>bat</span></div>
+  </div>
+
+  <div class="controls">
+    <label class="control">Delivery speed <output class="num" data-out="speed2">145 km/h</output>
+      <input type="range" min="60" max="160" step="1" value="145" data-in="speed" />
+    </label>
+    {!compact && (
+      <>
+        <label class="control">Simple reaction time <output class="num" data-out="react">0.20 s</output>
+          <input type="range" min="0.15" max="0.30" step="0.01" value="0.20" data-in="react" />
+        </label>
+        <label class="control">Drag coefficient <output class="num" data-out="cd">0.45</output>
+          <input type="range" min="0.35" max="0.55" step="0.01" value="0.45" data-in="cd" />
+        </label>
+        <div class="control">
+          <span>Air</span>
+          <div class="seg" role="group" aria-label="Air density">
+            <button type="button" aria-pressed="true" data-rho="1.2">Sea level</button>
+            <button type="button" aria-pressed="false" data-rho="0.98">Johannesburg (~1,750 m)</button>
+          </div>
+        </div>
+      </>
+    )}
+    <div class="actions">
+      <button type="button" class="btn btn-primary" data-bowl="1">Bowl at real speed</button>
+      <button type="button" class="btn btn-quiet" data-bowl="10">Bowl at one-tenth speed</button>
+    </div>
+  </div>
+  {!compact && (
+    <p class="note muted">Model: drag only, over 17.5 m from release to the batter's hitting zone; no bounce losses. The bounce takes further pace off. The flight path drawn is a schematic, not to vertical scale.</p>
+  )}
+</div>
+
+<style>
+  .flight { display: grid; gap: 20px; }
+  .big { font-weight: 800; font-variation-settings: "wdth" 125; font-size: clamp(4rem, 14vw, 9rem); line-height: 0.9; letter-spacing: -0.04em; }
+  .unit { font-size: 0.4em; letter-spacing: 0; color: var(--ink-3); }
+  .caption { font-family: var(--serif); font-size: var(--s2); line-height: 1.4; max-width: 30em; margin: 12px 0 0; color: var(--ink-2); }
+  .caption strong { color: var(--ink); font-family: var(--sans); font-weight: 700; }
+  .pitch { width: 100%; height: auto; }
+  .timeline { display: grid; gap: 6px; }
+  .tl-bar { height: 10px; border-radius: 5px; background: var(--outfield-soft); border: 1px solid var(--rule); overflow: hidden; }
+  .tl-react { display: block; height: 100%; background: var(--leather); width: 43%; }
+  .tl-labels { display: flex; justify-content: space-between; font-size: var(--s-1); color: var(--ink-3); gap: 8px; }
+  .tl-labels span:nth-child(2) { color: var(--ink-2); text-align: center; }
+  .controls { display: grid; gap: 18px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .flight:not(.compact) .controls { grid-template-columns: 1fr 1fr; } }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; align-self: end; }
+  .control > span { font-weight: 600; font-size: var(--s-1); }
+  .note { font-size: var(--s-1); margin: 0; max-width: 46em; }
+</style>
+
+<script>
+  import { delivery } from "../scripts/physics";
+
+  document.querySelectorAll<HTMLElement>("[data-flight-lab]").forEach((root) => {
+    const $ = <T extends Element>(s: string) => root.querySelector<T>(s);
+    const out = (k: string, v: string) => root.querySelectorAll(`[data-out="${k}"]`).forEach((e) => (e.textContent = v));
+    const speed = $<HTMLInputElement>('[data-in="speed"]')!;
+    const react = $<HTMLInputElement>('[data-in="react"]');
+    const cd = $<HTMLInputElement>('[data-in="cd"]');
+    const ball = $<SVGCircleElement>("[data-ball]")!;
+    const track = $<SVGPathElement>("[data-track]")!;
+    const bar = $<HTMLElement>("[data-react-bar]")!;
+    let rho = 1.2;
+    let result = delivery(145);
+
+    function update() {
+      const s = Number(speed.value);
+      const r = react ? Number(react.value) : 0.2;
+      result = delivery(s, { cd: cd ? Number(cd.value) : 0.45, rho });
+      out("time", result.time.toFixed(2));
+      out("speed", String(s));
+      out("speed2", `${s} km/h`);
+      out("arrival", String(Math.round(result.arrivalKmh)));
+      out("react", `${r.toFixed(2)} s`);
+      if (cd) out("cd", Number(cd.value).toFixed(2));
+      const left = result.time - r;
+      out("left-label", `${left.toFixed(2)} s left after a ${r.toFixed(2)} s reaction`);
+      bar.style.width = `${Math.min(100, (r / result.time) * 100)}%`;
+    }
+
+    root.querySelectorAll<HTMLInputElement>("input[type=range]").forEach((i) => i.addEventListener("input", update));
+    root.querySelectorAll<HTMLButtonElement>("[data-rho]").forEach((b) =>
+      b.addEventListener("click", () => {
+        rho = Number(b.dataset.rho);
+        root.querySelectorAll("[data-rho]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+        update();
+      }),
+    );
+
+    let raf = 0;
+    root.querySelectorAll<HTMLButtonElement>("[data-bowl]").forEach((b) =>
+      b.addEventListener("click", () => {
+        cancelAnimationFrame(raf);
+        const slow = Number(b.dataset.bowl);
+        const len = track.getTotalLength();
+        const samples = result.samples;
+        const total = result.time;
+        const start = performance.now();
+        const step = (now: number) => {
+          const t = ((now - start) / 1000) / slow;
+          // map elapsed time to distance using the drag-model samples
+          let i = samples.findIndex((p) => p.t >= t);
+          if (i === -1) i = samples.length - 1;
+          const frac = Math.min(1, samples[i].x / 17.5);
+          const p = track.getPointAtLength(frac * len);
+          ball.setAttribute("cx", String(p.x));
+          ball.setAttribute("cy", String(p.y));
+          if (t < total) raf = requestAnimationFrame(step);
+        };
+        raf = requestAnimationFrame(step);
+      }),
+    );
+    update();
+  });
+</script>

@@ -1,0 +1,101 @@
+---
+import Base from "../layouts/Base.astro";
+import FlightLab from "../components/FlightLab.astro";
+import Scorecard from "../components/Scorecard.astro";
+import DailyQuestion from "../components/DailyQuestion.astro";
+import { LABS } from "../lib/content";
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "CricScience",
+  url: "https://cricscience.com",
+  description: "The physics, biomechanics and technology behind cricket, explained with sources.",
+};
+---
+<Base title="CricScience: the science behind cricket" description="The physics, biomechanics and technology behind cricket — swing, spin, bounce, bat physics, fast-bowling injuries and DRS — in short lessons with sources and interactive labs." jsonLd={jsonLd}>
+  <section class="hero">
+    <div class="wrap">
+      <h1 class="hero-q">How long does a batter have?</h1>
+      <FlightLab compact />
+      <p class="pitchline">CricScience explains the physics, biomechanics and technology of cricket in short lessons. Each one cites its sources and keeps what's established apart from what's still argued about.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="/explore">Start learning</a>
+        <a class="btn btn-quiet" href="/labs">Open the labs</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap band" aria-labelledby="sci-title">
+    <h2 id="sci-title">Seven sciences</h2>
+    <p class="sub">Each one built around a single question.</p>
+    <Scorecard />
+  </section>
+
+  <section class="wrap daily-band">
+    <div class="band-grid">
+      <div>
+        <h2>One question a day</h2>
+        <p class="sub">Answer daily to build a streak. Miss one and it comes back for review a day later, then after three days, then a week.</p>
+      </div>
+      <DailyQuestion />
+    </div>
+  </section>
+
+  <section class="wrap evidence" aria-labelledby="ev-title">
+    <h2 id="ev-title">Known, and not yet known</h2>
+    <div class="ev-grid">
+      <p class="ev-text">Cricket is full of confident explanations that sound like physics. Every lesson here ends its claims in one of two columns, so you can see where the science is settled and where it is still open. Here is the swing lesson's:</p>
+      <div class="ev-cols">
+        <div class="ev est">
+          <h3>Established</h3>
+          <p>Swing comes from the airflow leaving the ball at different points on its two sides, set up by the angled seam.</p>
+        </div>
+        <div class="ev deb">
+          <h3>Still debated</h3>
+          <p>Whether humid, overcast weather increases swing — and if so, why. Wind-tunnel studies have not found a clear mechanism.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap labs" aria-labelledby="labs-title">
+    <h2 id="labs-title">Labs</h2>
+    <ul>
+      {LABS.map((l) => (
+        <li><a href={`/labs/${l.slug}`}><span class="t">{l.title}</span><span class="s">{l.line}</span></a></li>
+      ))}
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .hero { padding: 40px 0 56px; border-bottom: 1px solid var(--rule); }
+  .hero-q { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; font-variation-settings: "wdth" 110; color: var(--ink-2); margin-bottom: 10px; }
+  .pitchline { font-family: var(--serif); font-size: var(--s1); line-height: 1.55; max-width: 38em; margin: 32px 0 0; }
+  .cta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+  .band { padding-top: 64px; }
+  .band .sub { margin-bottom: 24px; }
+  .daily-band { margin-top: 88px; }
+  .band-grid { display: grid; gap: 28px; align-items: start; }
+  @media (min-width: 900px) { .band-grid { grid-template-columns: 1fr 1fr; gap: 56px; } }
+  .sub { font-family: var(--serif); color: var(--ink-2); font-size: var(--s1); margin: 10px 0 0; }
+  .evidence { margin-top: 88px; }
+  .ev-grid { display: grid; gap: 28px; margin-top: 20px; }
+  @media (min-width: 900px) { .ev-grid { grid-template-columns: 1fr 1.4fr; gap: 56px; } }
+  .ev-text { font-family: var(--serif); font-size: var(--s1); line-height: 1.6; margin: 0; }
+  .ev-cols { display: grid; gap: 20px; }
+  @media (min-width: 640px) { .ev-cols { grid-template-columns: 1fr 1fr; } }
+  .ev { border-left: 3px solid var(--outfield); padding-left: 16px; }
+  .ev.deb { border-left-color: var(--clay); }
+  .ev h3 { font-size: var(--s0); font-weight: 750; }
+  .ev p { font-family: var(--serif); color: var(--ink-2); margin: 8px 0 0; }
+  .labs { margin-top: 88px; }
+  .labs h2 { margin-bottom: 16px; }
+  .labs ul { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--rule); }
+  .labs li { border-bottom: 1px solid var(--rule); }
+  .labs a { display: grid; gap: 4px; padding: 18px 4px; text-decoration: none; color: var(--ink); }
+  @media (min-width: 720px) { .labs a { grid-template-columns: 220px 1fr; align-items: baseline; } }
+  .labs a:hover .t { text-decoration: underline; }
+  .labs .t { font-weight: 800; font-variation-settings: "wdth" 118; font-size: var(--s2); }
+  .labs .s { font-family: var(--serif); color: var(--ink-2); font-size: var(--s1); }
+</style>

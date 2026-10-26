@@ -1,0 +1,320 @@
+[
+ {
+  "id": "acute-chronic-workload-ratio",
+  "term": "Acute:chronic workload ratio",
+  "definition": "A comparison of a player's recent workload (usually one week) with their longer-term average (usually four weeks). Used to flag sudden spikes in load, though its use as a single decision-making number is debated.",
+  "lesson": "the-bowling-body/workload-and-injury"
+ },
+ {
+  "id": "anticipation",
+  "term": "Anticipation",
+  "definition": "Predicting what a delivery will do before or shortly after release, using cues from the bowler's body and the ball's early flight.",
+  "lesson": "seeing-the-ball/reading-the-bowler"
+ },
+ {
+  "id": "back-foot-contact",
+  "term": "Back-foot contact",
+  "definition": "The moment in the bowling action when the back foot lands after the bound. Hip and shoulder alignment here is used to classify action types.",
+  "lesson": "the-bowling-body/where-pace-comes-from"
+ },
+ {
+  "id": "back-spin",
+  "term": "Back-spin",
+  "definition": "Spin in which the bottom of the ball moves forward. It produces an upward Magnus force in flight and tends to make the ball skid on after bouncing.",
+  "lesson": "ball-in-flight/spin-drift-and-dip"
+ },
+ {
+  "id": "ball-tracking",
+  "term": "Ball-tracking",
+  "definition": "A camera-based system that locates the ball in three dimensions, reconstructs its path and, for LBW reviews, predicts where it would have gone after hitting the batter.",
+  "lesson": "technology-and-decisions/ball-tracking"
+ },
+ {
+  "id": "boundary-layer",
+  "term": "Boundary layer",
+  "definition": "The thin layer of air next to the ball's surface, slowed by friction. Whether it is laminar or turbulent controls where the airflow separates — the basis of swing.",
+  "lesson": "ball-in-flight/conventional-swing"
+ },
+ {
+  "id": "bound",
+  "term": "Bound",
+  "definition": "The final leap of a fast bowler's run-up before delivery, also called the pre-delivery stride.",
+  "lesson": "the-bowling-body/where-pace-comes-from"
+ },
+ {
+  "id": "carry",
+  "term": "Carry",
+  "definition": "How far and how high a ball travels after bouncing before reaching the wicket-keeper, or how far a hit ball travels in the air.",
+  "lesson": "off-the-pitch/bounce-and-pace"
+ },
+ {
+  "id": "centre-of-percussion",
+  "term": "Centre of percussion",
+  "definition": "The point on a bat where an impact produces almost no sideways jolt at the handle. It sits close to the sweet spot.",
+  "lesson": "bat-and-ball/the-sweet-spot"
+ },
+ {
+  "id": "choking",
+  "term": "Choking",
+  "definition": "Performing worse than one's normal skill level because of pressure.",
+  "lesson": "seeing-the-ball/pressure-and-choking"
+ },
+ {
+  "id": "clegg-hammer",
+  "term": "Clegg hammer",
+  "definition": "A device that drops a weight onto a surface and measures how sharply it decelerates. Used to measure pitch hardness, which predicts bounce.",
+  "lesson": "off-the-pitch/reading-a-pitch"
+ },
+ {
+  "id": "coefficient-of-restitution",
+  "term": "Coefficient of restitution",
+  "definition": "The ratio of rebound speed to approach speed in a collision. A higher value means a bouncier collision, whether ball on pitch or ball on bat.",
+  "lesson": "off-the-pitch/bounce-and-pace"
+ },
+ {
+  "id": "conventional-swing",
+  "term": "Conventional swing",
+  "definition": "Sideways movement in the air towards the direction the seam points, caused by a laminar boundary layer on one side and a turbulent one on the other.",
+  "lesson": "ball-in-flight/conventional-swing"
+ },
+ {
+  "id": "counter-rotation",
+  "term": "Counter-rotation",
+  "definition": "In a bowling action, the shoulders twisting back towards side-on against the hips during the delivery stride. Long blamed for lower-back injury, though a 2021 prospective study did not single it out.",
+  "lesson": "the-bowling-body/action-types-and-the-back"
+ },
+ {
+  "id": "cutter",
+  "term": "Cutter",
+  "definition": "A pace bowler's delivery in which the fingers drag across the ball at release to impart some spin and take off pace, so it grips and deviates off the pitch.",
+  "lesson": "off-the-pitch/how-spin-grips"
+ },
+ {
+  "id": "dew",
+  "term": "Dew",
+  "definition": "Water that condenses on the grass when it cools below the dew point, usually after sunset. Makes the ball wet and harder to grip.",
+  "lesson": "off-the-pitch/dew-and-the-wet-ball"
+ },
+ {
+  "id": "dip",
+  "term": "Dip",
+  "definition": "A spinning ball dropping faster than gravity alone would make it, caused by top-spin and the Magnus force.",
+  "lesson": "ball-in-flight/spin-drift-and-dip"
+ },
+ {
+  "id": "doppler-effect",
+  "term": "Doppler effect",
+  "definition": "The change in frequency of a wave reflected from a moving object. Radar speed guns use it to measure ball speed.",
+  "lesson": "technology-and-decisions/measuring-speed"
+ },
+ {
+  "id": "drag",
+  "term": "Drag",
+  "definition": "The air's resistance to the ball's motion. It grows with the square of speed and slows a fast delivery by roughly 15–18 km/h before it reaches the batter.",
+  "lesson": "ball-in-flight/drag-and-the-slowing-ball"
+ },
+ {
+  "id": "drag-coefficient",
+  "term": "Drag coefficient",
+  "definition": "A number describing how much drag a shape produces for its size. Roughly 0.4–0.5 for a cricket ball.",
+  "lesson": "ball-in-flight/drag-and-the-slowing-ball"
+ },
+ {
+  "id": "drift",
+  "term": "Drift",
+  "definition": "Sideways curve of a spinning ball in the air before it bounces, caused by the Magnus force. Different from turn, which happens off the pitch.",
+  "lesson": "ball-in-flight/spin-drift-and-dip"
+ },
+ {
+  "id": "drs",
+  "term": "DRS",
+  "definition": "The Decision Review System, which lets teams challenge on-field decisions using ball-tracking, edge detection and replays.",
+  "lesson": "technology-and-decisions/umpires-call"
+ },
+ {
+  "id": "edge-detection",
+  "term": "Edge detection",
+  "definition": "Technology for deciding whether the ball touched the bat, using stump-microphone audio synced to video, or infrared heat cameras.",
+  "lesson": "technology-and-decisions/edge-detection"
+ },
+ {
+  "id": "elbow-extension",
+  "term": "Elbow extension",
+  "definition": "Straightening of the elbow. In bowling, extension of more than 15° during the delivery swing, measured in testing, makes an action illegal under ICC regulations.",
+  "lesson": "the-bowling-body/the-15-degree-rule"
+ },
+ {
+  "id": "english-willow",
+  "term": "English willow",
+  "definition": "A cultivated variety of white willow used for professional bats because it is light, tough and springy.",
+  "lesson": "bat-and-ball/willow-and-the-bat"
+ },
+ {
+  "id": "footmarks",
+  "term": "Footmarks",
+  "definition": "Rough patches on the pitch made by bowlers' follow-throughs. Spinners aim at them because the ball grips and bounces unpredictably.",
+  "lesson": "off-the-pitch/how-spin-grips"
+ },
+ {
+  "id": "front-foot-contact",
+  "term": "Front-foot contact",
+  "definition": "The moment the bowler's front foot lands. Ground reaction forces here are several times body weight, and a braced front leg is linked with higher pace.",
+  "lesson": "the-bowling-body/where-pace-comes-from"
+ },
+ {
+  "id": "ground-reaction-force",
+  "term": "Ground reaction force",
+  "definition": "The force the ground pushes back on the body with when a foot lands. Measured with force plates in biomechanics labs.",
+  "lesson": "the-bowling-body/where-pace-comes-from"
+ },
+ {
+  "id": "impact-zone",
+  "term": "Impact zone",
+  "definition": "In an LBW review, the space between the outer edges of off and leg stump, from the ground upward, where the ball must strike the batter.",
+  "lesson": "technology-and-decisions/umpires-call"
+ },
+ {
+  "id": "infrared-imaging",
+  "term": "Infrared imaging",
+  "definition": "Cameras that show heat. In reviews, used to spot small warm marks left by friction when the ball touches bat or glove.",
+  "lesson": "technology-and-decisions/edge-detection"
+ },
+ {
+  "id": "kinetic-chain",
+  "term": "Kinetic chain",
+  "definition": "The sequence in which body segments speed up one after another — legs, hips, trunk, shoulder, arm, hand — to create a fast movement at the end of the chain.",
+  "lesson": "the-bowling-body/where-pace-comes-from"
+ },
+ {
+  "id": "knocking-in",
+  "term": "Knocking-in",
+  "definition": "Repeatedly tapping a new bat's face with a mallet or old ball to compress the wood fibres so it can take hard impacts without cracking.",
+  "lesson": "bat-and-ball/willow-and-the-bat"
+ },
+ {
+  "id": "laminar-flow",
+  "term": "Laminar flow",
+  "definition": "Smooth, orderly airflow in layers. A laminar boundary layer separates from the ball relatively early.",
+  "lesson": "ball-in-flight/conventional-swing"
+ },
+ {
+  "id": "lbw",
+  "term": "LBW",
+  "definition": "Leg before wicket: a batter can be out if the ball would have hit the stumps but was intercepted by the body, subject to rules about where it pitched and struck.",
+  "lesson": "technology-and-decisions/umpires-call"
+ },
+ {
+  "id": "lumbar-stress-fracture",
+  "term": "Lumbar stress fracture",
+  "definition": "A fatigue crack in a vertebra of the lower back, caused by repeated loading. A well-documented injury in young fast bowlers.",
+  "lesson": "the-bowling-body/action-types-and-the-back"
+ },
+ {
+  "id": "magnus-force",
+  "term": "Magnus force",
+  "definition": "The sideways force on a spinning ball moving through air. Causes drift and dip in spin bowling.",
+  "lesson": "ball-in-flight/spin-drift-and-dip"
+ },
+ {
+  "id": "mixed-action",
+  "term": "Mixed action",
+  "definition": "A bowling action in which the hips and shoulders are misaligned, with the shoulders counter-rotating against the hips. Long linked to back injury; newer research points more to pelvis and lower-back control.",
+  "lesson": "the-bowling-body/action-types-and-the-back"
+ },
+ {
+  "id": "occlusion",
+  "term": "Occlusion",
+  "definition": "A research method that hides part of a scene (spatial) or cuts it off at a moment in time (temporal) to test what information players use to anticipate.",
+  "lesson": "seeing-the-ball/reading-the-bowler"
+ },
+ {
+  "id": "quarter-seam",
+  "term": "Quarter seam",
+  "definition": "The internal stitched join between the two leather pieces on each half of a four-piece ball, running at right angles to the main seam.",
+  "lesson": "ball-and-gear/inside-the-ball"
+ },
+ {
+  "id": "reverse-swing",
+  "term": "Reverse swing",
+  "definition": "Swing away from the direction the seam points, which happens when both sides of the ball have turbulent boundary layers — usually with an old, roughened ball.",
+  "lesson": "ball-in-flight/reverse-swing"
+ },
+ {
+  "id": "reynolds-number",
+  "term": "Reynolds number",
+  "definition": "A dimensionless number, speed × diameter ÷ kinematic viscosity, that indicates whether flow around the ball is likely to be laminar or turbulent.",
+  "lesson": "ball-in-flight/reverse-swing"
+ },
+ {
+  "id": "saccade",
+  "term": "Saccade",
+  "definition": "A rapid jump of the eyes from one point to another. Batters make predictive saccades ahead of the ball to around the bounce point.",
+  "lesson": "seeing-the-ball/tracking-the-ball"
+ },
+ {
+  "id": "seam",
+  "term": "Seam",
+  "definition": "The raised line of stitching joining the two halves of the ball. It trips the airflow for swing and grips the pitch for seam movement.",
+  "lesson": "ball-and-gear/inside-the-ball"
+ },
+ {
+  "id": "seam-movement",
+  "term": "Seam movement",
+  "definition": "Sideways deviation off the pitch when the ball lands on its seam. Different from swing, which happens in the air.",
+  "lesson": "off-the-pitch/reading-a-pitch"
+ },
+ {
+  "id": "separation-point",
+  "term": "Separation point",
+  "definition": "Where the boundary layer leaves the ball's surface. Different separation points on the two sides create the sideways force behind swing.",
+  "lesson": "ball-in-flight/conventional-swing"
+ },
+ {
+  "id": "sweet-spot",
+  "term": "Sweet spot",
+  "definition": "The zone on a bat's blade where impacts lose the least energy to vibration, so the ball leaves fastest with little sting in the hands.",
+  "lesson": "bat-and-ball/the-sweet-spot"
+ },
+ {
+  "id": "terminal-velocity",
+  "term": "Terminal velocity",
+  "definition": "The speed at which drag on a falling object equals its weight, so it stops accelerating. Roughly 130–145 km/h for a cricket ball.",
+  "lesson": "ball-in-flight/drag-and-the-slowing-ball"
+ },
+ {
+  "id": "top-spin",
+  "term": "Top-spin",
+  "definition": "Spin in which the top of the ball moves forward. It makes the ball dip in flight and kick up off the pitch.",
+  "lesson": "ball-in-flight/spin-drift-and-dip"
+ },
+ {
+  "id": "triangulation",
+  "term": "Triangulation",
+  "definition": "Working out a point's position in 3D from its position in two or more camera views taken from different angles.",
+  "lesson": "technology-and-decisions/ball-tracking"
+ },
+ {
+  "id": "turbulent-flow",
+  "term": "Turbulent flow",
+  "definition": "Chaotic, mixing airflow. A turbulent boundary layer stays attached to the ball further round than a laminar one.",
+  "lesson": "ball-in-flight/conventional-swing"
+ },
+ {
+  "id": "turn",
+  "term": "Turn",
+  "definition": "The change in direction of a spinning ball when it grips the pitch at the bounce.",
+  "lesson": "off-the-pitch/how-spin-grips"
+ },
+ {
+  "id": "umpires-call",
+  "term": "Umpire's call",
+  "definition": "A DRS outcome in which the tracked ball is marginal — between 1% and 50% within the relevant zone — so the on-field decision stands.",
+  "lesson": "technology-and-decisions/umpires-call"
+ },
+ {
+  "id": "wicket-zone",
+  "term": "Wicket zone",
+  "definition": "In an LBW review, the area of the stumps from their base to the top of the bails, between the outer edges of off and leg stump.",
+  "lesson": "technology-and-decisions/umpires-call"
+ }
+]
